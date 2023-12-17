@@ -115,7 +115,7 @@ const config = {
               },
               {
                 label: 'Sending Data to Logz.io',
-                href: '/docs/user-guide/admin/sending-data-to-logzio',
+                href: 'https://docs.logz.io/docs/category/send-your-data/',
               },
               {
                 label: 'Trademark Legal Notice',
