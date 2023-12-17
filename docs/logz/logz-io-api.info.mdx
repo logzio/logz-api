@@ -1,0 +1,54 @@
+---
+id: logz-io-api
+title: "Logz.io API"
+description: "# Introduction"
+sidebar_label: Introduction
+sidebar_position: 0
+hide_title: true
+custom_edit_url: null
+---
+
+import ApiLogo from "@theme/ApiLogo";
+import SchemaTabs from "@theme/SchemaTabs";
+import TabItem from "@theme/TabItem";
+import Export from "@theme/ApiExplorer/Export";
+
+<Export url={"https://raw.githubusercontent.com/logzio/logz-docs/test-api/_source/api/test_api.yml"} proxy={undefined}></Export>
+
+<h1 className={"openapi__heading"}>Logz.io API</h1>
+
+
+
+# Introduction
+This API is documented using the **OpenAPI 2.0** specification. The OpenAPI Specification file is also [available for download](https://docs.logz.io/api/logzio-public-api.yml) 
+# Automation
+You can automate most of our APIs using our [Terraform provider](https://docs.logz.io/integrations/terraform/).
+
+
+# Account region and API URL
+To find your account region, sign in to Logz.io and look at the URL in the address bar. Your API URL has the same two-letter code that you see in the address bar when you're logged in.
+
+For more information, see [Account region](https://docs.logz.io/user-guide/accounts/account-region.html).
+
+# Authentication
+The Logz.io API is available to Pro and Enterprise plan subscribers. You can generate and delete API tokens in your [Logz.io account](https://app.logz.io/#/dashboard/settings/manage-tokens/api).
+
+# Rate limiting
+API call and response rates are limited to 100 concurrent API requests per account. To verify your rate limits or request changes to your plan, please contact your account manager or the <a class="intercom-launch" href="mailto:help@logz.io">Customer Success Team</a>.
+# Compression
+Compression is supported and recommended for all API calls. To enable compression for API responses, add the following request header:
+Header Name: Accept-Encoding Header Value: deflate, gzip
+Compression is STRONGLY RECOMMENDED for 'Search' and 'Scroll' APIs, due to their potentially large response sizes.
+
+<div style={{"marginBottom":"2rem"}}><h2 id={"authentication"} style={{"marginBottom":"1rem"}}>Authentication</h2><SchemaTabs className={"openapi-tabs__security-schemes"}><TabItem label={"API Key: X-API-TOKEN"} value={"X-API-TOKEN"}>
+
+You can manage your API tokens from the [Logz.io API tokens](https://app.logz.io/#/dashboard/settings/manage-tokens/api) page.
+
+API tokens are account-specific. You will need to be logged into the relevant Log Management or SIEM account to view the API tokens associated with it.
+
+To manage your API tokens, log into the relevant account in your Logz.io platform, click the gear in the top-right menu, and select [**Tools > Manage tokens > API tokens**](https://app.logz.io/#/dashboard/settings/manage-tokens/api).
+
+It's important to keep your tokens secure. API tokens carry privileges to make changes to users and accounts, so if you believe an API token has been compromised, delete it, and replace it with a new token in your integrations.
+
+<div><table><tbody><tr><th>Security Scheme Type:</th><td>apiKey</td></tr><tr><th>Header parameter name:</th><td>X-API-TOKEN</td></tr></tbody></table></div></TabItem></SchemaTabs></div><div style={{"display":"flex","flexDirection":"column","marginBottom":"var(--ifm-paragraph-margin-bottom)"}}><h3 style={{"marginBottom":"0.25rem"}}>Contact</h3><span><a href={"mailto:help@logz.io"}>help@logz.io</a></span><span>URL: <a href={"https://docs.logz.io/"}>https://docs.logz.io/</a></span></div><div style={{"marginBottom":"var(--ifm-paragraph-margin-bottom)"}}><h3 style={{"marginBottom":"0.25rem"}}>Terms of Service</h3><a href={"https://logz.io/about-us/terms-of-use/"}>https://logz.io/about-us/terms-of-use/</a></div><div style={{"marginBottom":"var(--ifm-paragraph-margin-bottom)"}}><h3 style={{"marginBottom":"0.25rem"}}>License</h3><a href={"http://www.apache.org/licenses/LICENSE-2.0.html"}>Apache 2.0</a></div>
+      

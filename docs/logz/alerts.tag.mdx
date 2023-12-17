@@ -1,0 +1,24 @@
+---
+id: alerts
+title: "Alerts"
+description: "Alerts"
+custom_edit_url: null
+---
+
+
+
+Logz.io alerts use a Kibana search query to continuously scan your logs and alert you when a certain set of conditions is met. The simplest alerts can use a simple search query or a particular filter, but others can be quite complex and involve several conditions with varying thresholds.
+
+When alerts trigger, they write event logs. Event logs of triggered alerts are always available and searchable in Kibana - just filter for `_exists_:logzio-alert`. But you also have the option to add notifications, and control their contents, format, and who they are sent to.
+
+For the deprecated alerting version, please see our [public GitHub project](https://github.com/logzio/public-api/tree/master/alerts).
+
+
+
+```mdx-code-block
+import DocCardList from '@theme/DocCardList';
+import {useCurrentSidebarCategory} from '@docusaurus/theme-common';
+
+<DocCardList items={useCurrentSidebarCategory().items}/>
+```
+      

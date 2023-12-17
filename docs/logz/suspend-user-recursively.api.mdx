@@ -1,0 +1,40 @@
+---
+id: suspend-user-recursively
+title: "Suspend a user from all accounts"
+description: "Suspends a user from the main account and all associated sub accounts. Must be run with an API token for the main account. The user will not be suspended from accounts for which there are no other users. In other words, any accounts where the user is the last user will be skipped. The success message will list accounts that were skipped."
+sidebar_label: "Suspend a user from all accounts"
+hide_title: true
+hide_table_of_contents: true
+api: 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
+sidebar_class_name: "put api-method"
+info_path: docs/logz/logz-io-api
+custom_edit_url: null
+---
+
+import ApiTabs from "@theme/ApiTabs";
+import DiscriminatorTabs from "@theme/DiscriminatorTabs";
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import SecuritySchemes from "@theme/ApiExplorer/SecuritySchemes";
+import MimeTabs from "@theme/MimeTabs";
+import ParamsItem from "@theme/ParamsItem";
+import ResponseSamples from "@theme/ResponseSamples";
+import SchemaItem from "@theme/SchemaItem";
+import SchemaTabs from "@theme/SchemaTabs";
+import TabItem from "@theme/TabItem";
+
+<h1 className={"openapi__heading"}>Suspend a user from all accounts</h1>
+
+<MethodEndpoint method={"put"} path={"/v1/user-management/{id}/suspend/recursive"}></MethodEndpoint>
+
+
+
+Suspends a user from the main account and all associated sub accounts. Must be run with an API token for the main account. The user will not be suspended from accounts for which there are no other users. In other words, any accounts where the user is the last user will be skipped. The success message will list accounts that were skipped.
+
+## Request
+
+<details style={{"marginBottom":"1rem"}} className={"openapi-markdown__details"} data-collapsed={false} open={true}><summary style={{}}><h3 className={"openapi-markdown__details-summary-header-params"}>Path Parameters</h3></summary><div><ul><ParamsItem className={"paramsItem"} param={{"name":"id","in":"path","required":true,"description":"ID of the user","example":11300,"schema":{"type":"integer","format":"int32"}}}></ParamsItem></ul></div></details><div><div><ApiTabs><TabItem label={"200"} value={"200"}><div>
+
+successful operation
+
+</div><div><MimeTabs className={"openapi-tabs__mime"} schemaType={"response"}><TabItem label={"application/json"} value={"application/json"}><SchemaTabs className={"openapi-tabs__schema"}><TabItem label={"Schema"} value={"Schema"}><details style={{}} className={"openapi-markdown__details response"} data-collapsed={false} open={true}><summary style={{}} className={"openapi-markdown__details-summary-response"}><strong>Schema</strong></summary><div style={{"textAlign":"left","marginLeft":"1rem"}}></div><ul style={{"marginLeft":"1rem"}}><SchemaItem collapsible={false} name={"message"} required={false} schemaName={"string"} qualifierMessage={undefined} schema={{"type":"string","example":"Finished suspending user 11300 from accounts."}}></SchemaItem></ul></details></TabItem><TabItem label={"Example (from schema)"} value={"Example (from schema)"}><ResponseSamples responseExample={"{\n  \"message\": \"Finished suspending user 11300 from accounts.\"\n}"} language={"json"}></ResponseSamples></TabItem></SchemaTabs></TabItem></MimeTabs></div></TabItem></ApiTabs></div></div>
+      

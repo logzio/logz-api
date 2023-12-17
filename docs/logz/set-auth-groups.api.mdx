@@ -1,0 +1,46 @@
+---
+id: set-auth-groups
+title: "Create/update authentication groups"
+description: "Creates/updates existing authentication groups. To create or update groups, you need to send all these groups in the payload. With every update, all running user sessions will be terminated, so the users need to login again. To delete a group, you need to exclude this group from the payload that you send to update groups. With every deletion, all running user sessions will be terminated, so the users need to login again."
+sidebar_label: "Create/update authentication groups"
+hide_title: true
+hide_table_of_contents: true
+api: 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
+sidebar_class_name: "post api-method"
+info_path: docs/logz/logz-io-api
+custom_edit_url: null
+---
+
+import ApiTabs from "@theme/ApiTabs";
+import DiscriminatorTabs from "@theme/DiscriminatorTabs";
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import SecuritySchemes from "@theme/ApiExplorer/SecuritySchemes";
+import MimeTabs from "@theme/MimeTabs";
+import ParamsItem from "@theme/ParamsItem";
+import ResponseSamples from "@theme/ResponseSamples";
+import SchemaItem from "@theme/SchemaItem";
+import SchemaTabs from "@theme/SchemaTabs";
+import TabItem from "@theme/TabItem";
+
+<h1 className={"openapi__heading"}>Create/update authentication groups</h1>
+
+<MethodEndpoint method={"post"} path={"/v1/authentication/groups"}></MethodEndpoint>
+
+
+
+Creates/updates existing authentication groups. To create or update groups, you need to send all these groups in the payload. With every update, all running user sessions will be terminated, so the users need to login again. To delete a group, you need to exclude this group from the payload that you send to update groups. With every deletion, all running user sessions will be terminated, so the users need to login again. 
+
+**Example 1.** Create groups called `group1` and `group2`. The payload will contain `[ { \"group\": \”group1\”, \"userRole\": \”USER_ROLE_READONLY\” }, { \"group\": \”group2\”, \"userRole\": \”USER_ROLE_ADMIN\” }]`. As a result, the two groups will be created with specified permissions. 
+
+**Example 2.** Update existing groups called `group1` and `group2`. The payload will contain `[ { \"group\": \”group1\”, \"userRole\": \”USER_ROLE_ADMIN” }, { \"group\": \”group2\”, \"userRole\": \”USER_ROLE_READONLY\” }]`. As a result, the two groups will be updated with specified permissions. 
+
+**Example 3.** Delete group called `group1` from the existing two groups: `group1` and `group2`. The payload will contain `[{ \"group\": \”group2\”, \"userRole\": \”USER_ROLE_READONLY\” }]`. As a result, `group1` will be deleted, as it is excluded from the payload.
+
+## Request
+
+<MimeTabs className={"openapi-tabs__mime"}><TabItem label={"application/json"} value={"application/json-schema"}><details style={{}} className={"openapi-markdown__details mime"} data-collapsed={false} open={true}><summary style={{}} className={"openapi-markdown__details-summary-mime"}><h3 className={"openapi-markdown__details-summary-header-body"}>Body</h3><span style={{"opacity":"0.6"}}> array</span><strong className={"openapi-schema__required"}>required</strong></summary><div style={{"textAlign":"left","marginLeft":"1rem"}}></div><ul style={{"marginLeft":"1rem"}}><li><div style={{"fontSize":"var(--ifm-code-font-size)","opacity":"0.6","marginLeft":"-.5rem","paddingBottom":".5rem"}}>Array [</div></li><SchemaItem collapsible={false} name={"group"} required={false} schemaName={"string"} qualifierMessage={undefined} schema={{"type":"string","description":"Group name","example":"group"}}></SchemaItem><SchemaItem collapsible={false} name={"userRole"} required={false} schemaName={"string"} qualifierMessage={undefined} schema={{"type":"string","description":"User role","example":"role"}}></SchemaItem><li><div style={{"fontSize":"var(--ifm-code-font-size)","opacity":"0.6","marginLeft":"-.5rem"}}>]</div></li></ul></details></TabItem></MimeTabs><div><div><ApiTabs><TabItem label={"200"} value={"200"}><div>
+
+successful operation
+
+</div><div><MimeTabs className={"openapi-tabs__mime"} schemaType={"response"}><TabItem label={"application/json"} value={"application/json"}><SchemaTabs className={"openapi-tabs__schema"}><TabItem label={"Schema"} value={"Schema"}><details style={{}} className={"openapi-markdown__details response"} data-collapsed={false} open={true}><summary style={{}} className={"openapi-markdown__details-summary-response"}><strong>Schema</strong></summary><div style={{"textAlign":"left","marginLeft":"1rem"}}></div><ul style={{"marginLeft":"1rem"}}><li><div style={{"fontSize":"var(--ifm-code-font-size)","opacity":"0.6","marginLeft":"-.5rem","paddingBottom":".5rem"}}>Array [</div></li><SchemaItem collapsible={false} name={"group"} required={false} schemaName={"string"} qualifierMessage={undefined} schema={{"type":"string","description":"Group name","example":"group"}}></SchemaItem><SchemaItem collapsible={false} name={"userRole"} required={false} schemaName={"string"} qualifierMessage={undefined} schema={{"type":"string","description":"User role","example":"role"}}></SchemaItem><li><div style={{"fontSize":"var(--ifm-code-font-size)","opacity":"0.6","marginLeft":"-.5rem"}}>]</div></li></ul></details></TabItem><TabItem label={"Example (from schema)"} value={"Example (from schema)"}><ResponseSamples responseExample={"[\n  {\n    \"group\": \"group\",\n    \"userRole\": \"role\"\n  }\n]"} language={"json"}></ResponseSamples></TabItem></SchemaTabs></TabItem></MimeTabs></div></TabItem></ApiTabs></div></div>
+      

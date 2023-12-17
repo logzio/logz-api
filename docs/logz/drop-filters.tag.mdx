@@ -1,0 +1,24 @@
+---
+id: drop-filters
+title: "Drop filters"
+description: "Drop filters"
+custom_edit_url: null
+---
+
+
+
+Drop filters provide a solution for filtering out logs before they are indexed in your account to help lower costs and reduce account volume.
+
+Drop filters evaluate logs for exact field:value matches. Any log results that match active drop filters will not be indexed. This means they will not appear in your Kibana account, will not be searchable, trigger alerts, or appear in dashboards.
+
+Archiving is not affected by drop filters. Logs dropped by drop filters will still be archived, if archiving is configured for the account. With archiving configured, you can readily use drop filters to reduce logging bulk and restore the logs in the event that they become relevant.
+
+
+
+```mdx-code-block
+import DocCardList from '@theme/DocCardList';
+import {useCurrentSidebarCategory} from '@docusaurus/theme-common';
+
+<DocCardList items={useCurrentSidebarCategory().items}/>
+```
+      

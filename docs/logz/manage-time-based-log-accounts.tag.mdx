@@ -1,0 +1,33 @@
+---
+id: manage-time-based-log-accounts
+title: "Manage time-based log accounts"
+description: "Manage time-based log accounts"
+custom_edit_url: null
+---
+
+
+
+Use these API requests to manage time-based log accounts:
+* Create, update, or delete a sub account.
+* Allocate daily capacity to the main account and/or sub accounts.
+* Retrieve account activity stats and/or account configuration details.
+
+### Flexible storage & shared volume
+  
+Flexible storage and shared volume allow accounts to share indexing capacity.
+
+To enable shared volume, go to the [Manage accounts page](https://app.logz.io/#/dashboard/settings/manage-accounts) in the Logz.io app and toggle the button **Use flexible volume** to turn it on.
+
+To determine whether flexible storage is enabled, run a `Get` request to retrieve account details.
+* If `isFlexible` is true, flexible storage is enabled and every account has reserved capacity set by the parameter `reservedDailyGB`.
+* If false, flexible storage is disabled and the parameter `reservedDailyGB` is null.
+
+
+
+```mdx-code-block
+import DocCardList from '@theme/DocCardList';
+import {useCurrentSidebarCategory} from '@docusaurus/theme-common';
+
+<DocCardList items={useCurrentSidebarCategory().items}/>
+```
+      

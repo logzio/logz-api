@@ -1,0 +1,40 @@
+---
+id: create-annotations-graphite
+title: "Create annotations in Graphite format"
+description: "Creates an annotation in the Grafana database by using Graphite-compatible event format."
+sidebar_label: "Create annotations in Graphite format"
+hide_title: true
+hide_table_of_contents: true
+api: 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
+sidebar_class_name: "post api-method"
+info_path: docs/logz/logz-io-api
+custom_edit_url: null
+---
+
+import ApiTabs from "@theme/ApiTabs";
+import DiscriminatorTabs from "@theme/DiscriminatorTabs";
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import SecuritySchemes from "@theme/ApiExplorer/SecuritySchemes";
+import MimeTabs from "@theme/MimeTabs";
+import ParamsItem from "@theme/ParamsItem";
+import ResponseSamples from "@theme/ResponseSamples";
+import SchemaItem from "@theme/SchemaItem";
+import SchemaTabs from "@theme/SchemaTabs";
+import TabItem from "@theme/TabItem";
+
+<h1 className={"openapi__heading"}>Create annotations in Graphite format</h1>
+
+<MethodEndpoint method={"post"} path={"/v1/grafana/api/annotations/graphite"}></MethodEndpoint>
+
+
+
+Creates an annotation in the Grafana database by using Graphite-compatible event format.
+
+## Request
+
+<MimeTabs className={"openapi-tabs__mime"}><TabItem label={"application/json"} value={"application/json-schema"}><details style={{}} className={"openapi-markdown__details mime"} data-collapsed={false} open={true}><summary style={{}} className={"openapi-markdown__details-summary-mime"}><h3 className={"openapi-markdown__details-summary-header-body"}>Body</h3></summary><div style={{"textAlign":"left","marginLeft":"1rem"}}></div><ul style={{"marginLeft":"1rem"}}><SchemaItem collapsible={false} name={"what"} required={false} schemaName={"string"} qualifierMessage={undefined} schema={{"type":"string","description":"Graphite annotation.","example":"Event - deploy"}}></SchemaItem><SchemaItem collapsible={false} name={"when"} required={false} schemaName={"integer"} qualifierMessage={undefined} schema={{"type":"integer","description":"Epoch datetime of the annotation in milliseconds. Optional. If `when` is not specified then the current time will be used as annotation’s timestamp.."}}></SchemaItem><SchemaItem collapsible={false} name={"tags"} required={false} schemaName={"string[]"} qualifierMessage={undefined} schema={{"type":"array","description":"Annotation tags.  Can also be in prior to Graphite 0.10.0 format (string with multiple tags being separated by a space).","example":["deploy","production"],"items":{"type":"string"}}}></SchemaItem><SchemaItem collapsible={false} name={"data"} required={false} schemaName={"string"} qualifierMessage={undefined} schema={{"type":"string","description":"Annotation Description.","example":"deploy of master branch happened at Wed Jul 6 22:34:41 UTC 2016"}}></SchemaItem></ul></details></TabItem></MimeTabs><div><div><ApiTabs><TabItem label={"200"} value={"200"}><div>
+
+successful query
+
+</div><div><MimeTabs className={"openapi-tabs__mime"} schemaType={"response"}><TabItem label={"application/json"} value={"application/json"}><SchemaTabs className={"openapi-tabs__schema"}><TabItem label={"Schema"} value={"Schema"}><details style={{}} className={"openapi-markdown__details response"} data-collapsed={false} open={true}><summary style={{}} className={"openapi-markdown__details-summary-response"}><strong>Schema</strong></summary><div style={{"textAlign":"left","marginLeft":"1rem"}}></div><ul style={{"marginLeft":"1rem"}}><SchemaItem collapsible={false} name={"id"} required={false} schemaName={"integer"} qualifierMessage={undefined} schema={{"type":"integer","description":"ID.","example":1}}></SchemaItem><SchemaItem collapsible={false} name={"message"} required={false} schemaName={"string"} qualifierMessage={undefined} schema={{"type":"string","description":"Confirmation message.","example":"Graphite annotation added"}}></SchemaItem></ul></details></TabItem><TabItem label={"Example (from schema)"} value={"Example (from schema)"}><ResponseSamples responseExample={"{\n  \"id\": 1,\n  \"message\": \"Graphite annotation added\"\n}"} language={"json"}></ResponseSamples></TabItem></SchemaTabs></TabItem></MimeTabs></div></TabItem></ApiTabs></div></div>
+      

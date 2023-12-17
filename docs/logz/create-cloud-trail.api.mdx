@@ -1,0 +1,44 @@
+---
+id: create-cloud-trail
+title: "Create a new CloudTrail connector"
+description: "Establishes a new connection to a CloudTrail resource. As a result, logs from your CloudTrail resource will ship to the connected Logz.io account via an AWS S3 bucket."
+sidebar_label: "Create a new CloudTrail connector"
+hide_title: true
+hide_table_of_contents: true
+api: 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
+sidebar_class_name: "post api-method"
+info_path: docs/logz/logz-io-api
+custom_edit_url: null
+---
+
+import ApiTabs from "@theme/ApiTabs";
+import DiscriminatorTabs from "@theme/DiscriminatorTabs";
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import SecuritySchemes from "@theme/ApiExplorer/SecuritySchemes";
+import MimeTabs from "@theme/MimeTabs";
+import ParamsItem from "@theme/ParamsItem";
+import ResponseSamples from "@theme/ResponseSamples";
+import SchemaItem from "@theme/SchemaItem";
+import SchemaTabs from "@theme/SchemaTabs";
+import TabItem from "@theme/TabItem";
+
+<h1 className={"openapi__heading"}>Create a new CloudTrail connector</h1>
+
+<MethodEndpoint method={"post"} path={"/v1/log-shipping/cloudtrails"}></MethodEndpoint>
+
+
+
+Establishes a new connection to a CloudTrail resource. As a result, logs from your CloudTrail resource will ship to the connected Logz.io account via an AWS S3 bucket.
+
+CloudTrail logs will be parsed using the Logz.io custom CloudTrail parsing pipeline.
+
+**Note:** This endpoint requires permissions that must be set by our Support team. Please email [help@logz.io](mailto:help@logz.io) for assistance.
+
+## Request
+
+<MimeTabs className={"openapi-tabs__mime"}><TabItem label={"application/json"} value={"application/json-schema"}><details style={{}} className={"openapi-markdown__details mime"} data-collapsed={false} open={true}><summary style={{}} className={"openapi-markdown__details-summary-mime"}><h3 className={"openapi-markdown__details-summary-header-body"}>Body</h3></summary><div style={{"textAlign":"left","marginLeft":"1rem"}}></div><ul style={{"marginLeft":"1rem"}}><SchemaItem collapsible={false} name={"accessKey"} required={false} schemaName={"string"} qualifierMessage={undefined} schema={{"type":"string","description":"AWS S3 access key","example":"ee07df5801500745419c6dff"}}></SchemaItem><SchemaItem collapsible={false} name={"secretKey"} required={false} schemaName={"string"} qualifierMessage={undefined} schema={{"type":"string","description":"AWS secret access key","example":"506d891fe2163a511b450eddc3279539f6"}}></SchemaItem><SchemaItem collapsible={false} name={"bucket"} required={false} schemaName={"string"} qualifierMessage={undefined} schema={{"type":"string","description":"AWS S3 bucket name","example":"LogzioBucket"}}></SchemaItem><SchemaItem collapsible={false} name={"prefix"} required={false} schemaName={"string"} qualifierMessage={undefined} schema={{"type":"string","description":"Prefix of the AWS S3 bucket","example":"AWSLogs/7364988021587/myprefix"}}></SchemaItem><SchemaItem collapsible={false} name={"active"} required={false} schemaName={"boolean"} qualifierMessage={undefined} schema={{"type":"boolean","description":"If `true`, the CloudTrail connector is active and logs are being shipped to Logz.io. If `false`, the connector is disabled."}}></SchemaItem></ul></details></TabItem></MimeTabs><div><div><ApiTabs><TabItem label={"200"} value={"200"}><div>
+
+successful operation
+
+</div><div><MimeTabs className={"openapi-tabs__mime"} schemaType={"response"}><TabItem label={"application/json"} value={"application/json"}><SchemaTabs className={"openapi-tabs__schema"}><TabItem label={"Schema"} value={"Schema"}><details style={{}} className={"openapi-markdown__details response"} data-collapsed={false} open={true}><summary style={{}} className={"openapi-markdown__details-summary-response"}><strong>Schema</strong></summary><div style={{"textAlign":"left","marginLeft":"1rem"}}></div><ul style={{"marginLeft":"1rem"}}><SchemaItem collapsible={false} name={"id"} required={false} schemaName={"int32"} qualifierMessage={"**Possible values:** `>= 1`"} schema={{"type":"integer","format":"int32","readOnly":true,"minimum":1,"description":"Logz.io ID of the CloudTrail connector. Use this ID to perform operations on the connector using Logz.io API endpoints."}}></SchemaItem></ul></details></TabItem><TabItem label={"Example (from schema)"} value={"Example (from schema)"}><ResponseSamples responseExample={"{\n  \"id\": 0\n}"} language={"json"}></ResponseSamples></TabItem></SchemaTabs></TabItem></MimeTabs></div></TabItem></ApiTabs></div></div>
+      

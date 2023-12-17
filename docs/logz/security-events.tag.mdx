@@ -1,0 +1,26 @@
+---
+id: security-events
+title: "Security events"
+description: "Security events"
+custom_edit_url: null
+---
+
+
+
+A security event is logged whenever a security rule triggers in your [Logz.io Cloud SIEM account](https://app.logz.io/#/dashboard/security/rules/rule-definitions?from=0&sortBy=updatedAt&sortOrder=DESC).
+
+Your Logz.io Cloud SIEM is pre-loaded with hundreds of security rules created and maintained by Logz.io's security analysts. The list continues to be expanded and updated on a regular basis. You can also add your own security rules.
+
+To investigate into security events, you can begin by running a bulk query to fetch security event logs, either with or without applying filtering criteria. This query returns all of the events that match the query parameters and can potentially fetch events going back many months. Whenever you encounter a particular event you would like to further investigate, you can run the drilldown query to fetch the logs that triggered the security event to delve deeper into the event details.
+
+These queries can be used to integrate with an automated response solution such as Cortex xSOAR or simply to understand your security posture and identify suspicious activity in your accounts.
+
+
+
+```mdx-code-block
+import DocCardList from '@theme/DocCardList';
+import {useCurrentSidebarCategory} from '@docusaurus/theme-common';
+
+<DocCardList items={useCurrentSidebarCategory().items}/>
+```
+      
