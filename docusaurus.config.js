@@ -6,7 +6,7 @@ const darkCodeTheme = require("prism-react-renderer/themes/dracula");
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: 'Logz.io API',
+  title: 'Logz.io API docs',
   favicon: 'https://logz.io/wp-content/themes/Avada-Child-Theme-logz/theme_favicon/apple-touch-icon.png',
 
   // Set the production url of your site here
@@ -61,6 +61,7 @@ const config = {
         logo: {
           alt: "Logz.io API",
           src: "img/logz-logo.svg",
+          href: '/docs/logz/logz-io-api',
         },
         items: [
           {
