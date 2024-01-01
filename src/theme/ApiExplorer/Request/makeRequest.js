@@ -2,6 +2,14 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 function fetchWithtimeout(url, options, timeout = 5000) {
   const proxyEndpoint = '/.netlify/functions/proxy';
+  
+  const requestBody = JSON.stringify({
+    url,
+    method: options.method, // Assuming options.method represents the HTTP method (GET, POST, etc.)
+    headers: options.headers,
+    body: options.body,
+    timeout,
+  });
 
   return Promise.race([
     fetch(proxyEndpoint, {
@@ -9,11 +17,7 @@ function fetchWithtimeout(url, options, timeout = 5000) {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({
-        url,
-        options,
-        timeout,
-      }),
+      body: requestBody,
     }),
     new Promise((_, reject) =>
       setTimeout(() => reject(new Error('Request timed out')), timeout)
