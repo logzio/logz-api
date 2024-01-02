@@ -4120,6 +4120,12 @@ paths:
 
               If you include this parameter, the current account won't be searched
               unless you explicitly include it in the query.
+        - in: header
+          name: X-Logz-externalId
+          required: true
+          schema:
+            type: string
+            description: Represents the unique identifier for a customer. Must not exceed 36 characters in length.
         - in: body
           name: body
           required: true
@@ -4227,9 +4233,6 @@ paths:
 
                   **Note:** You can use `aggs` or `aggregations` as the field name
                 example: { "byType": { "terms": { "field": "type", "size": 5 } } }
-              externalId:
-                type: string
-                description: Represents the unique identifier for a customer. Must not exceed 36 characters in length.
       
       responses:
         200:
