@@ -161,6 +161,56 @@ const config = {
         darkTheme: darkCodeTheme,
         additionalLanguages: ["ruby", "csharp", "php"],
       },
+      languageTabs: [
+        {
+          highlight: "bash",
+          language: "curl",
+          logoClass: "bash",
+        },
+        {
+          highlight: "python",
+          language: "python",
+          logoClass: "python",
+          variant: "requests",
+        },
+        {
+          highlight: "go",
+          language: "go",
+          logoClass: "go",
+        },
+        {
+          highlight: "javascript",
+          language: "nodejs",
+          logoClass: "nodejs",
+        },
+        {
+          highlight: "ruby",
+          language: "ruby",
+          logoClass: "ruby",
+        },
+        {
+          highlight: "csharp",
+          language: "csharp",
+          logoClass: "csharp",
+          variant: "httpclient",
+        },
+        {
+          highlight: "php",
+          language: "php",
+          logoClass: "php",
+        },
+        {
+          highlight: "java",
+          language: "java",
+          logoClass: "java",
+          variant: "unirest",
+        },
+        {
+          highlight: "powershell",
+          language: "powershell",
+          logoClass: "powershell",
+        },
+      ],
     }),
 
   plugins: [
@@ -173,12 +223,12 @@ const config = {
           logz: {
             specPath: "examples/logzio-public-api.yml",
             outputDir: "docs/logz",
-            downloadUrl:
-              "https://raw.githubusercontent.com/logzio/logz-docs/test-api/_source/api/test_api.yml",
             sidebarOptions: {
               groupPathsBy: "tag",
               categoryLinkSource: "tag",
             },
+            template: "api.mustache",
+            hideSendButton: true,
           },
         },
       },

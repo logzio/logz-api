@@ -2,25 +2,25 @@ swagger: '2.0'
 schemes: [ https ]
 host: api.logz.io
 x-servers:
-  - url: https://api.logz.io/
+  - url: https://api.logz.io
     description: US East (Northern Virginia)
 
-  - url: https://api-au.logz.io/
+  - url: https://api-au.logz.io
     description: Asia Pacific (Sydney)
 
-  - url: https://api-ca.logz.io/
+  - url: https://api-ca.logz.io
     description: Canada (Central)
 
-  - url: https://api-eu.logz.io/
+  - url: https://api-eu.logz.io
     description: Europe (Frankfurt)
 
-  - url: https://api-nl.logz.io/
+  - url: https://api-nl.logz.io
     description: West Europe (Netherlands)
 
-  - url: https://api-uk.logz.io/
+  - url: https://api-uk.logz.io
     description: Europe (London)
 
-  - url: https://api-wa.logz.io/
+  - url: https://api-wa.logz.io
     description: West US 2 (Washington)
 basePath: /
 produces: [ application/json ]
@@ -37,8 +37,6 @@ info:
     You can automate most of our APIs using our [Terraform provider](https://docs.logz.io/integrations/terraform/).
 
 
-    <!-- You can browse the API documentation on this page, or you can download the specification file. -->
-
     # Account region and API URL
 
     To find your account region, sign in to Logz.io and look at the URL in the address bar.
@@ -52,8 +50,6 @@ info:
 
     The Logz.io API is available to Pro and Enterprise plan subscribers.
     You can generate and delete API tokens in your [Logz.io account](https://app.logz.io/#/dashboard/settings/manage-tokens/api).
-
-    <!-- ReDoc-Inject: <security-definitions> -->
 
 
     # Rate limiting
@@ -4933,7 +4929,7 @@ paths:
         - Deployments
       operationId: createMarkers
       summary: Add deployment markers to Exception graphs
-      description: Send logs with details of service deployments to annotate Exception graphs in Kibana Discover. [Learn more about Deployment markers](/user-guide/logs/exceptions-deployments.html)
+      description: Send logs with details of service deployments to annotate Exception graphs in Kibana Discover. [Learn more about Deployment markers](https://docs.logz.io/docs/user-guide/log-management/opensearch-dashboards/opensearch-deployment-markers)
       produces:
         - application/json
       parameters:

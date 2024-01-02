@@ -1,5 +1,6 @@
-Logz API
+# [Logz API Website](https://api-docs.logz.io/docs/logz/logz-io-api)
 
+## Local deployment
 1. Run:
 
 ```
@@ -16,6 +17,9 @@ cd logz-api
 
 ```
 yarn add docusaurus-plugin-openapi-docs
+```
+
+```
 yarn add docusaurus-theme-openapi-docs
 ```
 
@@ -23,4 +27,17 @@ yarn add docusaurus-theme-openapi-docs
 
 ```
 yarn start
+```
+
+## Update api specs
+1. Follow local deployment instructions
+
+2. Update the api spec
+
+3. Delete the relevant mdx file which you updated in the spec
+
+4. Run plugin generate command
+
+```
+yarn docusaurus gen-api-docs logz
 ```
