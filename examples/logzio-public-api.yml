@@ -4122,7 +4122,7 @@ paths:
               unless you explicitly include it in the query.
         - in: header
           name: X-Logz-externalId
-          required: true
+          required: false
           schema:
             type: string
             description: Represents the unique identifier for a customer. Must not exceed 36 characters in length.
