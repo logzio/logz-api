@@ -4228,7 +4228,7 @@ paths:
                   **Note:** You can use `aggs` or `aggregations` as the field name
                 example: { "byType": { "terms": { "field": "type", "size": 5 } } }
               externalId:
-                type: integer
+                type: string
                 description: Represents the unique identifier for a customer. Must not exceed 36 characters in length.
       
       responses:
