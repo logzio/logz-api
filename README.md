@@ -16,6 +16,9 @@ cd logz-api
 
 ```
 yarn add docusaurus-plugin-openapi-docs
+```
+
+```
 yarn add docusaurus-theme-openapi-docs
 ```
 
