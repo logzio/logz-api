@@ -4128,9 +4128,6 @@ paths:
             required:
               - query
             properties:
-              externalId:
-                type: string
-                description: : Represents the unique identifier for a customer. Must not exceed 36 characters in length. 
               query:
                 type: object
                 description: >-
