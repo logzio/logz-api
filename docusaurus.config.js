@@ -156,6 +156,9 @@ const config = {
         ],
         copyright: `Copyright © ${new Date().getFullYear()} Logshero Ltd.`,
       },
+      hotjar: {
+        applicationId: "3812613",
+      },
       prism: {
         theme: lightCodeTheme,
         darkTheme: darkCodeTheme,
@@ -164,6 +167,7 @@ const config = {
     }),
 
   plugins: [
+    'docusaurus-plugin-hotjar',
     [
       "docusaurus-plugin-openapi-docs",
       {
