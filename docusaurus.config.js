@@ -157,7 +157,7 @@ const config = {
         copyright: `Copyright © ${new Date().getFullYear()} Logshero Ltd.`,
       },
       hotjar: {
-        applicationId: "3812613",
+        applicationId: "3812653",
       },
       prism: {
         theme: lightCodeTheme,
