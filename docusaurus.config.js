@@ -50,7 +50,33 @@ const config = {
 
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
-    ({
+    (
+      {
+        algolia: {
+          // The application ID provided by Algolia
+          appId: '031B4MDOZ8',
+    
+          // Public API key: it is safe to commit it
+          apiKey: '53cac4292364d9c82d9d5507d5470a3c',
+    
+          indexName: 'api-logz',
+    
+          // Optional: see doc section below
+          contextualSearch: true,
+    
+          // Optional: Specify domains where the navigation should occur through window.location instead on history.push. Useful when our Algolia config crawls multiple documentation sites and we want to navigate with window.location.href to them.
+          externalUrlRegex: 'external\\.com|domain\\.com',
+    
+  
+    
+          // Optional: Algolia search parameters
+          searchParameters: {},
+    
+          // Optional: path for search page that enabled by default (`false` to disable it)
+          searchPagePath: 'search',
+    
+          //... other Algolia params
+        },
       docs: {
         sidebar: {
           hideable: true,
