@@ -99,6 +99,16 @@ const config = {
           {to: 'https://status.logz.io/', label: 'System status', position: 'left'},
           {to: 'https://logz.io/blog/', label: 'Blog', position: 'left'},
           {
+            href: 'https://logz.io/request-demo/',
+            label: 'Get a Demo',
+            position: 'right',
+          },
+          {
+            href: 'https://logz.io/freetrial/',
+            label: 'Free Trial',
+            position: 'right',
+          },
+          {
             href: 'https://app.logz.io/',
             label: 'Login',
             position: 'right',
