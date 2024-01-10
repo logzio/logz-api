@@ -99,12 +99,12 @@ const config = {
           {to: 'https://status.logz.io/', label: 'System status', position: 'left'},
           {to: 'https://logz.io/blog/', label: 'Blog', position: 'left'},
           {
-            href: 'https://logz.io/request-demo/',
+            href: 'https://logz.io/request-demo/?utm_medium=referral&utm_source=api-portal&utm_campaign=api_demo&utm_content=lp&utm_term=demo+request',
             label: 'Get a Demo',
             position: 'right',
           },
           {
-            href: 'https://logz.io/freetrial/',
+            href: 'https://logz.io/freetrial/?utm_medium=referral&utm_source=api-portal&utm_campaign=api_trial&utm_content=lp&utm_term=free+trial',
             label: 'Free Trial',
             position: 'right',
           },
