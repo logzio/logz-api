@@ -27,7 +27,9 @@ import TabItem from "@theme/TabItem";
 
 <MethodEndpoint method={"post"} path={"/v1/user-management"}></MethodEndpoint>
 
-
+:::info note
+Creating users through Logzio API requires email approval and activation of the request. To disable email verification for the API, contact the [support team](mailto:help@logz.io).
+:::
 
 Creates a new user with specified permissions to access your log data. If you run this endpoint with the token of the main account, then you can perform actions on the main account or any sub-account within the main account by providing the sub-account’s accountID. If you run this endpoint with the token of the sub-account, then you can perform actions only on the given sub-account.
 
