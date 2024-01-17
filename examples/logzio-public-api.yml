@@ -4084,7 +4084,7 @@ paths:
               The `dayOffset` parameter will go back to the last index in the set value and send back the results of that index +1.
 
 
-              Maximum is your account's retention period.
+              Although your account's retention period is up to 14 days, please note that using the dayOffset option limits the search to a narrower timeframe. For instance, setting dayOffset to 5 searches for logs specifically between 5 days ago and 4 days ago, within the overall 14-day retention period.
 
 
               If set to `0` or `1`, search returns default results (today and yesterday, UTC).
