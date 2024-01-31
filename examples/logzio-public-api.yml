@@ -30,7 +30,7 @@ info:
     # Introduction
 
     This API is documented using the **OpenAPI 2.0** specification.
-    The OpenAPI Specification file is also [available for download](https://docs.logz.io/api/logzio-public-api.yml) 
+    The OpenAPI Specification file is also [available for download](https://github.com/logzio/logz-api/blob/master/examples/logzio-public-api.yml) 
 
     # Automation
 
@@ -325,10 +325,46 @@ x-tagGroups:
       - Grafana dashboards
       - Grafana dashboard search
       - Grafana snapshots
+      - Grafana get all folders
     description: Metrics API Gateway to supported endpoints. 
     
 paths:
   # ::::: GRAFANA
+
+
+  /v1/grafana/api/folders:
+    get:
+      summary: Get all folders
+      description: Returns all folders that the authenticated user has permission to view.
+      tags:
+            - Grafana get all folders
+      parameters:
+        - name: limit
+          in: query
+          description: Maximum number of folders to return (default is 1000)
+          type: integer
+        - name: page
+          in: query
+          description: Page number for fetching folders from other than the first one
+          type: integer
+        - name: parentUid
+          in: query
+          description: Parent folder UID for fetching subfolders (optional)
+          type: string
+      responses:
+        '200':
+          description: List of folders
+          schema:
+            type: array
+            items:
+              type: object
+              properties:
+                id:
+                  type: integer
+                uid:
+                  type: string
+                title:
+                  type: string
   
   /v1/provisioning/contact-points:
       get:
