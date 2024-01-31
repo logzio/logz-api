@@ -30,7 +30,7 @@ info:
     # Introduction
 
     This API is documented using the **OpenAPI 2.0** specification.
-    The OpenAPI Specification file is also [available for download](https://docs.logz.io/api/logzio-public-api.yml) 
+    The OpenAPI Specification file is also [available for download](https://github.com/logzio/logz-api/blob/master/examples/logzio-public-api.yml) 
 
     # Automation
 
