@@ -3313,7 +3313,74 @@ paths:
                   type: string
                   description: URI.
                   example: "db/folder"           
-   
+  
+  /v1/grafana/api/dashboard/snapshots/:
+
+      get:
+        operationId: getGrafanaSnapshot
+        summary: Get list of Snapshots
+        description: >-
+          Get list of Snapshots.
+        tags:
+          - Grafana snapshots
+        parameters:
+          - in: query
+            name: query
+            type: string
+            schema:
+              description: >-
+                Search query.
+          - in: query
+            name: limit
+            type: integer
+            schema:
+              description: >-
+                Limit the number of returned results.
+
+        responses:
+          200:
+            description: successful query
+            schema:
+              type: object
+              properties:
+                id:
+                  type: integer
+                  description: ID.
+                  example: 8
+                name:
+                  type: string
+                  description: Snapshot name.
+                  example: Home
+                key:
+                  type: string
+                  description: Snapshot key.
+                  example: YYYYYYY
+                orgId:
+                  type: integer
+                  description: Snapshot orgId.
+                  example: 1
+                userId:
+                  type: integer
+                  description: Snapshot user ID.
+                  example: 1
+                external:
+                  type: boolean
+                  description: Whether the snapshot is external.
+                externalUrl:
+                  type: string
+                  description: Snapshot external url.
+                expires:
+                  type: string
+                  description: Snapshot expiry date.
+                  example: 2200-13-32T25:23:23+02:00
+                created:
+                  type: string
+                  description: Snapshot creation date.
+                  example: 2200-13-32T28:24:23+02:00
+                updated:
+                  type: string
+                  description: Snapshot update date.
+                  example: 2200-13-32T28:24:23+02:00
    
   /v1/grafana/api/snapshots/:
       post:
@@ -3381,71 +3448,7 @@ paths:
                   description: ID.
                   example: 1
   
-      get:
-        operationId: getGrafanaSnapshot
-        summary: Get list of Snapshots
-        description: >-
-          Get list of Snapshots.
-        tags:
-          - Grafana snapshots
-        parameters:
-          - in: query
-            name: query
-            type: string
-            schema:
-              description: >-
-                Search query.
-          - in: query
-            name: limit
-            type: integer
-            schema:
-              description: >-
-                Limit the number of returned results.
 
-        responses:
-          200:
-            description: successful query
-            schema:
-              type: object
-              properties:
-                id:
-                  type: integer
-                  description: ID.
-                  example: 8
-                name:
-                  type: string
-                  description: Snapshot name.
-                  example: Home
-                key:
-                  type: string
-                  description: Snapshot key.
-                  example: YYYYYYY
-                orgId:
-                  type: integer
-                  description: Snapshot orgId.
-                  example: 1
-                userId:
-                  type: integer
-                  description: Snapshot user ID.
-                  example: 1
-                external:
-                  type: boolean
-                  description: Whether the snapshot is external.
-                externalUrl:
-                  type: string
-                  description: Snapshot external url.
-                expires:
-                  type: string
-                  description: Snapshot expiry date.
-                  example: 2200-13-32T25:23:23+02:00
-                created:
-                  type: string
-                  description: Snapshot creation date.
-                  example: 2200-13-32T28:24:23+02:00
-                updated:
-                  type: string
-                  description: Snapshot update date.
-                  example: 2200-13-32T28:24:23+02:00
   
   /v1/grafana/api/snapshots/:key/:
       get:
