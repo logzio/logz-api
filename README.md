@@ -32,7 +32,7 @@ yarn start
 ## Update api specs
 1. Follow local deployment instructions
 
-2. Update the api spec
+2. Update the api spec under examples/logzio-public-api.yml
 
 3. Delete the relevant mdx file which you updated in the spec
 
