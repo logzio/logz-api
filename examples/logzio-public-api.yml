@@ -6475,6 +6475,9 @@ paths:
         
         Once created, you can view the details for this new token in [Manage tokens > API tokens](https://app.logz.io/#/dashboard/settings/manage-tokens/api), when you are logged in to the relevant sub account.
 
+
+        **Note:** To activate Prometheus API for your Logz.io Metrics account, contact [Logz.io support team](mailto:help@logz.io).
+
       tags:
         - Manage API tokens
       parameters: 
