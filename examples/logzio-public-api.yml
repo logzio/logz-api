@@ -295,6 +295,7 @@ x-tagGroups:
       - Associated accounts
       - Manage users
       - Manage metrics account
+      - Associated accounts
       - Authentication groups
       - Who am I
       - Manage time-based log accounts
@@ -3862,7 +3863,25 @@ paths:
                 items:
                   type: integer
 
-
+  /v1/associated-accounts:
+    get:
+      summary: Get a list of all accounts derived from the accountId
+      tags:
+        - Associated accounts
+      operationId: getRelatedAccounts
+      description: Returns a list of all accounts derived from the accountId for which the API-TOKEN (specified in the X-API-TOKEN header) was issued. If the API-TOKEN is issued for an owner account, it will return all sub-accounts (including security, tracing) and the owner account. If it’s not an owner account, it will return only one associated account.
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+      responses:
+        200:
+          description: Successful operation
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/AccountViewV3'
 
   /v2/whoami:
     get:
@@ -11430,21 +11449,24 @@ definitions:
         format: int64
         description: Restore End Time
         example:
+
+
   AccountViewV3:
-    type: object
+    type: 'object'
     properties:
       accountId:
-        type: integer
-        format: int32
+        type: 'integer'
+        format: 'int32'
       accountName:
-        type: string
+        type: 'string'
       type:
-        type: string
+        type: 'string'
         enum:
-          - OWNER_ACCOUNT
-          - SUB_ACCOUNT
-          - TIMELESS_INDEX
-          - METRICS_ACCOUNT
-          - RESTORE_ACCOUNT
-          - SECURITY_ACCOUNT
-          - TRACING_ACCOUNT
+          - 'OWNER_ACCOUNT'
+          - 'SUB_ACCOUNT'
+          - 'TIMELESS_INDEX'
+          - 'METRICS_ACCOUNT'
+          - 'RESTORE_ACCOUNT'
+          - 'SECURITY_ACCOUNT'
+          - 'TRACING_ACCOUNT'
+
