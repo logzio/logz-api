@@ -1,0 +1,40 @@
+---
+id: get-related-accounts
+title: "Get a list of all accounts derived from the accountId"
+description: "Returns a list of all accounts derived from the accountId for which the API-TOKEN (specified in the X-API-TOKEN header) was issued. If the API-TOKEN is issued for an owner account, it will return all sub-accounts (including security, tracing) and the owner account. If it’s not an owner account, it will return only one associated account."
+sidebar_label: "Get a list of all accounts derived from the accountId"
+hide_title: true
+hide_table_of_contents: true
+api: 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
+sidebar_class_name: "get api-method"
+info_path: docs/logz/logz-io-api
+custom_edit_url: null
+hide_send_button: true
+---
+
+import ApiTabs from "@theme/ApiTabs";
+import DiscriminatorTabs from "@theme/DiscriminatorTabs";
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import SecuritySchemes from "@theme/ApiExplorer/SecuritySchemes";
+import MimeTabs from "@theme/MimeTabs";
+import ParamsItem from "@theme/ParamsItem";
+import ResponseSamples from "@theme/ResponseSamples";
+import SchemaItem from "@theme/SchemaItem";
+import SchemaTabs from "@theme/SchemaTabs";
+import TabItem from "@theme/TabItem";
+
+<h1 className={"openapi__heading"}>Get a list of all accounts derived from the accountId</h1>
+
+<MethodEndpoint method={"get"} path={"/v1/associated-accounts"}></MethodEndpoint>
+
+
+
+Returns a list of all accounts derived from the accountId for which the API-TOKEN (specified in the X-API-TOKEN header) was issued. If the API-TOKEN is issued for an owner account, it will return all sub-accounts (including security, tracing) and the owner account. If it’s not an owner account, it will return only one associated account.
+
+## Request
+
+<div><div><ApiTabs><TabItem label={"200"} value={"200"}><div>
+
+Successful operation
+
+</div><div><MimeTabs className={"openapi-tabs__mime"} schemaType={"response"}><TabItem label={"application/json"} value={"application/json"}><SchemaTabs className={"openapi-tabs__schema"}><TabItem label={"Schema"} value={"Schema"}><details style={{}} className={"openapi-markdown__details response"} data-collapsed={false} open={true}><summary style={{}} className={"openapi-markdown__details-summary-response"}><strong>Schema</strong></summary><div style={{"textAlign":"left","marginLeft":"1rem"}}></div><ul style={{"marginLeft":"1rem"}}><li><div style={{"fontSize":"var(--ifm-code-font-size)","opacity":"0.6","marginLeft":"-.5rem","paddingBottom":".5rem"}}>Array [</div></li><SchemaItem collapsible={false} name={"accountId"} required={false} schemaName={"int32"} qualifierMessage={undefined} schema={{"type":"integer","format":"int32"}}></SchemaItem><SchemaItem collapsible={false} name={"accountName"} required={false} schemaName={"string"} qualifierMessage={undefined} schema={{"type":"string"}}></SchemaItem><SchemaItem collapsible={false} name={"type"} required={false} schemaName={"string"} qualifierMessage={"**Possible values:** [`OWNER_ACCOUNT`, `SUB_ACCOUNT`, `TIMELESS_INDEX`, `METRICS_ACCOUNT`, `RESTORE_ACCOUNT`, `SECURITY_ACCOUNT`, `TRACING_ACCOUNT`]"} schema={{"type":"string","enum":["OWNER_ACCOUNT","SUB_ACCOUNT","TIMELESS_INDEX","METRICS_ACCOUNT","RESTORE_ACCOUNT","SECURITY_ACCOUNT","TRACING_ACCOUNT"]}}></SchemaItem><li><div style={{"fontSize":"var(--ifm-code-font-size)","opacity":"0.6","marginLeft":"-.5rem"}}>]</div></li></ul></details></TabItem><TabItem label={"Example (from schema)"} value={"Example (from schema)"}><ResponseSamples responseExample={"[\n  {\n    \"accountId\": 0,\n    \"accountName\": \"string\",\n    \"type\": \"OWNER_ACCOUNT\"\n  }\n]"} language={"json"}></ResponseSamples></TabItem></SchemaTabs></TabItem></MimeTabs></div></TabItem></ApiTabs></div></div>
