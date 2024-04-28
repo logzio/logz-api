@@ -292,6 +292,7 @@ x-tagGroups:
       - Lookup lists
   - name: Account administration
     tags:
+      - Associated accounts
       - Manage users
       - Manage metrics account
       - Associated accounts
@@ -3644,6 +3645,20 @@ paths:
 
   # ::::: ACCOUNTS
 
+  /v1/associated-accounts:
+    get:
+      summary: Get all accounts associated with your token.
+      tags:
+        - Associated accounts
+      operationId: getRelatedAccounts
+      responses:
+        200:
+          description: successful operation
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/AccountViewV3'
+
   /v1/account-management/metrics-accounts:
     post:
       summary: Create a new metrics account
@@ -4919,55 +4934,47 @@ paths:
       produces:
         - application/json
       parameters:
-        - name: from
-          in: query
-          type: integer
-          minimum: 0
-          default: 0
-          description: Of the results found, the first result to return.
-          example: 0
-        - name: size
-          in: query
-          type: integer
-          description: Size of page to return.
-          example: 15
-        - name: search
-          in: query
-          type: string
-          description: Part of the alert name to filter by name (ignore case).
-          example: test
-        - name: severities
-          in: query
-          type: array
-          items:
-            type: string
-            enum:
-              -
-                - SEVERE
-                - HIGH
-                - MEDIUM
-                - LOW
-                - INFO
-            example: '["SEVERE", "HIGH"]'
-          description: Filter results by severity of triggered alerts.
-        - name: sortBy
-          in: query
-          description: Sort alerts by date or severity.
+        - name: body
+          in: body
+          description: Object containing parameters to filter and page through triggered alerts.
+          required: true
           schema:
-            type: string
-            enum: [DATE, SEVERITY]
-        - name: sortOrder
-          in: query
-          description: Sort order of alerts retrieved.
-          schema:
-            type: string
-            enum: [ASC, DESC]
-        - name: tags
-          in: query
-          type: array
-          items:
-            type: string
-          description: List of tags the alert is related to.
+            type: object
+            properties:
+              from:
+                type: integer
+                minimum: 0
+                default: 0
+                description: Of the results found, the first result to return.
+                example: 0
+              size:
+                type: integer
+                description: Size of page to return.
+                example: 15
+              search:
+                type: string
+                description: Part of the alert name to filter by name (ignore case).
+                example: test
+              severities:
+                type: array
+                items:
+                  type: string
+                  enum: [SEVERE, HIGH, MEDIUM, LOW, INFO]
+                example: ["SEVERE", "HIGH"]
+                description: Filter results by severity of triggered alerts.
+              sortBy:
+                type: string
+                enum: [DATE, SEVERITY]
+                description: Sort alerts by date or severity.
+              sortOrder:
+                type: string
+                enum: [ASC, DESC]
+                description: Sort order of alerts retrieved.
+              tags:
+                type: array
+                items:
+                  type: string
+                description: List of tags the alert is related to.
       responses:
         '200':
           description: successful operation
@@ -11443,6 +11450,7 @@ definitions:
         description: Restore End Time
         example:
 
+
   AccountViewV3:
     type: 'object'
     properties:
@@ -11461,3 +11469,4 @@ definitions:
           - 'RESTORE_ACCOUNT'
           - 'SECURITY_ACCOUNT'
           - 'TRACING_ACCOUNT'
+
