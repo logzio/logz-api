@@ -1,0 +1,48 @@
+---
+id: get-label-values
+title: "Returns a list of label values for a provided label name"
+description: "Retrieves a list of all values associated with a specific label name, optionally filtered by time range and series selectors."
+sidebar_label: "Returns a list of label values for a provided label name"
+hide_title: true
+hide_table_of_contents: true
+api: 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
+sidebar_class_name: "get api-method"
+info_path: docs/logz/logz-io-api
+custom_edit_url: null
+hide_send_button: true
+---
+
+import ApiTabs from "@theme/ApiTabs";
+import DiscriminatorTabs from "@theme/DiscriminatorTabs";
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import SecuritySchemes from "@theme/ApiExplorer/SecuritySchemes";
+import MimeTabs from "@theme/MimeTabs";
+import ParamsItem from "@theme/ParamsItem";
+import ResponseSamples from "@theme/ResponseSamples";
+import SchemaItem from "@theme/SchemaItem";
+import SchemaTabs from "@theme/SchemaTabs";
+import TabItem from "@theme/TabItem";
+
+<h1 className={"openapi__heading"}>Returns a list of label values for a provided label name</h1>
+
+<MethodEndpoint method={"get"} path={"/v1/metrics/prometheus/api/v1/label/{label_name}/values"}></MethodEndpoint>
+
+
+
+Retrieves a list of all values associated with a specific label name, optionally filtered by time range and series selectors.
+
+## Request
+
+<details style={{"marginBottom":"1rem"}} className={"openapi-markdown__details"} data-collapsed={false} open={true}><summary style={{}}><h3 className={"openapi-markdown__details-summary-header-params"}>Path Parameters</h3></summary><div><ul><ParamsItem className={"paramsItem"} param={{"in":"path","name":"label_name","required":true,"description":"The name of the label to retrieve values for.","schema":{"type":"string"}}}></ParamsItem></ul></div></details><details style={{"marginBottom":"1rem"}} className={"openapi-markdown__details"} data-collapsed={false} open={true}><summary style={{}}><h3 className={"openapi-markdown__details-summary-header-params"}>Query Parameters</h3></summary><div><ul><ParamsItem className={"paramsItem"} param={{"in":"query","name":"start","required":false,"description":"Start timestamp, inclusive, as an RFC3339 or Unix timestamp. Optional.","schema":{"type":"string"}}}></ParamsItem><ParamsItem className={"paramsItem"} param={{"in":"query","name":"end","required":false,"description":"End timestamp, inclusive, as an RFC3339 or Unix timestamp. Optional.","schema":{"type":"string"}}}></ParamsItem><ParamsItem className={"paramsItem"} param={{"in":"query","name":"match[]","required":false,"description":"Series selector to narrow down the series from which to read the label values. Optional.","explode":true,"schema":{"type":"array","items":{"type":"string"}}}}></ParamsItem><ParamsItem className={"paramsItem"} param={{"in":"query","name":"limit","required":false,"description":"Maximum number of label values to return. Optional.","schema":{"type":"integer"}}}></ParamsItem></ul></div></details><div><div><ApiTabs><TabItem label={"200"} value={"200"}><div>
+
+List of label values.
+
+</div><div><MimeTabs className={"openapi-tabs__mime"} schemaType={"response"}><TabItem label={"application/json"} value={"application/json"}><SchemaTabs className={"openapi-tabs__schema"}><TabItem label={"Schema"} value={"Schema"}><details style={{}} className={"openapi-markdown__details response"} data-collapsed={false} open={true}><summary style={{}} className={"openapi-markdown__details-summary-response"}><strong>Schema</strong></summary><div style={{"textAlign":"left","marginLeft":"1rem"}}></div><ul style={{"marginLeft":"1rem"}}><SchemaItem collapsible={false} name={"status"} required={false} schemaName={"string"} qualifierMessage={undefined} schema={{"type":"string","description":"Status of the request (e.g., success, fail)."}}></SchemaItem><SchemaItem collapsible={false} name={"data"} required={false} schemaName={"string[]"} qualifierMessage={undefined} schema={{"type":"array","items":{"type":"string","description":"A list of label values returned by the API."}}}></SchemaItem></ul></details></TabItem><TabItem label={"Example (from schema)"} value={"Example (from schema)"}><ResponseSamples responseExample={"{\n  \"status\": \"string\",\n  \"data\": [\n    \"string\"\n  ]\n}"} language={"json"}></ResponseSamples></TabItem></SchemaTabs></TabItem></MimeTabs></div></TabItem><TabItem label={"400"} value={"400"}><div>
+
+Invalid request parameters.
+
+</div><div></div></TabItem><TabItem label={"500"} value={"500"}><div>
+
+Internal server error.
+
+</div><div></div></TabItem></ApiTabs></div></div>
