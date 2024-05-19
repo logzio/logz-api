@@ -3645,19 +3645,6 @@ paths:
 
   # ::::: ACCOUNTS
 
-  /v1/associated-accounts:
-    get:
-      summary: Get all accounts associated with your token.
-      tags:
-        - Associated accounts
-      operationId: getRelatedAccounts
-      responses:
-        200:
-          description: successful operation
-          schema:
-            type: array
-            items:
-              $ref: '#/definitions/AccountViewV3'
 
   /v1/account-management/metrics-accounts:
     post:
@@ -3874,15 +3861,17 @@ paths:
         - application/json
       produces:
         - application/json
-      parameters:
       responses:
         200:
           description: Successful operation
-          schema:
-            type: array
-            items:
-              $ref: '#/definitions/AccountViewV3'
-
+          content: 
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/definitions/AccountViewV3'
+  
+  
   /v2/whoami:
     get:
       summary: Retrieve account information
@@ -4131,6 +4120,7 @@ paths:
 
 
   # ::::: SEARCH, SCROLL
+
   /v1/search:
     post:
       operationId: search
@@ -4138,63 +4128,16 @@ paths:
       description: >-
         Searches your account data using the [Elasticsearch Search API DSL](https://www.elastic.co/guide/en/elasticsearch/reference/6.8/search.html) query language. 
         
-        
         **total:** This call returns up to 1,000 results per query for aggregated results, or 10,000 results for non-aggregated results. 
-
-
+  
         **Note:** To ensure speed and availability of your logs, we restrict some options from the Elasticsearch defaults that could hamper system performance. Restrictions are described with their respective elements below.
       tags:
         - Search logs
+      consumes:
+        - application/json
+      produces:
+        - application/json
       parameters:
-        - in: query
-          name: dayOffset
-          type: integer
-          schema:
-            description: >-
-              Slide the 2-day search time range by _x_ days.
-              For example, if set to `5`, search returns results from 5 days ago and 4 days ago, UTC.
-
-              The `dayOffset` parameter will go back to the last index in the set value and send back the results of that index +1.
-
-
-              Although your account's retention period is up to 14 days, please note that using the dayOffset option limits the search to a narrower timeframe. For instance, setting dayOffset to 5 searches for logs specifically between 5 days ago and 4 days ago, within the overall 14-day retention period.
-
-
-              If set to `0` or `1`, search returns default results (today and yesterday, UTC).
-            minimum: 0
-        - in: query
-          name: accountIds
-          type: integer
-          schema:
-            description: >-
-              ID of the sub account to search.
-              By default, only this account is searched.
-
-
-              A main account can search a sub account as long as it has the right permissions.
-              To give search permissions to the main account,
-              log in to the main account,
-              go to the [Manage accounts](https://app.logz.io/#/dashboard/settings/manage-accounts) page,
-              and select **Searchable from the main account** for the intended sub account.
-
-
-              To include multiple accounts, repeat this parameter for each account
-              (for example: `accountIds=500&accountIds=600`).
-
-
-              **Important**:
-              If you include an account without the right permissions,
-              the request will fail.
-
-
-              If you include this parameter, the current account won't be searched
-              unless you explicitly include it in the query.
-        - in: header
-          name: X-Logz-externalId
-          required: false
-          schema:
-            type: string
-            description: Represents the unique identifier for a customer. Must not exceed 36 characters in length.
         - in: body
           name: body
           required: true
@@ -4207,24 +4150,23 @@ paths:
                 type: object
                 description: >-
                   The query can take any of the parameters described in the [Elasticsearch Search API DSL documentation](https://www.elastic.co/guide/en/elasticsearch/reference/6.8/search.html) with the exceptions stated below.
-
+  
                   #### Limitations
-
+  
                   * When using `query_string`, `allow_leading_wildcard` must be set to `false`
-
+  
                   * `wildcard` can't start with `*` or `?`
-
+  
                   * Can't contain `fuzzy_max_expansions`, `max_expansions`, or `max_determinized_states`
-
-
+  
                   #### Notes on the search time range
-
+  
                   * By default, your query runs on data sent today and yesterday, UTC.
                     You can move this 2-calendar-day window by using the `dayOffset` query parameter.
-
+  
                   * Searches without a `timestamp` filter will return the last 2 calendar days, UTC.
                     You can search other calendar days (up to 2 at a time) using a filter on the `timestamp`.
-
+  
                 example: { "bool": { "must": [{ "range": { "@timestamp": { "gte": "now-5m", "lte": "now" } } }] } }
               from:
                 type: integer
@@ -4237,12 +4179,12 @@ paths:
                 description: Number of results to return
                 default: 10
                 maximum: 10,000
-                example: 0
+                example: 10
               sort:
                 type: array
                 description: >-
                   #### Limitations
-
+  
                   * Can't sort or aggregate on analyzed fields, such as the `message` field
                 items:
                   type: object
@@ -4250,17 +4192,17 @@ paths:
                 type: object
                 description: >-
                   The object `includes` specifies an array of strings specifying an array of fields to return.
-
+  
                   * If you omit `_source` from the request, all fields are returned.
-
+  
                   * If you pass `'_source': false`, it will exclude the `_source` field from the results.
                 properties:
                   includes:
                     type: array
                     description: Array of fields to return
                     example: ["message"]
-                items:
-                  - type: string
+                  items:
+                    type: string
                     description: Field to return.
                 example: false
               post_filter:
@@ -4277,8 +4219,10 @@ paths:
                 type: boolean
                 description: Returns a version for each result. See the [Elasticsearch guide](https://www.elastic.co/guide/en/elasticsearch/reference/6.8/search-request-version.html) for details.
               stored_fields:
-                type: array of strings
+                type: array
                 description: Useful for querying for fields that don’t appear in the _source field or querying for larger documents by date or title. See the [Elasticsearch guide](https://www.elastic.co/guide/en/elasticsearch/reference/6.8/search-request-stored-fields.html) for details.
+                items:
+                  type: string
                 example: ["*"]
               highlight:
                 type: object
@@ -4287,22 +4231,19 @@ paths:
                 type: object
                 description: >-
                   Apply field aggregations. See the [Elasticsearch guide](https://www.elastic.co/guide/en/elasticsearch/reference/6.8/search-aggregations.html) for details.
-
-
+  
                   #### Limitations
-
+  
                   * When using the `size` element, the value must be ≤ `1000`
-
+  
                   * Can't nest 2 or more bucket aggregations of these types: `date_histogram`, `geohash_grid`, `histogram`, `ip_ranges`, `significant_terms`, `terms`
-
+  
                   * Can't sort or aggregate on analyzed fields, such as the `message` field
-
+  
                   * Aggregation type `significant_terms` and `multi_terms` can't be used
-
-
+  
                   **Note:** You can use `aggs` or `aggregations` as the field name
                 example: { "byType": { "terms": { "field": "type", "size": 5 } } }
-      
       responses:
         200:
           description: successful query. `hits` are the total number of logs that match the query, which will always be in the 0-2 day range. `total` are the actual logs that are returned when using the query, which are not limited by the selected time range.
@@ -4323,7 +4264,8 @@ paths:
                       {
                         "key": "web-app",
                         "doc_count": 163690
-                      }, {
+                      },
+                      {
                         "key": "core-service",
                         "doc_count": 64893
                       }
