@@ -292,7 +292,6 @@ x-tagGroups:
       - Lookup lists
   - name: Account administration
     tags:
-      - Associated accounts
       - Manage users
       - Manage metrics account
       - Associated accounts
@@ -331,6 +330,399 @@ x-tagGroups:
     description: Metrics API Gateway to supported endpoints. 
     
 paths:
+
+  # ::::: PROMETHEUS
+
+
+  /v1/metrics/prometheus/api/v1/query:
+    get:
+      operationId: 'GetInstantQuery'
+      summary: 'Evaluates an instant query at a single point in time'
+      description: >-
+        Retrieve data by submitting a GET request with query parameters.
+      tags:
+        - Query
+      parameters:
+        - in: query
+          name: query
+          type: string
+          required: true
+          description: 'Prometheus expression query string.'
+        - in: query
+          name: time
+          type: string
+          required: false
+          description: 'Evaluation timestamp as an RFC3339 or Unix timestamp. Optional.'
+        - in: query
+          name: timeout
+          type: string
+          required: false
+          description: 'Evaluation timeout. Defaults to the value of the -query.timeout flag.'
+      responses:
+        200:
+          description: 'Query results in a defined format.'
+          schema:
+            $ref: '#/definitions/QueryResult'
+        400:
+          description: 'Invalid request parameters.'
+        500:
+          description: 'Internal server error.'
+
+    post:
+      operationId: 'PostInstantQuery'
+      summary: 'Evaluates an instant query at a single point in time using POST'
+      description: >-
+        Submit query data in the request body using URL-encoded form parameters.
+      tags:
+        - Query
+      consumes:
+        - application/x-www-form-urlencoded
+      parameters:
+        - in: formData
+          name: query
+          type: string
+          required: true
+          description: 'Prometheus expression query string.'
+        - in: formData
+          name: time
+          type: string
+          required: false
+          description: 'Evaluation timestamp as an RFC3339 or Unix timestamp. Optional.'
+        - in: formData
+          name: timeout
+          type: string
+          required: false
+          description: 'Evaluation timeout. Defaults to the value of the -query.timeout flag.'
+      responses:
+        200:
+          description: 'Successful query evaluation.'
+          schema:
+            $ref: '#/definitions/QueryResult'
+        400:
+          description: 'Invalid request parameters.'
+        500:
+          description: 'Internal server error.'
+
+
+
+
+  /v1/metrics/prometheus/api/v1/query_range:
+    get:
+      operationId: 'GetRangeQuery'
+      summary: 'Evaluates an expression query over a range of time'
+      description: >-
+        Retrieve data over a specified time range by submitting a GET request with query parameters.
+      tags:
+        - Range Query
+      parameters:
+        - in: query
+          name: query
+          type: string
+          required: true
+          description: 'Prometheus expression query string.'
+        - in: query
+          name: start
+          type: string
+          required: true
+          description: 'Start timestamp, inclusive, as an RFC3339 or Unix timestamp.'
+        - in: query
+          name: end
+          type: string
+          required: true
+          description: 'End timestamp, inclusive, as an RFC3339 or Unix timestamp.'
+        - in: query
+          name: step
+          type: string
+          required: true
+          description: 'Query resolution step width in seconds.'
+        - in: query
+          name: timeout
+          type: string
+          required: false
+          description: 'Evaluation timeout. Optional, defaults to the value of the -query.timeout flag.'
+      responses:
+        200:
+          description: 'Range query results in a defined format.'
+          schema:
+            $ref: '#/definitions/RangeQueryResult'
+        400:
+          description: 'Invalid request parameters.'
+        500:
+          description: 'Internal server error.'
+
+    post:
+      operationId: 'PostRangeQuery'
+      summary: 'Evaluates an expression query over a range of time using POST'
+      description: >-
+        Submit query data in the request body using URL-encoded form parameters.
+      tags:
+        - Range Query
+      consumes:
+        - application/x-www-form-urlencoded
+      parameters:
+        - in: formData
+          name: query
+          type: string
+          required: true
+          description: 'Prometheus expression query string.'
+        - in: formData
+          name: start
+          type: string
+          required: true
+          description: 'Start timestamp, inclusive, as an RFC3339 or Unix timestamp.'
+        - in: formData
+          name: end
+          type: string
+          required: true
+          description: 'End timestamp, inclusive, as an RFC3339 or Unix timestamp.'
+        - in: formData
+          name: step
+          type: string
+          required: true
+          description: 'Query resolution step width in seconds.'
+        - in: formData
+          name: timeout
+          type: string
+          required: false
+          description: 'Evaluation timeout. Optional, defaults to the value of the -query.timeout flag.'
+      responses:
+        200:
+          description: 'Successful range query evaluation.'
+          schema:
+            $ref: '#/definitions/RangeQueryResult'
+        400:
+          description: 'Invalid request parameters.'
+        500:
+          description: 'Internal server error.'
+
+
+
+  /v1/metrics/prometheus/api/v1/series:
+    get:
+      operationId: 'GetSeriesByLabels'
+      summary: 'Returns the list of time series that match a certain label set.'
+      description: >-
+        Retrieve time series data by submitting a GET request with label matchers and time range parameters.
+      tags:
+        - Time Series
+      parameters:
+        - in: query
+          name: 'match[]'
+          type: 'array'
+          required: true
+          items:
+            type: 'string'
+          collectionFormat: multi
+          description: 'Series selector that selects the series to return. At least one must be provided.'
+        - in: query
+          name: start
+          type: 'string'
+          required: true
+          description: 'Start timestamp, inclusive, as an RFC3339 or Unix timestamp.'
+        - in: query
+          name: end
+          type: 'string'
+          required: true
+          description: 'End timestamp, inclusive, as an RFC3339 or Unix timestamp.'
+        - in: query
+          name: limit
+          type: 'integer'
+          required: false
+          description: 'Maximum number of returned series. Optional.'
+      responses:
+        200:
+          description: 'List of matching time series.'
+          schema:
+            $ref: '#/definitions/SeriesResult'
+        400:
+          description: 'Invalid request parameters.'
+        500:
+          description: 'Internal server error.'
+
+    post:
+      operationId: 'PostSeriesByLabels'
+      summary: 'Returns the list of time series that match a certain label set using POST.'
+      description: >-
+        Submit label matchers and time range data in the request body using URL-encoded form parameters.
+      tags:
+        - Time Series
+      consumes:
+        - application/x-www-form-urlencoded
+      parameters:
+        - in: formData
+          name: 'match[]'
+          type: 'array'
+          required: true
+          items:
+            type: 'string'
+          collectionFormat: multi
+          description: 'Series selector that selects the series to return. At least one must be provided.'
+        - in: formData
+          name: start
+          type: 'string'
+          required: true
+          description: 'Start timestamp, inclusive, as an RFC3339 or Unix timestamp.'
+        - in: formData
+          name: end
+          type: 'string'
+          required: true
+          description: 'End timestamp, inclusive, as an RFC3339 or Unix timestamp.'
+        - in: formData
+          name: limit
+          type: 'integer'
+          required: false
+          description: 'Maximum number of returned series. Optional.'
+      responses:
+        200:
+          description: 'Successful retrieval of matching time series.'
+          schema:
+            $ref: '#/definitions/SeriesResult'
+        400:
+          description: 'Invalid request parameters.'
+        500:
+          description: 'Internal server error.'
+
+
+
+  /v1/metrics/prometheus/api/v1/labels:
+    get:
+      operationId: 'GetLabelNames'
+      summary: 'Returns a list of label names'
+      description: >-
+        Retrieve a list of all label names optionally filtered by a time range and series selectors.
+      tags:
+        - Labels
+      parameters:
+        - in: query
+          name: start
+          type: 'string'
+          required: false
+          description: 'Start timestamp, inclusive, as an RFC3339 or Unix timestamp. Optional.'
+        - in: query
+          name: end
+          type: 'string'
+          required: false
+          description: 'End timestamp, inclusive, as an RFC3339 or Unix timestamp. Optional.'
+        - in: query
+          name: 'match[]'
+          type: 'array'
+          required: false
+          items:
+            type: 'string'
+          collectionFormat: multi
+          description: 'Series selector to narrow down the series from which to read the label names. Optional.'
+        - in: query
+          name: limit
+          type: 'integer'
+          required: false
+          description: 'Maximum number of label names to return. Optional.'
+      responses:
+        200:
+          description: 'List of label names.'
+          schema:
+            $ref: '#/definitions/LabelNamesResult'
+        400:
+          description: 'Invalid request parameters.'
+        500:
+          description: 'Internal server error.'
+
+    post:
+      operationId: 'PostLabelNames'
+      summary: 'Returns a list of label names using POST'
+      description: >-
+        Submit parameters in the request body using URL-encoded form parameters to retrieve a list of label names.
+      tags:
+        - Labels
+      consumes:
+        - application/x-www-form-urlencoded
+      parameters:
+        - in: formData
+          name: start
+          type: 'string'
+          required: false
+          description: 'Start timestamp, inclusive, as an RFC3339 or Unix timestamp. Optional.'
+        - in: formData
+          name: end
+          type: 'string'
+          required: false
+          description: 'End timestamp, inclusive, as an RFC3339 or Unix timestamp. Optional.'
+        - in: formData
+          name: 'match[]'
+          type: 'array'
+          required: false
+          items:
+            type: 'string'
+          collectionFormat: multi
+          description: 'Series selector to narrow down the series from which to read the label names. Optional.'
+        - in: formData
+          name: limit
+          type: 'integer'
+          required: false
+          description: 'Maximum number of label names to return. Optional.'
+      responses:
+        200:
+          description: 'Successful retrieval of label names.'
+          schema:
+            $ref: '#/definitions/LabelNamesResult'
+        400:
+          description: 'Invalid request parameters.'
+        500:
+          description: 'Internal server error.'
+
+
+
+
+
+  /v1/metrics/prometheus/api/v1/label/{label_name}/values:
+    get:
+      operationId: 'GetLabelValues'
+      summary: 'Returns a list of label values for a provided label name'
+      description: >-
+        Retrieves a list of all values associated with a specific label name, optionally filtered by time range and series selectors.
+      tags:
+        - Label Values
+      parameters:
+        - in: path
+          name: label_name
+          type: 'string'
+          required: true
+          description: 'The name of the label to retrieve values for.'
+        - in: query
+          name: start
+          type: 'string'
+          required: false
+          description: 'Start timestamp, inclusive, as an RFC3339 or Unix timestamp. Optional.'
+        - in: query
+          name: end
+          type: 'string'
+          required: false
+          description: 'End timestamp, inclusive, as an RFC3339 or Unix timestamp. Optional.'
+        - in: query
+          name: 'match[]'
+          type: 'array'
+          required: false
+          items:
+            type: 'string'
+          collectionFormat: multi
+          description: 'Series selector to narrow down the series from which to read the label values. Optional.'
+        - in: query
+          name: limit
+          type: 'integer'
+          required: false
+          description: 'Maximum number of label values to return. Optional.'
+      responses:
+        200:
+          description: 'List of label values.'
+          schema:
+            $ref: '#/definitions/LabelValuesResult'
+        400:
+          description: 'Invalid request parameters.'
+        500:
+          description: 'Internal server error.'
+
+
+
+
   # ::::: GRAFANA
 
 
@@ -4876,47 +5268,55 @@ paths:
       produces:
         - application/json
       parameters:
-        - name: body
-          in: body
-          description: Object containing parameters to filter and page through triggered alerts.
-          required: true
+        - name: from
+          in: query
+          type: integer
+          minimum: 0
+          default: 0
+          description: Of the results found, the first result to return.
+          example: 0
+        - name: size
+          in: query
+          type: integer
+          description: Size of page to return.
+          example: 15
+        - name: search
+          in: query
+          type: string
+          description: Part of the alert name to filter by name (ignore case).
+          example: test
+        - name: severities
+          in: query
+          type: array
+          items:
+            type: string
+            enum:
+              -
+                - SEVERE
+                - HIGH
+                - MEDIUM
+                - LOW
+                - INFO
+            example: '["SEVERE", "HIGH"]'
+          description: Filter results by severity of triggered alerts.
+        - name: sortBy
+          in: query
+          description: Sort alerts by date or severity.
           schema:
-            type: object
-            properties:
-              from:
-                type: integer
-                minimum: 0
-                default: 0
-                description: Of the results found, the first result to return.
-                example: 0
-              size:
-                type: integer
-                description: Size of page to return.
-                example: 15
-              search:
-                type: string
-                description: Part of the alert name to filter by name (ignore case).
-                example: test
-              severities:
-                type: array
-                items:
-                  type: string
-                  enum: [SEVERE, HIGH, MEDIUM, LOW, INFO]
-                example: ["SEVERE", "HIGH"]
-                description: Filter results by severity of triggered alerts.
-              sortBy:
-                type: string
-                enum: [DATE, SEVERITY]
-                description: Sort alerts by date or severity.
-              sortOrder:
-                type: string
-                enum: [ASC, DESC]
-                description: Sort order of alerts retrieved.
-              tags:
-                type: array
-                items:
-                  type: string
-                description: List of tags the alert is related to.
+            type: string
+            enum: [DATE, SEVERITY]
+        - name: sortOrder
+          in: query
+          description: Sort order of alerts retrieved.
+          schema:
+            type: string
+            enum: [ASC, DESC]
+        - name: tags
+          in: query
+          type: array
+          items:
+            type: string
+          description: List of tags the alert is related to.
       responses:
         '200':
           description: successful operation
@@ -7717,6 +8117,115 @@ paths:
             
 
 definitions:
+
+
+  QueryResult:
+    type: 'object'
+    properties:
+      status:
+        type: 'string'
+        description: 'Status of the query (e.g., success, fail).'
+      data:
+        type: 'object'
+        properties:
+          resultType:
+            type: 'string'
+            enum: ['matrix', 'vector', 'scalar', 'string']
+            description: 'Type of the result.'
+          result:
+            type: 'array'
+            items:
+              type: 'object'
+              required: ['metric', 'value']
+              properties:
+                metric:
+                  type: 'object'
+                  additionalProperties:
+                    type: 'string'
+                  description: 'Labels identifying the metric.'
+                value:
+                  type: 'array'
+                  items:
+                    type: 'string'
+                  minItems: 2
+                  maxItems: 2
+                  description: 'The actual data point returned by the query, with timestamp and value.'
+
+
+  RangeQueryResult:
+    type: 'object'
+    properties:
+      status:
+        type: 'string'
+        description: 'Status of the query (e.g., success, fail).'
+      data:
+        type: 'object'
+        properties:
+          resultType:
+            type: 'string'
+            enum: ['matrix']
+            description: 'Type of the result.'
+          result:
+            type: 'array'
+            items:
+              type: 'object'
+              required: ['metric', 'values']
+              properties:
+                metric:
+                  type: 'object'
+                  additionalProperties:
+                    type: 'string'
+                  description: 'Labels identifying the metric.'
+                values:
+                  type: 'array'
+                  items:
+                    type: 'array'
+                    items:
+                      type: 'string'
+                    minItems: 2
+                    maxItems: 2
+                  description: 'A list of [timestamp, value] pairs returned by the query.'
+
+  LabelValuesResult:
+    type: 'object'
+    properties:
+      status:
+        type: 'string'
+        description: 'Status of the request (e.g., success, fail).'
+      data:
+        type: 'array'
+        items:
+          type: 'string'
+          description: 'A list of label values returned by the API.'
+
+
+  SeriesResult:
+    type: 'object'
+    properties:
+      status:
+        type: 'string'
+        description: 'Status of the request (e.g., success, fail).'
+      data:
+        type: 'array'
+        items:
+          type: 'object'
+          additionalProperties:
+            type: 'string'
+          description: 'An array of objects containing the label name/value pairs which identify each series.'
+
+
+  LabelNamesResult:
+    type: 'object'
+    properties:
+      status:
+        type: 'string'
+        description: 'Status of the request (e.g., success, fail).'
+      data:
+        type: 'array'
+        items:
+          type: 'string'
+          description: 'A list of label names returned by the API.'
+
   # ::::: SIEM LOOKUPS
   PagedSearchResponseLookupListElement:
     type: object
@@ -11392,7 +11901,6 @@ definitions:
         description: Restore End Time
         example:
 
-
   AccountViewV3:
     type: 'object'
     properties:
@@ -11411,4 +11919,3 @@ definitions:
           - 'RESTORE_ACCOUNT'
           - 'SECURITY_ACCOUNT'
           - 'TRACING_ACCOUNT'
-
