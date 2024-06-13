@@ -338,8 +338,9 @@ paths:
     get:
       operationId: 'GetInstantQuery'
       summary: 'Evaluates an instant query at a single point in time'
-      description: >-
-        Retrieve data by submitting a GET request with query parameters. Please ensure to change the region in the URL to match your account's region.
+      description: |
+        Retrieve data by submitting a GET request with query parameters.
+        Please ensure to change the region in the URL to match your account's region.
       tags:
         - Query
       parameters:
@@ -371,8 +372,9 @@ paths:
     post:
       operationId: 'PostInstantQuery'
       summary: 'Evaluates an instant query at a single point in time using POST'
-      description: >-
-        Submit query data in the request body using URL-encoded form parameters. Please ensure to change the region in the URL to match your account's region.
+      description: |
+        Submit query data in the request body using URL-encoded form parameters. 
+        Please ensure to change the region in the URL to match your account's region.
       tags:
         - Query
       consumes:
@@ -410,8 +412,9 @@ paths:
     get:
       operationId: 'GetRangeQuery'
       summary: 'Evaluates an expression query over a range of time'
-      description: >-
-        Retrieve data over a specified time range by submitting a GET request with query parameters. Please ensure to change the region in the URL to match your account's region.
+      description: |
+        Retrieve data over a specified time range by submitting a GET request with query parameters. 
+        Please ensure to change the region in the URL to match your account's region.
       tags:
         - Range Query
       parameters:
@@ -453,8 +456,9 @@ paths:
     post:
       operationId: 'PostRangeQuery'
       summary: 'Evaluates an expression query over a range of time using POST'
-      description: >-
-        Submit query data in the request body using URL-encoded form parameters. Please ensure to change the region in the URL to match your account's region.
+      description: |
+        Submit query data in the request body using URL-encoded form parameters. 
+        Please ensure to change the region in the URL to match your account's region.
       tags:
         - Range Query
       consumes:
@@ -501,8 +505,9 @@ paths:
     get:
       operationId: 'GetSeriesByLabels'
       summary: 'Returns the list of time series that match a certain label set.'
-      description: >-
-        Retrieve time series data by submitting a GET request with label matchers and time range parameters. Please ensure to change the region in the URL to match your account's region.
+      description: |
+        Retrieve time series data by submitting a GET request with label matchers and time range parameters. 
+        Please ensure to change the region in the URL to match your account's region.
       tags:
         - Time Series
       parameters:
@@ -542,8 +547,9 @@ paths:
     post:
       operationId: 'PostSeriesByLabels'
       summary: 'Returns the list of time series that match a certain label set using POST.'
-      description: >-
-        Submit label matchers and time range data in the request body using URL-encoded form parameters. Please ensure to change the region in the URL to match your account's region.
+      description: |
+        Submit label matchers and time range data in the request body using URL-encoded form parameters. 
+        Please ensure to change the region in the URL to match your account's region.
       tags:
         - Time Series
       consumes:
@@ -588,8 +594,9 @@ paths:
     get:
       operationId: 'GetLabelNames'
       summary: 'Returns a list of label names'
-      description: >-
-        Retrieve a list of all label names optionally filtered by a time range and series selectors. Please ensure to change the region in the URL to match your account's region.
+      description: |
+        Retrieve a list of all label names optionally filtered by a time range and series selectors. 
+        Please ensure to change the region in the URL to match your account's region.
       tags:
         - Labels
       parameters:
@@ -629,8 +636,9 @@ paths:
     post:
       operationId: 'PostLabelNames'
       summary: 'Returns a list of label names using POST'
-      description: >-
-        Submit parameters in the request body using URL-encoded form parameters to retrieve a list of label names. Please ensure to change the region in the URL to match your account's region.
+      description: |
+        Submit parameters in the request body using URL-encoded form parameters to retrieve a list of label names. 
+        Please ensure to change the region in the URL to match your account's region.
       tags:
         - Labels
       consumes:
@@ -677,8 +685,9 @@ paths:
     get:
       operationId: 'GetLabelValues'
       summary: 'Returns a list of label values for a provided label name'
-      description: >-
-        Retrieves a list of all values associated with a specific label name, optionally filtered by time range and series selectors. Please ensure to change the region in the URL to match your account's region.
+      description: |
+        Retrieves a list of all values associated with a specific label name, optionally filtered by time range and series selectors.
+        Please ensure to change the region in the URL to match your account's region.
       tags:
         - Label Values
       parameters:
@@ -729,7 +738,9 @@ paths:
   /v1/grafana/api/folders:
     get:
       summary: Get all folders
-      description: Returns all folders that the authenticated user has permission to view. Please ensure to change the region in the URL to match your account's region.
+      description: |
+        Returns all folders that the authenticated user has permission to view. 
+        Please ensure to change the region in the URL to match your account's region.
       tags:
             - Grafana get all folders
       parameters:
@@ -764,8 +775,9 @@ paths:
       get:
         operationId: RouteGetContactpoints
         summary: Get all contact points
-        description: >-
-           Get all contact points. Please ensure to change the region in the URL to match your account's region.
+        description: |
+           Get all contact points. 
+           Please ensure to change the region in the URL to match your account's region.
         tags:
             - Grafana contact points
         parameters:
@@ -804,8 +816,9 @@ paths:
       post:
         operationId: RoutePostContactpoints
         summary: Create a contact point
-        description: >-
-           Create a contact point. Please ensure to change the region in the URL to match your account's region.
+        description: |
+          Create a contact point. 
+          Please ensure to change the region in the URL to match your account's region.
         tags:
             - Grafana contact points
         parameters:
@@ -866,8 +879,9 @@ paths:
     delete:
       operationId: RouteDeleteContactpoints
       summary: Delete a contact point
-      description: >-
-         Delete a contact point. Please ensure to change the region in the URL to match your account's region.
+      description: |
+        Delete a contact point. 
+        Please ensure to change the region in the URL to match your account's region.
       tags:
           - Grafana contact points
       parameters:
@@ -890,8 +904,9 @@ paths:
     put:
       operationId: RouteUpdateContactpoints
       summary: Update a contact point
-      description: >-
-         Update a contact point. Please ensure to change the region in the URL to match your account's region.
+      description: |
+        Update a contact point. 
+        Please ensure to change the region in the URL to match your account's region.
       tags:
           - Grafana contact points
       parameters:
@@ -949,8 +964,9 @@ paths:
     delete:
       operationId: RouteResetPolicyTree
       summary: Clears the notification policy tree
-      description: >-
-         Clears the notification policy tree. Please ensure to change the region in the URL to match your account's region.
+      description: |
+        Clears the notification policy tree. 
+        Please ensure to change the region in the URL to match your account's region.
       tags:
           - Grafana contact points
       responses:
@@ -965,8 +981,9 @@ paths:
     get:
       operationId: RouteGetPolicyTree
       summary: Get notification policy tree
-      description: >-
-         Get notification policy tree. Please ensure to change the region in the URL to match your account's region.
+      description: |
+        Get notification policy tree. 
+        Please ensure to change the region in the URL to match your account's region.
       tags:
           - Grafana contact points
       responses:
@@ -1065,8 +1082,9 @@ paths:
     put:
       operationId: RouteGetPolicyTree
       summary: Set notification policy tree
-      description: >-
-         Set notification policy tree. Please ensure to change the region in the URL to match your account's region.
+      description: |
+        Set notification policy tree. 
+        Please ensure to change the region in the URL to match your account's region.
       tags:
           - Grafana contact points
       parameters:
@@ -1186,8 +1204,9 @@ paths:
       get:
         operationId: getAllDatasources
         summary: Return a list of data sources
-        description: >-
-           Return a list of data sources for all accounts under the API token provided. Please ensure to change the region in the URL to match your account's region.
+        description: |
+          Return a list of data sources for all accounts under the API token provided. 
+          Please ensure to change the region in the URL to match your account's region.
         tags:
             - Grafana data source
         responses:
@@ -1232,8 +1251,9 @@ paths:
       get:
         operationId: getDatasourceByAccount
         summary: Get a data source for a given account
-        description: >-
-           Get a data source for a given account. Please ensure to change the region in the URL to match your account's region.
+        description: |
+          Get a data source for a given account. 
+          Please ensure to change the region in the URL to match your account's region.
         tags:
             - Grafana data source
         parameters:
@@ -1285,8 +1305,9 @@ paths:
       get:
         operationId: getAlertRules
         summary: Return a list of all alerts
-        description: >-
-           Returns a list of all alerts. Please ensure to change the region in the URL to match your account's region.
+        description: |
+          Returns a list of all alerts. 
+          Please ensure to change the region in the URL to match your account's region.
         tags:
             - Grafana alerting provisioning
         parameters:
@@ -1473,8 +1494,9 @@ paths:
       post:
         operationId: AlertRules
         summary: Create a new alert rule
-        description: >-
-          Creates a new alert rule. Please ensure to change the region in the URL to match your account's region.
+        description: |
+          Creates a new alert rule. 
+          Please ensure to change the region in the URL to match your account's region.
         tags:
           - Grafana alerting provisioning
         parameters:
@@ -1791,8 +1813,9 @@ paths:
       get:
         operationId: getAlertRulesByUID
         summary: Return a list of all alerts by UID
-        description: >-
-           Returns a list of all alerts by a UID. Please ensure to change the region in the URL to match your account's region.
+        description: |
+          Returns a list of all alerts by a UID. 
+          Please ensure to change the region in the URL to match your account's region.
         tags:
             - Grafana alerting provisioning
         parameters:
@@ -1963,8 +1986,9 @@ paths:
       put:
         operationId: putAlertRulesByUID
         summary: Amend an alert by UID
-        description: >-
-           Amend an alert by UID. Please ensure to change the region in the URL to match your account's region.
+        description: |
+          Amend an alert by UID. 
+          Please ensure to change the region in the URL to match your account's region.
         tags:
             - Grafana alerting provisioning
         parameters:
@@ -2286,8 +2310,9 @@ paths:
       delete:
         operationId: deleteAlertRulesByUID
         summary: Delete alert rule by UID
-        description: >-
-          Deletes the annotation that matches the specified id. Please ensure to change the region in the URL to match your account's region.
+        description: |
+          Deletes the annotation that matches the specified id. 
+          Please ensure to change the region in the URL to match your account's region.
         tags:
           - Grafana annotations
         parameters:
@@ -2319,8 +2344,9 @@ paths:
       get:
         operationId: getAnnotations
         summary: Find annotations
-        description: >-
-          Searches for annotations in the Grafana database. Please ensure to change the region in the URL to match your account's region.
+        description: |
+          Searches for annotations in the Grafana database. 
+          Please ensure to change the region in the URL to match your account's region.
         tags:
           - Grafana annotations
         parameters:
@@ -2437,8 +2463,9 @@ paths:
       post:
         operationId: createAnnotations
         summary: Create annotations
-        description: >-
-          Creates an annotation in the Grafana database. Please ensure to change the region in the URL to match your account's region.
+        description: |
+          Creates an annotation in the Grafana database. 
+          Please ensure to change the region in the URL to match your account's region.
         tags:
           - Grafana annotations
         parameters:
@@ -2487,8 +2514,9 @@ paths:
       post:
         operationId: createAnnotationsGraphite
         summary: Create annotations in Graphite format
-        description: >-
-          Creates an annotation in the Grafana database by using Graphite-compatible event format. Please ensure to change the region in the URL to match your account's region.
+        description: |
+          Creates an annotation in the Grafana database by using Graphite-compatible event format. 
+          Please ensure to change the region in the URL to match your account's region.
         tags:
           - Grafana annotations
         parameters:
@@ -2533,8 +2561,9 @@ paths:
       put:
         operationId: updateAnnotations
         summary: Update annotations
-        description: >-
-          Updates an annotation in the Grafana database. Please ensure to change the region in the URL to match your account's region.
+        description: |
+          Updates an annotation in the Grafana database. 
+          Please ensure to change the region in the URL to match your account's region.
         tags:
           - Grafana annotations
         parameters:
@@ -2578,8 +2607,9 @@ paths:
       patch:
         operationId: patchAnnotations
         summary: Patch annotations
-        description: >-
-          Updates one or more properties of an annotation that matches the specified id. This operation currently supports updating of the text, tags, time and timeEnd properties. Please ensure to change the region in the URL to match your account's region.
+        description: |
+          Updates one or more properties of an annotation that matches the specified id. This operation currently supports updating of the text, tags, time and timeEnd properties. 
+          Please ensure to change the region in the URL to match your account's region.
         tags:
           - Grafana annotations
         parameters:
@@ -2616,8 +2646,9 @@ paths:
       delete:
         operationId: deleteAnnotations
         summary: Delete annotation by id
-        description: >-
-          Deletes the annotation that matches the specified id. Please ensure to change the region in the URL to match your account's region.
+        description: |
+          Deletes the annotation that matches the specified id. 
+          Please ensure to change the region in the URL to match your account's region.
         tags:
           - Grafana annotations
         parameters:
@@ -2642,8 +2673,9 @@ paths:
       get:
         operationId: getAnnotationsTags
         summary: Get event tags created in annotations
-        description: >-
-          Searches for event tags in annotations in the Grafana database. Please ensure to change the region in the URL to match your account's region.
+        description: |
+          Searches for event tags in annotations in the Grafana database. 
+          Please ensure to change the region in the URL to match your account's region.
         tags:
           - Grafana annotations
         parameters:
@@ -2690,8 +2722,9 @@ paths:
       post:
         operationId: createDashboard
         summary: Create/update a dashboard
-        description: >-
-          Creates or updates a new dashboard or updates an existing dashboard. Please ensure to change the region in the URL to match your account's region.
+        description: |
+          Creates or updates a new dashboard or updates an existing dashboard. 
+          Please ensure to change the region in the URL to match your account's region.
         tags:
           - Grafana dashboards
         parameters:
@@ -3052,8 +3085,9 @@ paths:
       get:
         operationId: getDashboarById
         summary: Get dashboard by uid
-        description: >-
-          Will return the dashboard given the dashboard unique identifier (uid). Information about the unique identifier of a folder containing the requested dashboard might be found in the metadata. Please ensure to change the region in the URL to match your account's region.
+        description: |
+          Will return the dashboard given the dashboard unique identifier (uid). Information about the unique identifier of a folder containing the requested dashboard might be found in the metadata. 
+          Please ensure to change the region in the URL to match your account's region.
         tags:
           - Grafana dashboards
         parameters:
@@ -3130,8 +3164,9 @@ paths:
       delete:
         operationId: deleteDashboarById
         summary: Delete dashboard by uid
-        description: >-
-          Will delete the dashboard given the specified unique identifier (uid). Please ensure to change the region in the URL to match your account's region.
+        description: |
+          Will delete the dashboard given the specified unique identifier (uid). 
+          Please ensure to change the region in the URL to match your account's region.
         tags:
           - Grafana dashboards
         parameters:
@@ -3163,8 +3198,9 @@ paths:
       get:
         operationId: getHomeDashboard
         summary: Get home dashboard
-        description: >-
-          Will return the home dashboard. Please ensure to change the region in the URL to match your account's region.
+        description: |
+          Will return the home dashboard. 
+          Please ensure to change the region in the URL to match your account's region.
         tags:
           - Grafana dashboards
         responses:
@@ -3248,8 +3284,9 @@ paths:
       get:
         operationId: getDashboardTags
         summary: Get all tags of dashboards
-        description: >-
-          Will return all tags for all dashboard. Please ensure to change the region in the URL to match your account's region.
+        description: |
+          Will return all tags for all dashboard. 
+          Please ensure to change the region in the URL to match your account's region.
         tags:
           - Grafana dashboards
         responses:
@@ -3274,8 +3311,9 @@ paths:
       get:
         operationId: getAllDashboardVersions
         summary: Get all dashboard versions
-        description: >-
-          Gets all existing dashboard versions for the dashboard with the given dashboardId. Please ensure to change the region in the URL to match your account's region.
+        description: |
+          Gets all existing dashboard versions for the dashboard with the given dashboardId. 
+          Please ensure to change the region in the URL to match your account's region.
         tags:
           - Grafana dashboards
         parameters:
@@ -3340,8 +3378,9 @@ paths:
       get:
         operationId: getDashboardVersion
         summary: Get dashboard version
-        description: >-
-          Get the dashboard version with the given id, for the dashboard with the given id. Please ensure to change the region in the URL to match your account's region.
+        description: |
+          Get the dashboard version with the given id, for the dashboard with the given id. 
+          Please ensure to change the region in the URL to match your account's region.
         parameters:
           - in: path
             name: dashboardId
@@ -3534,8 +3573,9 @@ paths:
       post:
         operationId: restoreDashboard
         summary: Restore a dashboard
-        description: >-
-          Restores a dashboard to a given dashboard version. Please ensure to change the region in the URL to match your account's region.
+        description: |
+          Restores a dashboard to a given dashboard version. 
+          Please ensure to change the region in the URL to match your account's region.
         tags:
           - Grafana dashboards
         parameters:
@@ -3575,8 +3615,9 @@ paths:
       post:
         operationId: compareDashboard
         summary: Compare dashboards
-        description: >-
-          Compares two dashboard versions by calculating the JSON diff of them. Please ensure to change the region in the URL to match your account's region.
+        description: |
+          Compares two dashboard versions by calculating the JSON diff of them. 
+          Please ensure to change the region in the URL to match your account's region.
         tags:
           - Grafana dashboards
         parameters:
@@ -3617,8 +3658,9 @@ paths:
       get:
         operationId: searchDashboard
         summary: Search folders and dashboards
-        description: >-
-          Search folders and dashboards. Please ensure to change the region in the URL to match your account's region.
+        description: |
+          Search folders and dashboards. 
+          Please ensure to change the region in the URL to match your account's region.
         tags:
           - Grafana dashboard search
         parameters:
@@ -3713,8 +3755,9 @@ paths:
       get:
         operationId: getGrafanaSnapshot
         summary: Get list of Snapshots
-        description: >-
-          Get list of Snapshots. Please ensure to change the region in the URL to match your account's region.
+        description: |
+          Get list of Snapshots. 
+          Please ensure to change the region in the URL to match your account's region.
         tags:
           - Grafana snapshots
         parameters:
@@ -3780,8 +3823,9 @@ paths:
       post:
         operationId: postGrafanaSnapshot
         summary: Create a snapshot
-        description: >-
-          Creates a snapshot. Please ensure to change the region in the URL to match your account's region.
+        description: |
+          Creates a snapshot. 
+          Please ensure to change the region in the URL to match your account's region.
         tags:
           - Grafana snapshots
         parameters:
@@ -3848,8 +3892,9 @@ paths:
       get:
         operationId: getGrafanaSnapshotbyKey
         summary: Get Snapshot by Key
-        description: >-
-          Gets Snapshot by Key. Please ensure to change the region in the URL to match your account's region.
+        description: |
+          Gets Snapshot by Key. 
+          Please ensure to change the region in the URL to match your account's region.
         tags:
           - Grafana snapshots
         parameters:
@@ -3981,8 +4026,9 @@ paths:
       get:
         operationId: deleteGrafanaSnapshotbyDeleteKey
         summary: Delete snapshot by deleteKey
-        description: >-
-          Delete snapshot by deleteKey. Please ensure to change the region in the URL to match your account's region.
+        description: |
+          Delete snapshot by deleteKey. 
+          Please ensure to change the region in the URL to match your account's region.
         tags:
           - Grafana snapshots
         parameters:
@@ -4253,7 +4299,9 @@ paths:
       tags:
         - Associated accounts
       operationId: getRelatedAccounts
-      description: Returns a list of all accounts derived from the accountId for which the API-TOKEN (specified in the X-API-TOKEN header) was issued. If the API-TOKEN is issued for an owner account, it will return all sub-accounts (including security, tracing) and the owner account. If it’s not an owner account, it will return only one associated account. Please ensure to change the region in the URL to match your account's region.
+      description: |
+        Returns a list of all accounts derived from the accountId for which the API-TOKEN (specified in the X-API-TOKEN header) was issued. If the API-TOKEN is issued for an owner account, it will return all sub-accounts (including security, tracing) and the owner account. If it’s not an owner account, it will return only one associated account.
+        Please ensure to change the region in the URL to match your account's region.
       consumes:
         - application/json
       produces:
@@ -4286,7 +4334,9 @@ paths:
   /v1/authentication/groups:
     get:
       summary: Get authentication groups
-      description: Returns a list of all existing authentication groups. Please ensure to change the region in the URL to match your account's region.
+      description: |
+        Returns a list of all existing authentication groups. 
+        Please ensure to change the region in the URL to match your account's region.
       tags:
         - Authentication groups
       operationId: getAuthGroups
@@ -4388,8 +4438,9 @@ paths:
               $ref: '#/definitions/TimeBasedAccount'
     post:
       summary: Create a sub account
-      description: >-
-        Creates a new logging sub account. Must be run with an API token from the main account. Please ensure to change the region in the URL to match your account's region.
+      description: |
+        Creates a new logging sub account. Must be run with an API token from the main account. 
+        Please ensure to change the region in the URL to match your account's region.
       tags:
         - Manage time-based log accounts
       operationId: createTimeBasedAccount
@@ -4410,7 +4461,9 @@ paths:
   /v1/account-management/time-based-accounts/{id}:
     get:
       summary: Retrieve account settings by ID
-      description: Returns account configuration settings as a JSON object. Must be run with an API token from the main account. Please ensure to change the region in the URL to match your account's region.
+      description: |
+        Returns account configuration settings as a JSON object. Must be run with an API token from the main account. 
+        Please ensure to change the region in the URL to match your account's region.
       tags:
         - Manage time-based log accounts
       operationId: get
@@ -4462,7 +4515,9 @@ paths:
           description: successful operation
     delete:
       summary: Delete a sub account
-      description: Deletes a sub account by its account ID. Must be run with an API token from the main account. Please ensure to change the region in the URL to match your account's region.
+      description: |
+        Deletes a sub account by its account ID. Must be run with an API token from the main account. 
+        Please ensure to change the region in the URL to match your account's region.
       tags:
         - Manage time-based log accounts
       operationId: deleteTimeBasedAccount
@@ -4501,7 +4556,9 @@ paths:
   /v1/account-management/time-based-accounts/detailed/{id}:
     get:
       summary: Retrieve detailed account information by account ID
-      description: Returns detailed account information. Must be run with an API token from the main account. Please ensure to change the region in the URL to match your account's region.
+      description: |
+        Returns detailed account information. Must be run with an API token from the main account. 
+        Please ensure to change the region in the URL to match your account's region.
       tags:
         - Manage time-based log accounts
       operationId: getDetailedTimeBasedAccount
@@ -4804,7 +4861,9 @@ paths:
             $ref: '#/definitions/ArchiveSettingsResponse'
     post:
       summary: Set up archiving
-      description: Configure archiving for a time-based log account. One archive can be configured per account (or sub account). For more on this, see [AWS Access with IAM](https://docs.logz.io/user-guide/give-aws-access-with-iam-roles/) and [Archiving](https://docs.logz.io/user-guide/archive-and-restore/configure-archiving.html). Please ensure to change the region in the URL to match your account's region.
+      description: |
+        Configure archiving for a time-based log account. One archive can be configured per account (or sub account). For more on this, see [AWS Access with IAM](https://docs.logz.io/user-guide/give-aws-access-with-iam-roles/) and [Archiving](https://docs.logz.io/user-guide/archive-and-restore/configure-archiving.html). 
+        Please ensure to change the region in the URL to match your account's region.
       tags:
         - Archive logs
       operationId: createSettings
@@ -4824,7 +4883,9 @@ paths:
   /v2/archive/settings/test:
     post:
       summary: Test archive settings
-      description: Tests the settings and returns the status code to confirm that a connection with the provider was established. Please ensure to change the region in the URL to match your account's region.
+      description: |
+        Tests the settings and returns the status code to confirm that a connection with the provider was established. 
+        Please ensure to change the region in the URL to match your account's region.
       tags:
         - Archive logs
       operationId: testSettings
@@ -4844,7 +4905,9 @@ paths:
   /v2/archive/settings/{id}:
     get:
       summary: Retrieve archive settings
-      description: Retrieves an archiving settings by the ID of the settings. Please ensure to change the region in the URL to match your account's region.
+      description: |
+        Retrieves an archiving settings by the ID of the settings. 
+        Please ensure to change the region in the URL to match your account's region.
       tags:
         - Archive logs
       operationId: getSettings
@@ -4906,7 +4969,9 @@ paths:
           description: successful operation
     delete:
       summary: Delete archive settings
-      description: Deletes the archiving settings for a time-based log account. Please ensure to change the region in the URL to match your account's region.
+      description: |
+        Deletes the archiving settings for a time-based log account. 
+        Please ensure to change the region in the URL to match your account's region.
       tags:
         - Archive logs
       operationId: deleteSettings
@@ -4930,7 +4995,9 @@ paths:
   /archive/restore:
     get:
       summary: Retrieve all restore operations
-      description: Returns a complete history of all restore operations initiated for the account. Please ensure to change the region in the URL to match your account's region.
+      description: |
+        Returns a complete history of all restore operations initiated for the account. 
+        Please ensure to change the region in the URL to match your account's region.
       tags:
           - Restore logs
       operationId: getRestoreRequestsForAccountApi
@@ -4949,7 +5016,9 @@ paths:
           headers: {}
     post:
       summary: Initiate restore operation
-      description: Initiates a new operation to restore data from a specific time frame. (As a result, also triggers the creation of a temporary restored account in Logz.io to hold the restored data until its automatic expiration.) Please ensure to change the region in the URL to match your account's region.
+      description: |
+        Initiates a new operation to restore data from a specific time frame. (As a result, also triggers the creation of a temporary restored account in Logz.io to hold the restored data until its automatic expiration.) 
+        Please ensure to change the region in the URL to match your account's region.
       tags:
         - Restore logs
       operationId: createRestore
@@ -4972,7 +5041,9 @@ paths:
   /archive/restore/{id}:
     get:
       summary: Get an update on a restore operation
-      description: Returns the status of a specific restore operation by its ID. Please ensure to change the region in the URL to match your account's region.
+      description: |
+        Returns the status of a specific restore operation by its ID. 
+        Please ensure to change the region in the URL to match your account's region.
       tags:
         - Restore logs
       operationId: getRestoreRequestByIdApi
@@ -4991,7 +5062,9 @@ paths:
           headers: {}
     delete:
       summary: Delete a restore operation
-      description: Aborts a restore process before its completion. Please ensure to change the region in the URL to match your account's region.
+      description: |
+        Aborts a restore process before its completion. 
+        Please ensure to change the region in the URL to match your account's region.
       tags:
         - Restore logs
       operationId: abortRestoreRequestApi
@@ -5014,7 +5087,9 @@ paths:
     post:
       operationId: getSawmillTestType
       summary: Parse sample logs with a Sawmill pipeline
-      description: Performs parsing of sample logs with a given Sawmill pipeline (https://github.com/logzio/sawmill/wiki). A pipeline is a collection of parsing rules to be executed in a specific order where the syntax and functionality follow the guidelines of the Sawmill library. **Note:** this endpoint is not used to create or update parsing, but for testing purposes only. Please ensure to change the region in the URL to match your account's region.
+      description: |
+        Performs parsing of sample logs with a given Sawmill pipeline (https://github.com/logzio/sawmill/wiki). A pipeline is a collection of parsing rules to be executed in a specific order where the syntax and functionality follow the guidelines of the Sawmill library. **Note:** this endpoint is not used to create or update parsing, but for testing purposes only. 
+        Please ensure to change the region in the URL to match your account's region.
       tags:
         - Parsing
       produces:
@@ -5066,7 +5141,9 @@ paths:
     get:
       operationId: getLogType
       summary: Get pipeline definition for a log type
-      description: Receive pipeline definition for a given log type, if the definition is already stored. Please ensure to change the region in the URL to match your account's region.
+      description: |
+        Receive pipeline definition for a given log type, if the definition is already stored. 
+        Please ensure to change the region in the URL to match your account's region.
       tags:
         - Parsing
       produces:
@@ -5096,7 +5173,9 @@ paths:
     post:
       operationId: postSawmillMappingFile
       summary: Upload an external mapping file to Logz.io storage.
-      description: Uploads an external mapping file in `.properties` format to Logz.io storage. This file can be used later by Sawmill [ExternalMappingSourceProcessor](https://github.com/logzio/sawmill/wiki/External-Mapping-Source-Processor). This feature is not available by default. To enable it, contact Logz.io support. 10 files can be uploaded per account. The file size is limited to 50 MB. Please ensure to change the region in the URL to match your account's region.
+      description: |
+        Uploads an external mapping file in `.properties` format to Logz.io storage. This file can be used later by Sawmill [ExternalMappingSourceProcessor](https://github.com/logzio/sawmill/wiki/External-Mapping-Source-Processor). This feature is not available by default. To enable it, contact Logz.io support. 10 files can be uploaded per account. The file size is limited to 50 MB. 
+        Please ensure to change the region in the URL to match your account's region.
       tags:
         - Parsing
       produces:
@@ -5154,7 +5233,9 @@ paths:
     get:
       operationId: getLogTypes
       summary: Get all log types
-      description: Get all log types for a given account including the log types with no parsing attached. Please ensure to change the region in the URL to match your account's region.
+      description: |
+        Get all log types for a given account including the log types with no parsing attached. 
+        Please ensure to change the region in the URL to match your account's region.
       tags:
         - Parsing
       produces:
@@ -5174,7 +5255,9 @@ paths:
     get:
       operationId: getAllAlerts
       summary: Retrieve all alerts
-      description: Returns the complete list of all alerts configured for the account. Please ensure to change the region in the URL to match your account's region.
+      description: |
+        Returns the complete list of all alerts configured for the account. 
+        Please ensure to change the region in the URL to match your account's region.
       tags:
         - Alerts
       produces:
@@ -5190,7 +5273,9 @@ paths:
           headers: {}
     post:
       summary: Create an alert
-      description: Configures and activates a new alert. Please ensure to change the region in the URL to match your account's region.
+      description: |
+        Configures and activates a new alert. 
+        Please ensure to change the region in the URL to match your account's region.
       tags:
         - Alerts
       operationId: createAlert
@@ -5211,7 +5296,9 @@ paths:
   /v2/alerts/{alertId}:
     get:
       summary: Retrieve alert by ID
-      description: Returns alert details by alert ID. Please ensure to change the region in the URL to match your account's region.
+      description: |
+        Returns alert details by alert ID. 
+        Please ensure to change the region in the URL to match your account's region.
       tags:
         - Alerts
       operationId: getAlert
@@ -5233,7 +5320,9 @@ paths:
           headers: {}
     put:
       summary: Update an alert
-      description: Applies changes to an alert, identified by its ID. Can be used to enable or disable the alert. Please ensure to change the region in the URL to match your account's region.
+      description: |
+        Applies changes to an alert, identified by its ID. Can be used to enable or disable the alert. 
+        Please ensure to change the region in the URL to match your account's region.
       tags:
         - Alerts
       operationId: updateAlert
@@ -5260,7 +5349,9 @@ paths:
     delete:
       operationId: deleteAlert
       summary: Delete an alert
-      description: Deletes an alert identified by its ID. Please ensure to change the region in the URL to match your account's region.
+      description: |
+        Deletes an alert identified by its ID. 
+        Please ensure to change the region in the URL to match your account's region.
       tags:
         - Alerts
       produces:
@@ -5282,7 +5373,9 @@ paths:
   /v2/alerts/{id}/enable:
     post:
       summary: Enable alert by ID
-      description: Enables an alert by its alert ID. This is reversible. The alert can be disabled again at any time. Please ensure to change the region in the URL to match your account's region.
+      description: |
+        Enables an alert by its alert ID. This is reversible. The alert can be disabled again at any time. 
+        Please ensure to change the region in the URL to match your account's region.
       operationId: enableAlert
       tags:
         - Alerts
@@ -5303,7 +5396,9 @@ paths:
     post:
       operationId: disableAlert
       summary: Disable alert by ID
-      description: Disables an alert by its alert ID. This is reversible. The alert can be enabled again at any time. Please ensure to change the region in the URL to match your account's region.
+      description: |
+        Disables an alert by its alert ID. This is reversible. The alert can be enabled again at any time. 
+        Please ensure to change the region in the URL to match your account's region.
       tags:
         - Alerts
       produces:
@@ -5326,7 +5421,9 @@ paths:
     post:
       operationId: TriggeredAlerts
       summary: Retrieve triggered alerts
-      description: Returns a paged filtered list of triggered alerts for your accounts. Please ensure to change the region in the URL to match your account's region.
+      description: |
+        Returns a paged filtered list of triggered alerts for your accounts. 
+        Please ensure to change the region in the URL to match your account's region.
       tags:
         - Alerts
       produces:
@@ -5400,7 +5497,9 @@ paths:
         - Deployments
       operationId: createMarkers
       summary: Add deployment markers to Exception graphs
-      description: Send logs with details of service deployments to annotate Exception graphs in Kibana Discover. [Learn more about Deployment markers](https://docs.logz.io/docs/user-guide/log-management/opensearch-dashboards/opensearch-deployment-markers) Please ensure to change the region in the URL to match your account's region.
+      description: |
+        Send logs with details of service deployments to annotate Exception graphs in Kibana Discover. [Learn more about Deployment markers](https://docs.logz.io/docs/user-guide/log-management/opensearch-dashboards/opensearch-deployment-markers) 
+        Please ensure to change the region in the URL to match your account's region.
       produces:
         - application/json
       parameters:
@@ -5448,7 +5547,9 @@ paths:
     post:
       operationId: listAccountAuditTrails
       summary: Retrieve all event types in the audit trail
-      description: Returns an array of strings. Each string is an event type that appears in the account's audit trail. Each event type is shown once, no matter how many times it occurs in the account's audit trail. Please ensure to change the region in the URL to match your account's region.
+      description: |
+        Returns an array of strings. Each string is an event type that appears in the account's audit trail. Each event type is shown once, no matter how many times it occurs in the account's audit trail. 
+        Please ensure to change the region in the URL to match your account's region.
       tags:
         - Retrieve audit trail
       responses:
@@ -5608,9 +5709,9 @@ paths:
   /v1/log-shipping/s3-buckets:
     get:
       summary: Retrieve all connected S3 buckets
-      description: >-
-        Returns a list of all S3 buckets connected to your Logz.io account. Please ensure to change the region in the URL to match your account's region.
-
+      description: |
+        Returns a list of all S3 buckets connected to your Logz.io account. 
+        Please ensure to change the region in the URL to match your account's region.
       tags:
         - Connect to S3 Buckets
       operationId: getS3Buckets
@@ -5628,9 +5729,8 @@ paths:
               $ref: '#/definitions/S3BucketResponse'
     post:
       summary: Create a new S3 bucket connector
-      description: >-
+      description: |
         Establishes a new connection of the Logz.io fetcher to an AWS S3 bucket. As a result, logs from your AWS resource will begin shipping to the connected Logz.io account via an AWS S3 bucket.
-
 
         Logs will be parsed using the Logz.io custom parsing pipeline for the resource.
 
@@ -5655,8 +5755,9 @@ paths:
   '/v1/log-shipping/s3-buckets/{id}':
     get:
       summary: Retrieve an S3 bucket connector by ID
-      description: >-
-        Returns connection details for an S3 bucket connector by its ID. Please ensure to change the region in the URL to match your account's region.
+      description: |
+        Returns connection details for an S3 bucket connector by its ID. 
+        Please ensure to change the region in the URL to match your account's region.
 
       tags:
         - Connect to S3 Buckets
@@ -5679,8 +5780,9 @@ paths:
               $ref: '#/definitions/S3BucketResponse'
     put:
       summary: Update an S3 bucket connector
-      description: >-
-        Updates connection details for an S3 bucket connector. Please ensure to change the region in the URL to match your account's region.
+      description: |
+        Updates connection details for an S3 bucket connector. 
+        Please ensure to change the region in the URL to match your account's region.
 
       tags:
         - Connect to S3 Buckets
@@ -5706,8 +5808,9 @@ paths:
           description: successful operation
     delete:
       summary: Delete an S3 connector
-      description: >-
-        Deletes an S3 bucket connector. As a result, the connected AWS resource will stop shipping logs to your Logz.io account. Please ensure to change the region in the URL to match your account's region.
+      description: |
+        Deletes an S3 bucket connector. As a result, the connected AWS resource will stop shipping logs to your Logz.io account. 
+        Please ensure to change the region in the URL to match your account's region.
 
       tags:
         - Connect to S3 Buckets
@@ -5763,7 +5866,9 @@ paths:
       summary: Create a Slack endpoint
       tags:
         - Manage notification endpoints
-      description: Creates a new Slack notification endpoint or sends a test message to Slack. Please ensure to change the region in the URL to match your account's region.
+      description: |
+        Creates a new Slack notification endpoint or sends a test message to Slack. 
+        Please ensure to change the region in the URL to match your account's region.
       parameters:
         - name: test
           in: query
@@ -5791,7 +5896,9 @@ paths:
       tags:
         - Manage notification endpoints
       summary: Update Slack endpoint
-      description: Updates a Slack notification endpoint or sends a test message to Slack. Please ensure to change the region in the URL to match your account's region.
+      description: |
+        Updates a Slack notification endpoint or sends a test message to Slack. 
+        Please ensure to change the region in the URL to match your account's region.
       operationId: updateSlack
       parameters:
         - name: id
@@ -5826,7 +5933,9 @@ paths:
       tags:
         - Manage notification endpoints
       summary: Create a custom notification endpoint
-      description: Creates a new notification endpoint for a custom integration or sends a test message to the custom endpoint. Please ensure to change the region in the URL to match your account's region.
+      description: |
+        Creates a new notification endpoint for a custom integration or sends a test message to the custom endpoint. 
+        Please ensure to change the region in the URL to match your account's region.
       operationId: createCustom
       parameters:
         - name: test
@@ -5855,7 +5964,9 @@ paths:
       tags:
         - Manage notification endpoints
       summary: Update a custom notification endpoint
-      description: Updates a new notification endpoint for a custom integration or sends a test message to the custom endpoint. Please ensure to change the region in the URL to match your account's region.
+      description: |
+        Updates a new notification endpoint for a custom integration or sends a test message to the custom endpoint. 
+        Please ensure to change the region in the URL to match your account's region.
       operationId: updateCustom
       parameters:
         - name: id
@@ -5889,7 +6000,9 @@ paths:
       tags:
         - Manage notification endpoints
       summary: Create a PagerDuty endpoint
-      description: Creates a new PagerDuty notification endpoint or sends a test message to PagerDuty. Please ensure to change the region in the URL to match your account's region.
+      description: |
+        Creates a new PagerDuty notification endpoint or sends a test message to PagerDuty. 
+        Please ensure to change the region in the URL to match your account's region.
       operationId: createPagerDuty
       parameters:
         - name: test
@@ -5918,7 +6031,9 @@ paths:
       tags:
         - Manage notification endpoints
       summary: Update a PagerDuty endpoint
-      description: Updates a PagerDuty notification endpoint or sends a test message to PagerDuty. Please ensure to change the region in the URL to match your account's region.
+      description: |
+        Updates a PagerDuty notification endpoint or sends a test message to PagerDuty. 
+        Please ensure to change the region in the URL to match your account's region.
       operationId: updatePagerDuty
       parameters:
         - name: id
@@ -5953,7 +6068,9 @@ paths:
       tags:
         - Manage notification endpoints
       summary: Create a BigPanda endpoint
-      description: Creates a new BigPanda notification endpoint or sends a test message to BigPanda. Please ensure to change the region in the URL to match your account's region.
+      description: |
+        Creates a new BigPanda notification endpoint or sends a test message to BigPanda. 
+        Please ensure to change the region in the URL to match your account's region.
       operationId: createBigPanda
       parameters:
         - name: test
@@ -5982,7 +6099,9 @@ paths:
       tags:
         - Manage notification endpoints
       summary: Update a BigPanda endpoint
-      description: Updates a BigPanda notification endpoint or sends a test message to BigPanda. Please ensure to change the region in the URL to match your account's region.
+      description: |
+        Updates a BigPanda notification endpoint or sends a test message to BigPanda. 
+        Please ensure to change the region in the URL to match your account's region.
       operationId: updateBigPanda
       parameters:
         - name: id
@@ -6017,7 +6136,9 @@ paths:
       tags:
         - Manage notification endpoints
       summary: Create a Datadog endpoint
-      description: Creates a new Datadog notification endpoint or sends a test message to Datadog. Please ensure to change the region in the URL to match your account's region.
+      description: |
+        Creates a new Datadog notification endpoint or sends a test message to Datadog. 
+        Please ensure to change the region in the URL to match your account's region.
       operationId: createDataDog
       parameters:
         - name: test
@@ -6046,7 +6167,9 @@ paths:
       tags:
         - Manage notification endpoints
       summary: Update a Datadog endpoint
-      description: Updates a Datadog notification endpoint or sends a test message to Datadog. Please ensure to change the region in the URL to match your account's region.
+      description: |
+        Updates a Datadog notification endpoint or sends a test message to Datadog. 
+        Please ensure to change the region in the URL to match your account's region.
       operationId: updateDataDog
       parameters:
         - name: id
@@ -6081,7 +6204,9 @@ paths:
       tags:
         - Manage notification endpoints
       summary: Create a VictorOps endpoint
-      description: Creates a new VictorOps notification endpoint or sends a test message to VictorOps. Please ensure to change the region in the URL to match your account's region.
+      description: |
+        Creates a new VictorOps notification endpoint or sends a test message to VictorOps. 
+        Please ensure to change the region in the URL to match your account's region.
       operationId: createVictorops
       parameters:
         - name: test
@@ -6110,7 +6235,9 @@ paths:
       tags:
         - Manage notification endpoints
       summary: Update a VictorOps endpoint
-      description: Updates a VictorOps notification endpoint or sends a test message to VictorOps. Please ensure to change the region in the URL to match your account's region.
+      description: |
+        Updates a VictorOps notification endpoint or sends a test message to VictorOps. 
+        Please ensure to change the region in the URL to match your account's region.
       operationId: updateVictorops
       parameters:
         - name: id
@@ -6145,7 +6272,9 @@ paths:
       tags:
         - Manage notification endpoints
       summary: Retrieve an endpoint by ID
-      description: Returns a JSON object representing a notification endpoint configured in the account. Please ensure to change the region in the URL to match your account's region.
+      description: |
+        Returns a JSON object representing a notification endpoint configured in the account. 
+        Please ensure to change the region in the URL to match your account's region.
       operationId: getEndpointById
       parameters:
         - name: id
@@ -6164,7 +6293,9 @@ paths:
       tags:
         - Manage notification endpoints
       summary: Delete an endpoint
-      description: Deletes a notification endpoint. Please ensure to change the region in the URL to match your account's region.
+      description: |
+        Deletes a notification endpoint. 
+        Please ensure to change the region in the URL to match your account's region.
       operationId: deleteEndpoint
       parameters:
         - name: id
@@ -6182,7 +6313,9 @@ paths:
       tags:
         - Manage notification endpoints
       summary: Retrieve all notification endpoints
-      description: Returns an array of JSON objects. Each object represents a notification endpoint configured in the account. Please ensure to change the region in the URL to match your account's region.
+      description: |
+        Returns an array of JSON objects. Each object represents a notification endpoint configured in the account. 
+        Please ensure to change the region in the URL to match your account's region.
       operationId: getAllEndpoints
       
       responses:
@@ -6197,7 +6330,9 @@ paths:
       tags:
         - Manage notification endpoints
       summary: Create an OpsGenie endpoint
-      description: Creates a new OpsGenie  notification endpoint or sends a test message to OpsGenie. Please ensure to change the region in the URL to match your account's region.
+      description: |
+        Creates a new OpsGenie  notification endpoint or sends a test message to OpsGenie. 
+        Please ensure to change the region in the URL to match your account's region.
       operationId: createOpsGenie
       parameters:
         - name: test
@@ -6226,7 +6361,9 @@ paths:
       tags:
         - Manage notification endpoints
       summary: Update an OpsGenie endpoint
-      description: Updates an OpsGenie notification endpoint or sends a test message to OpsGenie. Please ensure to change the region in the URL to match your account's region.
+      description: |
+        Updates an OpsGenie notification endpoint or sends a test message to OpsGenie. 
+        Please ensure to change the region in the URL to match your account's region.
       operationId: updateOpsGenie
       parameters:
         - name: id
@@ -6261,7 +6398,9 @@ paths:
       tags:
         - Manage notification endpoints
       summary: Create an ServiceNow endpoint
-      description: Creates a new ServiceNow  notification endpoint or sends a test message to ServiceNow. Please ensure to change the region in the URL to match your account's region.
+      description: |
+        Creates a new ServiceNow  notification endpoint or sends a test message to ServiceNow. 
+        Please ensure to change the region in the URL to match your account's region.
       operationId: createServiceNow
       parameters:
         - name: test
@@ -6290,7 +6429,9 @@ paths:
       tags:
         - Manage notification endpoints
       summary: Update an ServiceNow endpoint
-      description: Updates an ServiceNow notification endpoint or sends a test message to ServiceNow. Please ensure to change the region in the URL to match your account's region.
+      description: |
+        Updates an ServiceNow notification endpoint or sends a test message to ServiceNow. 
+        Please ensure to change the region in the URL to match your account's region.
       operationId: updateServiceNow
       parameters:
         - name: id
@@ -6325,7 +6466,9 @@ paths:
       tags:
         - Manage notification endpoints
       summary: Create an  Microsoft Teams endpoint
-      description: Creates a new  Microsoft Teams  notification endpoint or sends a test message to  Microsoft Teams. Please ensure to change the region in the URL to match your account's region.
+      description: |
+        Creates a new  Microsoft Teams  notification endpoint or sends a test message to  Microsoft Teams. 
+        Please ensure to change the region in the URL to match your account's region.
       operationId: createMicrosoftTeams
       parameters:
         - name: test
@@ -6354,7 +6497,9 @@ paths:
       tags:
         - Manage notification endpoints
       summary: Update an Microsoft Teams endpoint
-      description: Updates an Microsoft Teams notification endpoint or sends a test message to Microsoft Teams. Please ensure to change the region in the URL to match your account's region.
+      description: |
+        Updates an Microsoft Teams notification endpoint or sends a test message to Microsoft Teams. 
+        Please ensure to change the region in the URL to match your account's region.
       operationId: updateMicrosoftTeams
       parameters:
         - name: id
@@ -6416,7 +6561,9 @@ paths:
       tags:
         - Import or export Kibana objects
       summary: Import Kibana objects
-      description: Imports Kibana search, visualization, or dashboard objects. You can export objects using the [/kibana/export](#operation/exportSavedObjects) endpoint. Please ensure to change the region in the URL to match your account's region.
+      description: |
+        Imports Kibana search, visualization, or dashboard objects. You can export objects using the [/kibana/export](#operation/exportSavedObjects) endpoint. 
+        Please ensure to change the region in the URL to match your account's region.
       operationId: importSavedObjects
       parameters:
         - in: body
@@ -6437,7 +6584,9 @@ paths:
       tags:
         - Manage log shipping tokens
       summary: Create a log shipping token
-      description: Creates a log shipping token for this account. Please ensure to change the region in the URL to match your account's region.
+      description: |
+        Creates a log shipping token for this account. 
+        Please ensure to change the region in the URL to match your account's region.
       operationId: createNewLogShippingToken
       parameters:
         - in: body
@@ -6455,7 +6604,9 @@ paths:
       tags:
         - Manage log shipping tokens
       summary: Retrieve a log shipping token by ID
-      description: Returns details for the specified shipping token. Please ensure to change the region in the URL to match your account's region.
+      description: |
+        Returns details for the specified shipping token. 
+        Please ensure to change the region in the URL to match your account's region.
       operationId: getLogShippingTokenById
       parameters:
         - name: id
@@ -6474,7 +6625,9 @@ paths:
       tags:
         - Manage log shipping tokens
       summary: Update a log shipping token
-      description: Enables/disables a log shipping token and/or renames it. Please ensure to change the region in the URL to match your account's region.
+      description: |
+        Enables/disables a log shipping token and/or renames it. 
+        Please ensure to change the region in the URL to match your account's region.
       operationId: updateLogShippingToken
       parameters:
         - name: id
@@ -6541,7 +6694,9 @@ paths:
       tags:
         - Manage log shipping tokens
       summary: Retrieve log shipping tokens
-      description: Returns the relevant shipping tokens, filtered, sorted and paginated as per the request. Please ensure to change the region in the URL to match your account's region.
+      description: |
+        Returns the relevant shipping tokens, filtered, sorted and paginated as per the request. 
+        Please ensure to change the region in the URL to match your account's region.
       operationId: searchLogShippingTokens
       parameters:
         - in: body
@@ -7009,7 +7164,9 @@ paths:
       tags:
         - Logz.io snapshots
       summary: Create a snapshot
-      description: Creates a new Kibana snapshot and shares with recipients through email or notification endpoint. Please ensure to change the region in the URL to match your account's region.
+      description: |
+        Creates a new Kibana snapshot and shares with recipients through email or notification endpoint. 
+        Please ensure to change the region in the URL to match your account's region.
       operationId: createSnapshot
       parameters:
         - in: body
@@ -7028,7 +7185,9 @@ paths:
       tags:
         - Logz.io snapshots
       summary: Retrieve a snapshot by ID
-      description: Returns the details of a snapshot, such as status and the snapshot image URL. Please ensure to change the region in the URL to match your account's region.
+      description: |
+        Returns the details of a snapshot, such as status and the snapshot image URL. 
+        Please ensure to change the region in the URL to match your account's region.
       operationId: getSnapshot
       parameters:
         - name: snapshotId
@@ -7073,7 +7232,9 @@ paths:
   /v1/user-management:
     get:
       summary: Retrieve all users
-      description: Returns a list of users as an array of JSON objects. If you run this endpoint without the accountID, then you will retrieve all users within the account the token of which you provide. If you run this endpoint with the accountID, then you will retrieve users only from the given accountID. In this case you must run it with the token of the main account that the accountID belongs to. Please ensure to change the region in the URL to match your account's region.
+      description: |
+        Returns a list of users as an array of JSON objects. If you run this endpoint without the accountID, then you will retrieve all users within the account the token of which you provide. If you run this endpoint with the accountID, then you will retrieve users only from the given accountID. In this case you must run it with the token of the main account that the accountID belongs to. 
+        Please ensure to change the region in the URL to match your account's region.
       tags:
         - Manage users
       operationId: listUsers
@@ -7121,7 +7282,9 @@ paths:
       tags:
         - Manage users
       summary: Retrieve a user by ID
-      description: Returns user information and permissions as a JSON object. Please ensure to change the region in the URL to match your account's region.
+      description: |
+        Returns user information and permissions as a JSON object. 
+        Please ensure to change the region in the URL to match your account's region.
       operationId: getUser
       parameters:
         - name: id
@@ -7140,7 +7303,9 @@ paths:
       tags:
         - Manage users
       summary: Update a user
-      description: Changes an existing user's details or permissions. If you run this endpoint with the token of the main account, then you can perform actions on the main account or any sub-account within the main account by providing the sub-account’s accountID. If you run this endpoint with the token of the sub-account, then you can perform actions only on the given sub-account. Please ensure to change the region in the URL to match your account's region.
+      description: |
+        Changes an existing user's details or permissions. If you run this endpoint with the token of the main account, then you can perform actions on the main account or any sub-account within the main account by providing the sub-account’s accountID. If you run this endpoint with the token of the sub-account, then you can perform actions only on the given sub-account. 
+        Please ensure to change the region in the URL to match your account's region.
       operationId: updateUser
       parameters:
         - in: body
@@ -7165,7 +7330,9 @@ paths:
       tags:
         - Manage users
       summary: Delete a user
-      description: Revokes a user's access to the account. The API token determines the account the user will be deleted from. If you run this endpoint without the accountID, then you can perform actions on the account that belongs to the token you provided. If you run this endpoint with the accountID, then you will delete only the user from the given accountID. In this case you must run it with the token of the main account that the accountID belongs to. Please ensure to change the region in the URL to match your account's region.
+      description: |
+        Revokes a user's access to the account. The API token determines the account the user will be deleted from. If you run this endpoint without the accountID, then you can perform actions on the account that belongs to the token you provided. If you run this endpoint with the accountID, then you will delete only the user from the given accountID. In this case you must run it with the token of the main account that the accountID belongs to. 
+        Please ensure to change the region in the URL to match your account's region.
       operationId: deleteUser
       parameters:
         - name: id
@@ -7215,7 +7382,9 @@ paths:
       tags:
         - Manage users
       summary: Suspend a user
-      description: Locks a user's access to your accounts. Please ensure to change the region in the URL to match your account's region.
+      description: |
+        Locks a user's access to your accounts. 
+        Please ensure to change the region in the URL to match your account's region.
       operationId: suspendUser
       parameters:
         - name: id
@@ -7234,7 +7403,9 @@ paths:
       tags:
         - Manage users
       summary: Unsuspend a user
-      description: Restores a suspended user's access to your accounts. Please ensure to change the region in the URL to match your account's region.
+      description: |
+        Restores a suspended user's access to your accounts. 
+        Please ensure to change the region in the URL to match your account's region.
       operationId: unsuspendUser
       parameters:
         - name: id
@@ -7254,9 +7425,10 @@ paths:
       tags:
         - Manage users
       summary: Suspend a user from all accounts
-      description: >-
+      description: |
         Suspends a user from the main account and all associated sub accounts. Must be run with an API token for the main account.
-        The user will not be suspended from accounts for which there are no other users. In other words, any accounts where the user is the last user will be skipped. The success message will list accounts that were skipped. Please ensure to change the region in the URL to match your account's region.
+        The user will not be suspended from accounts for which there are no other users. In other words, any accounts where the user is the last user will be skipped. The success message will list accounts that were skipped. 
+        Please ensure to change the region in the URL to match your account's region.
       operationId: suspendUserRecursively
       parameters:
         - name: id
@@ -7282,8 +7454,9 @@ paths:
       tags:
         - Manage users
       summary: Unsuspend a user from all accounts
-      description: >-
-        Unsuspends a user from the main account and all associated sub accounts. Must be run with an API token for the main account. Please ensure to change the region in the URL to match your account's region.
+      description: |
+        Unsuspends a user from the main account and all associated sub accounts. Must be run with an API token for the main account. 
+        Please ensure to change the region in the URL to match your account's region.
       operationId: unsuspendUserRecursively
       parameters:
         - name: id
@@ -7311,7 +7484,9 @@ paths:
       tags:
         - Security rules
       summary: Create a security rule
-      description: Creates a new security rule and activates it. Please ensure to change the region in the URL to match your account's region.
+      description: |
+        Creates a new security rule and activates it. 
+        Please ensure to change the region in the URL to match your account's region.
       operationId: createSecurityRule
       produces:
         - application/json
@@ -7332,7 +7507,9 @@ paths:
         - Security rules
       operationId: getSecurityRule
       summary: Retrieve a security rule
-      description: Retrieves a security rule by its ID. Please ensure to change the region in the URL to match your account's region.
+      description: |
+        Retrieves a security rule by its ID. 
+        Please ensure to change the region in the URL to match your account's region.
       produces:
         - application/json
       parameters:
@@ -7350,7 +7527,9 @@ paths:
           headers: {}
     put:
       summary: Update a security rule
-      description: Applies changes to a rule, identified by its ID. Can also be used to enable or disable a rule. Please ensure to change the region in the URL to match your account's region.
+      description: |
+        Applies changes to a rule, identified by its ID. Can also be used to enable or disable a rule. 
+        Please ensure to change the region in the URL to match your account's region.
       tags:
         - Security rules
       operationId: updateSecurityRule
@@ -7374,7 +7553,9 @@ paths:
             $ref: '#/definitions/RuleV2Response'
     delete:
       summary: Delete a security rule
-      description: Deletes a security rule by its ID. Please ensure to change the region in the URL to match your account's region.
+      description: |
+        Deletes a security rule by its ID. 
+        Please ensure to change the region in the URL to match your account's region.
       tags:
         - Security rules
       operationId: deleteSecurityRule
@@ -7398,7 +7579,9 @@ paths:
         - Security rules
       operationId: searchAccountSecurityRules
       summary: Retrieve security rules
-      description: Retrieve a list of security rules for a specific Security account. The results are paginated. Filtering, sorting and pagination are all optional. If you want to get all rules, send the payload in `{}` format. Please ensure to change the region in the URL to match your account's region.
+      description: |
+        Retrieve a list of security rules for a specific Security account. The results are paginated. Filtering, sorting and pagination are all optional. If you want to get all rules, send the payload in `{}` format. 
+        Please ensure to change the region in the URL to match your account's region.
       produces:
         - application/json
       parameters: 
@@ -7420,7 +7603,9 @@ paths:
         - Security rules
       operationId: enableSecurityRule
       summary: Enable a rule
-      description: Enables a security rule by its ID. Please ensure to change the region in the URL to match your account's region.
+      description: |
+        Enables a security rule by its ID. 
+        Please ensure to change the region in the URL to match your account's region.
       produces:
         - application/json
       parameters:
@@ -7441,7 +7626,9 @@ paths:
         - Security rules
       operationId: disableSecurityRule
       summary: Disable a rule
-      description: Disables a security rule by its ID. Please ensure to change the region in the URL to match your account's region.
+      description: |
+        Disables a security rule by its ID. 
+        Please ensure to change the region in the URL to match your account's region.
       produces:
         - application/json
       parameters:
@@ -7463,7 +7650,9 @@ paths:
         - Security rules
       operationId: bulkUpdateSecurityRule
       summary: Bulk update security rules
-      description: Update security rules in bulk. Please ensure to change the region in the URL to match your account's region.
+      description: |
+        Update security rules in bulk. 
+        Please ensure to change the region in the URL to match your account's region.
       produces:
         - application/json
       parameters:
@@ -7577,7 +7766,9 @@ paths:
         - Security rules
       operationId: bulkDeleteSecurityRule
       summary: Bulk delete security rules
-      description: Delete security rules in bulk. Please ensure to change the region in the URL to match your account's region.
+      description: |
+        Delete security rules in bulk. 
+        Please ensure to change the region in the URL to match your account's region.
       produces:
         - application/json
       parameters:
@@ -7724,7 +7915,9 @@ paths:
   /v2/account-management/siem:
     post:
       summary: Create SIEM account
-      description: Creates a new SIEM account. Returns SIEM account configuration settings as a JSON object. Must be run with an API token from the your main Logs account *Logs > Settings > Manage tokens > API tokens*. Please ensure to change the region in the URL to match your account's region.
+      description: |
+        Creates a new SIEM account. Returns SIEM account configuration settings as a JSON object. Must be run with an API token from the your main Logs account *Logs > Settings > Manage tokens > API tokens*. 
+        Please ensure to change the region in the URL to match your account's region.
       tags:
         - Security account
       operationId: postSIEM
@@ -7822,7 +8015,9 @@ paths:
   /v1/drop-filters/search:
     post:
       summary: Retrieve drop filters
-      description: Returns all drop filters configured for the account, both active and inactive. Please ensure to change the region in the URL to match your account's region.
+      description: |
+        Returns all drop filters configured for the account, both active and inactive. 
+        Please ensure to change the region in the URL to match your account's region.
       tags:
         - Drop filters
       operationId: getAllForAccount
@@ -7842,7 +8037,9 @@ paths:
   /v1/drop-filters/{id}/activate:
     post:
       summary: Activate a drop filter
-      description: Activates a drop filter identified by its ID. Please ensure to change the region in the URL to match your account's region.
+      description: |
+        Activates a drop filter identified by its ID. 
+        Please ensure to change the region in the URL to match your account's region.
       tags:
         - Drop filters
       operationId: activate
@@ -7866,7 +8063,9 @@ paths:
   /v1/drop-filters/{id}/deactivate:
     post:
       summary: Deactivate a drop filter
-      description: Deactivates a drop filter identified by its ID. Please ensure to change the region in the URL to match your account's region.
+      description: |
+        Deactivates a drop filter identified by its ID. 
+        Please ensure to change the region in the URL to match your account's region.
       tags:
         - Drop filters
       operationId: deactivate
@@ -7890,7 +8089,9 @@ paths:
   /v1/drop-filters/{id}:
     delete:
       summary: Delete a drop filter
-      description: Deletes a drop filter identified by its ID. Please ensure to change the region in the URL to match your account's region.
+      description: |
+        Deletes a drop filter identified by its ID. 
+        Please ensure to change the region in the URL to match your account's region.
       tags:
         - Drop filters
       operationId: delete
@@ -7914,7 +8115,9 @@ paths:
   /v1/drop-filters:
     post:
       summary: Create drop filter
-      description: Creates and activates a new drop filter. Please ensure to change the region in the URL to match your account's region.
+      description: |
+        Creates and activates a new drop filter. 
+        Please ensure to change the region in the URL to match your account's region.
       tags:
         - Drop filters
       operationId: create
@@ -7939,7 +8142,9 @@ paths:
   /v1/lookup-lists:
     post:
       summary: Create lookup list
-      description: Creates a new lookup list. After you create the list, you can run the endpoint to add elements to the list. Please ensure to change the region in the URL to match your account's region.
+      description: |
+        Creates a new lookup list. After you create the list, you can run the endpoint to add elements to the list. 
+        Please ensure to change the region in the URL to match your account's region.
       tags:
         - Lookup lists
       operationId: createLookupList
@@ -7961,7 +8166,9 @@ paths:
   /v1/lookup-lists/search:
     post:
       summary: Get all/Search lookup lists
-      description: Searches for lookup lists by name or ID. Can also be run without a filter to return the full list of existing lookups. Returns a paginated list of results. Please ensure to change the region in the URL to match your account's region.
+      description: |
+        Searches for lookup lists by name or ID. Can also be run without a filter to return the full list of existing lookups. Returns a paginated list of results. 
+        Please ensure to change the region in the URL to match your account's region.
       tags:
         - Lookup lists
       operationId: searchLookupLists
@@ -7982,7 +8189,9 @@ paths:
   /v1/lookup-lists/{id}:
     get:
       summary: Get lookup by ID
-      description: Retrieves the general details for an existing lookup list. Please ensure to change the region in the URL to match your account's region.
+      description: |
+        Retrieves the general details for an existing lookup list. 
+        Please ensure to change the region in the URL to match your account's region.
       tags:
         - Lookup lists
       operationId: getLookupList
@@ -8003,7 +8212,9 @@ paths:
           headers: {}
     put:
       summary: Update lookup list
-      description: Update the name and/or description of an exisiting lookup list. Please ensure to change the region in the URL to match your account's region.
+      description: |
+        Update the name and/or description of an exisiting lookup list. 
+        Please ensure to change the region in the URL to match your account's region.
       tags:
         - Lookup lists
       operationId: updateLookupList
@@ -8029,7 +8240,9 @@ paths:
           headers: {}
     delete:
       summary: Delete lookup list
-      description: Deletes a lookup list. Note that this action can affect rules, dashboards, and reports if they are dependent on the lookup list. Please ensure to change the region in the URL to match your account's region.
+      description: |
+        Deletes a lookup list. Note that this action can affect rules, dashboards, and reports if they are dependent on the lookup list. 
+        Please ensure to change the region in the URL to match your account's region.
       tags:
         - Lookup lists
       operationId: deleteLookupList
@@ -8052,7 +8265,9 @@ paths:
   /v1/lookup-lists/{lookupListId}/elements:
     post:
       summary: Add element to a lookup list
-      description: Adds a new element to an existing lookup list. An element is a field value and comment (helpful description that does not affect the lookup functionally). Please ensure to change the region in the URL to match your account's region.
+      description: |
+        Adds a new element to an existing lookup list. An element is a field value and comment (helpful description that does not affect the lookup functionally). 
+        Please ensure to change the region in the URL to match your account's region.
       tags:
         - Lookup lists
       operationId: createLookupListElement
@@ -8079,7 +8294,9 @@ paths:
   /v1/lookup-lists/{lookupListId}/elements/search:
     post:
       summary: Get all/Search lookup elements
-      description: Searches elements in a specified lookup list. Can also be run without a filter to return the full list of elements. Returns a paginated list of results. Please ensure to change the region in the URL to match your account's region.
+      description: |
+        Searches elements in a specified lookup list. Can also be run without a filter to return the full list of elements. Returns a paginated list of results. 
+        Please ensure to change the region in the URL to match your account's region.
       tags:
         - Lookup lists
       operationId: searchLookupListElements
@@ -8107,7 +8324,9 @@ paths:
   /v1/lookup-lists/{lookupListId}/elements/{id}:
     get:
       summary: Get element
-      description: Retrieves a specific lookup element by its ID. Please ensure to change the region in the URL to match your account's region.
+      description: |
+        Retrieves a specific lookup element by its ID. 
+        Please ensure to change the region in the URL to match your account's region.
       tags:
         - Lookup lists
       operationId: getLookupListElement
@@ -8135,7 +8354,9 @@ paths:
           headers: {}
     put:
       summary: Update element
-      description: Changes the value and/or comment of a specific element, identified by its ID. Please ensure to change the region in the URL to match your account's region.
+      description: |
+        Changes the value and/or comment of a specific element, identified by its ID. 
+        Please ensure to change the region in the URL to match your account's region.
       tags:
         - Lookup lists
       operationId: updateLookupListElement
@@ -8168,7 +8389,9 @@ paths:
           headers: {}
     delete:
       summary: Delete element
-      description: Deletes a specific lookup element, identified by its ID. Please ensure to change the region in the URL to match your account's region.
+      description: |
+        Deletes a specific lookup element, identified by its ID. 
+        Please ensure to change the region in the URL to match your account's region.
       tags:
         - Lookup lists
       operationId: deleteLookupListElement
@@ -8201,7 +8424,9 @@ paths:
         - Lookup lists
       operationId: addLookupListElements
       summary: Add elements in bulk
-      description: Adds an array of elements to an existing Lookup list and sets the expiration date for the lookup. Please ensure to change the region in the URL to match your account's region.
+      description: |
+        Adds an array of elements to an existing Lookup list and sets the expiration date for the lookup. 
+        Please ensure to change the region in the URL to match your account's region.
       produces:
         - application/json
       parameters:
