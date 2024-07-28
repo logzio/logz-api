@@ -771,7 +771,7 @@ paths:
                 title:
                   type: string
   
-  /v1/provisioning/contact-points:
+  /v1/grafana/api/v1/provisioning/contact-points:
       get:
         operationId: RouteGetContactpoints
         summary: Get all contact points
