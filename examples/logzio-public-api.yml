@@ -5061,28 +5061,26 @@ paths:
           schema:
             type: object
             properties:
-              PipelineDefinition:
-                type: object
-                properties:
-                  pipeLineDefinition:
-                    type: string
-                    example: "{ \"steps\": [ { \"kv\": { \"config\": { \"field\": \"hello\", \"fieldSplit\": \" \", \"valueSplit\": \"=\", \"includeKeys\": [ \"time\", \"level\", \"msg\" ] } } } ] }"
-              SampleLog:
-                type: object
-                properties:
-                  type:
-                     type: string
-                     example: "logType"
-                  fullMessage:
-                    type: object
-                    properties:
-                      message:
-                        type: string
-                        example: "hi"
-                      hello:
-                        type: string
-                        example: "time=\"2022-07-22T07:18:28Z\" level=info msg=\"Error uploading file /var/lib/winlogbeat/test.json: BucketRegionError: incorrect region, the bucket is not in '\"us-east-1'\" region, host id: 64fD82\""
-
+              pipeLineDefinition:
+                type: string
+                example: "{ \"steps\": [ { \"kv\": { \"config\": { \"field\": \"hello\", \"fieldSplit\": \" \", \"valueSplit\": \"=\", \"includeKeys\": [ \"time\", \"level\", \"msg\" ] } } } ] }"
+              sampleLogs:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    type:
+                      type: string
+                      example: "logType"
+                    fullMessage:
+                      type: object
+                      properties:
+                        message:
+                          type: string
+                          example: "hi"
+                        hello:
+                          type: string
+                          example: "time=\"2022-07-22T07:18:28Z\" level=info msg=\"Error uploading file /var/lib/winlogbeat/test.json: BucketRegionError: incorrect region, the bucket is not in '\"us-east-1'\" region, host id: 64fD82\""
       responses:
         '200':
           content:
@@ -5094,6 +5092,7 @@ paths:
                   type: object
                 example: >-
                  {"Movie":"TheMatrix","fragment":"test","@timestamp":"2021-08-15T12:17:45.731+0000","check":"value","message":"balima","type":"TestType","UA-device":"Other"}
+
     get:
       operationId: getLogType
       summary: Get pipeline definition for a log type
