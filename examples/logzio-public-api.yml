@@ -9147,7 +9147,7 @@ definitions:
         format: int32
         description: If you overshoot the page number, it will return empty with no results, but it won't fail the request.
         default: 1
-        example: 2
+        example: 1
       pageSize:
         type: integer
         format: int32
