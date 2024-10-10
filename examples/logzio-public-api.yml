@@ -61,7 +61,7 @@ info:
     
     Compression is supported and recommended for all API calls. To enable compression for API responses, add the following request header:
     
-      Header Name: Accept-Encoding
+        Header Name: Accept-Encoding
 
         Header Value: deflate, gzip
 
