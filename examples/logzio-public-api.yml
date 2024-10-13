@@ -65,7 +65,6 @@ info:
 
         Header Value: deflate, gzip
 
-    
     Compression is STRONGLY RECOMMENDED for 'Search' and 'Scroll' APIs, due to their potentially large response sizes.
 
 
