@@ -32,13 +32,16 @@ The Logz.io API is available to Pro and Enterprise plan subscribers. You can gen
 
 # Rate limiting
 API call and response rates are limited to 100 concurrent API requests per account. To verify your rate limits or request changes to your plan, please contact your account manager or the <a class="intercom-launch" href="mailto:help@logz.io">Customer Success Team</a>.
-# Compression
+
+<div style={{"marginBottom":"2rem"}}><h1 id={"compression"} style={{marginBottom: "1rem", fontSize: "2rem"}}>Compression</h1>
+<SchemaTabs className={"openapi-tabs__security-schemes"}>
+<TabItem label={"Header Name: Accept-Encoding"} value={"Header Name: Accept-Encoding"}></TabItem>
+<TabItem label={"Header Type: deflate, gzip"} value={"Header Type: deflate, gzip"}></TabItem></SchemaTabs>
+
+
 Compression is supported and recommended for all API calls. To enable compression for API responses, add the following request header:
 
-    Header Name: Accept-Encoding
-
-    Header Value: deflate, gzip
-
+<div><table><tbody><tr><th>Header Name:</th><td>Accept-Encoding</td></tr><tr><th>Header Value:</th><td>deflate, gzip</td></tr></tbody></table></div></div><div style={{"display":"flex","flexDirection":"column"}}></div>
 
 Compression is STRONGLY RECOMMENDED for 'Search' and 'Scroll' APIs, due to their potentially large response sizes.
 
