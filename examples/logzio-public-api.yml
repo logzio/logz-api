@@ -14,14 +14,8 @@ x-servers:
   - url: https://api-eu.logz.io
     description: Europe (Frankfurt)
 
-  - url: https://api-nl.logz.io
-    description: West Europe (Netherlands)
-
   - url: https://api-uk.logz.io
     description: Europe (London)
-
-  - url: https://api-wa.logz.io
-    description: West US 2 (Washington)
 basePath: /
 produces: [ application/json ]
 consumes: [ application/json ]
