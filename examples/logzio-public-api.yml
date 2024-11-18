@@ -4259,6 +4259,7 @@ paths:
         - Manage metrics account
       parameters:
         - in: path
+          type: integer
           name: metricsAccountId
           required: true
       responses:
@@ -4305,12 +4306,10 @@ paths:
       responses:
         200:
           description: Successful operation
-          content: 
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/definitions/AccountViewV3'
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/AccountViewV3'
   
   
   /v2/whoami:
@@ -4322,7 +4321,6 @@ paths:
       operationId: whoAmI
       produces:
         - application/json
-      parameters:
       responses:
         200:
           description: successful operation
@@ -4340,7 +4338,6 @@ paths:
       operationId: getAuthGroups
       produces:
         - application/json
-      parameters:
       responses:
         200:
           description: successful operation
@@ -4638,7 +4635,7 @@ paths:
                 type: integer
                 description: Number of results to return
                 default: 10
-                maximum: 10,000
+                maximum: 10000
                 example: 10
               sort:
                 type: array
@@ -4660,10 +4657,9 @@ paths:
                   includes:
                     type: array
                     description: Array of fields to return
-                    example: ["message"]
-                  items:
-                    type: string
-                    description: Field to return.
+                    example: [ "message" ]
+                    items:
+                      type: string
                 example: false
               post_filter:
                 type: object
@@ -4871,9 +4867,7 @@ paths:
           in: path
           required: true
           type: integer
-          format: int32
           description: ID of the archive settings.
-          example: 33
       responses:
         '200':
           description: successful operation
@@ -5034,7 +5028,7 @@ paths:
           headers: {}
 
   # ::::: Sawmill
-  /v1/sawmill/log-type-pipeline/logType:
+  /v1/sawmill/log-type-pipeline/{logType}:
     post:
       operationId: getSawmillTestType
       summary: Parse sample logs with a Sawmill pipeline
@@ -5047,9 +5041,10 @@ paths:
         - application/json
       parameters:
         - in: path
+          type: string
+          required: true
           name: logType
           description: Type of the log being parsed. This can be an existing type (already sent to Logz.io) or a new type (to be sent to Logz.io for parsing).
-          example: TestType
         - in: body
           name: body
           required: true
@@ -5078,15 +5073,14 @@ paths:
                           example: "time=\"2022-07-22T07:18:28Z\" level=info msg=\"Error uploading file /var/lib/winlogbeat/test.json: BucketRegionError: incorrect region, the bucket is not in '\"us-east-1'\" region, host id: 64fD82\""
       responses:
         '200':
-          content:
-            application/json:
-              schema:
-                type: array
-                description: The response provides the value of `sampleLogs` after parsing.
-                items:
-                  type: object
-                example: >-
-                 {"Movie":"TheMatrix","fragment":"test","@timestamp":"2021-08-15T12:17:45.731+0000","check":"value","message":"balima","type":"TestType","UA-device":"Other"}
+          description: successful operation
+          schema:
+            type: array
+            description: The response provides the value of `sampleLogs` after parsing.
+            items:
+              type: object
+            example: >-
+             {"Movie":"TheMatrix","fragment":"test","@timestamp":"2021-08-15T12:17:45.731+0000","check":"value","message":"balima","type":"TestType","UA-device":"Other"}
 
     get:
       operationId: getLogType
@@ -5100,6 +5094,8 @@ paths:
         - application/json
       parameters:
         - in: path
+          required: true
+          type: string
           name: logType
           description: Log type that you need to retrieve a Sawmill pipeline for. If no parsing has been applied to this log type, 404 error will be given.
       responses:
@@ -5128,18 +5124,15 @@ paths:
         Please ensure to change the region in the URL to match your account's region.
       tags:
         - Parsing
+      consumes:
+        - multipart/form-data
       produces:
         - application/json
-      requestBody:
-        content:
-          multipart/form-data:
-            schema:
-              properties:
-                file:
-                  type: array
-                  items:
-                    type: string
-                    format: binary
+      parameters:
+        - in: formData
+          name: file
+          type: file
+          description: The external mapping file.
       responses:
         '201':
           description: successful operation
@@ -7269,8 +7262,6 @@ paths:
           type: integer
           format: int32
           description: ID of the user
-          example: 11300
-      
       responses:
         200:
           description: successful operation
@@ -7291,7 +7282,6 @@ paths:
           type: integer
           format: int32
           description: ID of the user
-          example: 11300
         - name: accountId
           in: query
           required: false
@@ -7322,7 +7312,6 @@ paths:
           type: integer
           format: int32
           description: ID of the user
-          example: 11300
       
       responses:
         200:
@@ -7343,7 +7332,6 @@ paths:
           type: integer
           format: int32
           description: ID of the user
-          example: 3325
     
       responses:
         200:
@@ -7364,7 +7352,6 @@ paths:
           type: integer
           format: int32
           description: ID of the user
-          example: 3325
       
       responses:
         200:
@@ -7387,7 +7374,6 @@ paths:
           type: integer
           format: int32
           description: ID of the user
-          example: 11300
       
       responses:
         200:
@@ -7415,7 +7401,6 @@ paths:
           type: integer
           format: int32
           description: ID of the user
-          example: 11300
       
       responses:
         200:
@@ -8003,7 +7988,6 @@ paths:
           required: true
           type: string
           description: Drop filter ID in the Logz.io database. You can run the `/v1/drop-filters/search` endpoint to retrieve the IDs of all the drop filters in the account.
-          example: d0d000ce-e63b-595b-a8f9-25032776cd28
       responses:
         '200':
           description: successful operation
@@ -8029,7 +8013,6 @@ paths:
           required: true
           type: string
           description: Drop filter ID in the Logz.io database. You can run the `/v1/drop-filters/search` endpoint to retrieve the IDs of all the drop filters in the account.
-          example: d0d000ce-e63b-595b-a8f9-25032776cd28
       responses:
         '200':
           description: successful operation
@@ -8055,7 +8038,6 @@ paths:
           required: true
           type: string
           description: Drop filter ID in the Logz.io database. You can run the `/v1/drop-filters/search` endpoint to retrieve the IDs of all the drop filters in the account.
-          example: d0d000ce-e63b-595b-a8f9-25032776cd28
       responses:
         '200':
           description: successful operation
@@ -8994,8 +8976,7 @@ definitions:
         description: ID of the account
         example: 99999
       email:
-        type: null
-        nullable: true
+        type: string
         description: Email address of the user who created the account
         example: null
       accountName:
@@ -9575,7 +9556,6 @@ definitions:
   # ::::: Log Insights
   PublicGetAccountInsightsRequest:
     type: object
-    required:
     properties:
       startDate:
         type: integer
@@ -9723,7 +9703,6 @@ definitions:
         type: array
         items:
           type: string
-        description:
         example: ["app-server", "user-analytics"]
       kibanaLink:
         type: string
@@ -10440,7 +10419,7 @@ definitions:
         format: int32
         description: Number of results to return
         default: 10
-        maximum: 1,000
+        maximum: 1000
         example: 50
       from:
         type: integer
@@ -10468,10 +10447,9 @@ definitions:
           includes:
             type: array
             description: Array of fields to return
-            example: ["message"]
-        items:
-          - type: string
-            description: Field to return.
+            items:
+              type: string
+            example: [ "message" ]
       post_filter:
         type: object
       scroll:
@@ -10610,8 +10588,9 @@ definitions:
         type: string
         description: The API token
         example: c498fbc3-a3ac-4676-ad09-689854b5cbbd"
-      createdAt: 
-        type: Instant
+      createdAt:
+        type: integer
+        format: int64
         description: The time at which the new sub account API token was created 
         example: 1621858311.000000000
   CreateApiTokenRequest:
@@ -10887,10 +10866,10 @@ definitions:
   # ::::: DROP FILTERS
   DropFiltersCreateRequest:
     type: object
+    required: ["fieldConditions"]
     properties:
       logType:
         type: string
-        nullable: true
         description: Filters for the [log type](/user-guide/log-shipping/built-in-log-types.html).
         example: apache
       fieldConditions:
@@ -12088,7 +12067,6 @@ definitions:
       restoredVolumeGb:
         type: number
         format: float
-        nullable: true
         description: Volume of data restored so far. If the restore operation is still in progress, this will be continuously updated.
         example: 99
       status:
@@ -12137,18 +12115,15 @@ definitions:
         type: integer
         format: int64
         description: UNIX timestamp in milliseconds when the restore process initiated.
-        nullable: true
         example: 1591902428.000000000
       finishedAt:
         type: integer
         format: int64
         description: UNIX timestamp in milliseconds when the restore process completed.
-        nullable: true
         example: 1591902461.000000000
       expiresAt:
         type: integer
         format: int64
-        nullable: true
         description: UNIX timestamp in milliseconds specifying when the account is due to expire. Restored accounts expire automatically after a number of days, as specified in the account's terms.
         example: 1592334461.000000000
   RestoreApiRequest:
