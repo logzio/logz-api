@@ -5192,6 +5192,61 @@ paths:
               type: string
             example: [“metering-access”,“lag-monitor”,“business-analytics-metrics”,“consul-agent”,“auth0”]
 
+/v1/sawmill/diy-parser/{logType}:
+    post:
+      operationId: diyparser
+      summary: DIY parse logs with a Sawmill pipeline
+      description: |
+        Creates a new Sawmill pipeline in your account. Pipelines operate on incoming logs, parsing and transforming them into structured attributes for easier querying.
+
+        **Note:** Only admin users can access this endpoint. Use an application key created by an admin.
+      tags:
+        - Parsing
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          type: string
+          required: true
+          name: logType
+          description: Type of the log being parsed. This can be an existing type (already sent to Logz.io) or a new type (to be sent to Logz.io for parsing).
+        - in: body
+          name: body
+          required: true
+          schema:
+            type: object
+            properties:
+              pipeLineDefinition:
+                type: string
+                example: "{ \"steps\": [ { \"kv\": { \"config\": { \"field\": \"hello\", \"fieldSplit\": \" \", \"valueSplit\": \"=\", \"includeKeys\": [ \"time\", \"level\", \"msg\" ] } } } ] }"
+              sampleLogs:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    type:
+                      type: string
+                      example: "logType"
+                    fullMessage:
+                      type: object
+                      properties:
+                        message:
+                          type: string
+                          example: "hi"
+                        hello:
+                          type: string
+                          example: "time=\"2022-07-22T07:18:28Z\" level=info msg=\"Error uploading file /var/lib/winlogbeat/test.json: BucketRegionError: incorrect region, the bucket is not in '\"us-east-1'\" region, host id: 64fD82\""
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: array
+            description: The response provides the value of `sampleLogs` after parsing.
+            items:
+              type: object
+            example: >-
+             {"Movie":"TheMatrix","fragment":"test","@timestamp":"2021-08-15T12:17:45.731+0000","check":"value","message":"balima","type":"TestType","UA-device":"Other"}
+
 
   # ::::: Alerts V2 
   /v2/alerts:
