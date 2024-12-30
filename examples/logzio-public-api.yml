@@ -7848,10 +7848,10 @@ paths:
 
   # ::::: EDIT SECURITY EVENTS
   /v2/security/rules/events/edit:
-    post:
+    put:
       summary: Edit security events
       description: >-
-        Edit the security eventss in your Logz.io Cloud SIEM account.
+        Edit the security events in your Logz.io Cloud SIEM account.
 
 
         If you send the query with an empty JSON body, it returns all of the events logged in your Logz.io Cloud SIEM, going as far back as your account's retention permits.
@@ -7870,7 +7870,7 @@ paths:
           name: body
           required: false
           schema:
-            $ref: '#/definitions/AlertsEventsEdithRequest'
+            $ref: '#/definitions/AlertsEventsSearchRequest'
 
       
       responses:
