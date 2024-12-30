@@ -41,3 +41,12 @@ yarn start
 ```
 yarn docusaurus gen-api-docs logz
 ```
+
+## Adding new pages/categories
+1. Follow local deployment instructions
+
+2. Update the api spec under examples/logzio-public-api.yml. Divide the sections using `# ::::: NAME` and create a unique URL, summary, and operationId.
+
+3. Add the new section to the relevant section under `sidebar.js`. Each category starts with `"type":"category"`, and each page starts with `"type":"doc"`. The ID and label should be unique.
+
+4. Save your changes and run the plugin generate command `yarn docusaurus gen-api-docs logz` to generate the new page you created.
