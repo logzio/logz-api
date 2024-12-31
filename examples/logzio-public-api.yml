@@ -10540,6 +10540,22 @@ definitions:
           format: int32
         description: Array of filter IDs attached to each token. If no filter is attached, `null`.
         example: [339, 340]
+      lastUsed:
+        type: array
+        uniqueItems: true
+        items:
+          type: integer
+          format: int64
+        description: UNIX timestamp in milliseconds. If token wasn't in use, `null`.
+        example: 1735743699.000000000
+      expirationDate:
+        type: array
+        uniqueItems: true
+        items:
+          type: integer
+          format: int64
+        description: UNIX timestamp in milliseconds. If token doesn't have expiration date, `null`.
+        example: 1735743699.000000000
   CreateSharedTokenRequest:
     type: object
     properties:
