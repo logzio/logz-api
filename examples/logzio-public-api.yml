@@ -7838,13 +7838,49 @@ paths:
           schema:
             $ref: '#/definitions/AlertsEventsSearchRequest'
 
-      
       responses:
         '200':
           description: successful operation
           schema:
             $ref: '#/definitions/PagedSearchResponseTriggeredResponse'
           headers: {}
+
+
+  # ::::: EDIT SECURITY EVENTS
+  /v2/security/rules/events/{ruleId}:
+    put:
+      summary: Edit security events
+      description: |
+        
+        Applies changes to a rule, identified by its ID. Please ensure to change the region in the URL to match your account's region.
+
+        **Note:** Run this endpoint with an API token for your Logz.io Security account.
+      tags:
+        - Security events
+      operationId: editSecurityRulesEvents
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          required: false
+          schema:
+            $ref: '#/definitions/AlertsEventsEditRequest'
+      responses:
+        201:
+          description: successful operation
+          schema:
+            $ref: '#/definitions/PagedEdithResponseTriggeredResponse'
+          headers: {}
+        403:
+          description: forbidden
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: Insufficient privileges
+                description: Insufficient privileges. Contact our Support team for access to this API feature.
   
   # ::::: SECURITY ACCOUNT
   /v2/account-management/siem:
@@ -9167,6 +9203,85 @@ definitions:
           $ref: '#/definitions/TriggeredAlert'
       pagination:
         $ref: '#/definitions/Pagination'
+  PagedEdithResponseTriggeredResponse:
+    type: array
+    properties:
+      id:
+        type: string
+        description: Unique identifier for the alert or event.
+        example: 1234e5a6-1d1d-12a3-a1fa-b12345b6b7a8
+      alertEventId:
+        type: string
+        description: Identifier for the specific alert event.
+        example: ac1f234f-12da-123d-1ecc-12ed3ccbac45
+      title:
+        type: string
+        description: Title of the alert.
+        example: Auth0 - Account blocked due to repeated failed login attempts
+      description:
+        type: string
+        description: Detailed description of the alert.
+        example: An account was blocked due to 10 failed login attempts from the same IP address.
+      severity:
+        type: string
+        description: Alert severity level (e.g., INFO, MEDIUM).
+        example: MEDIUM
+      status:
+        type: string
+        description: Current status of the alert (e.g., NEW, RESOLVED).
+        example: ASSIGNED
+      assignee:
+        type: integer
+        format: int32
+        description: User ID of the person assigned to the alert.
+        example: 1234567
+      triggeredAt:
+        type: integer
+        format: int64
+        description: Timestamp (in seconds since epoch) when the alert was triggered.
+        example: 1734517694.888000000
+      updatedAt:
+        type: integer
+        format: int64
+        description: Timestamp (in seconds since epoch) when the alert was last updated.
+        example: 1735046340.774085000
+      updatedBy:
+        type: integer
+        format: int32
+        description: User ID of the person who last updated the alert.
+        example: 12345
+      comment:
+        type: string
+        description: Comment associated with the alert.
+        example: This is a comment.
+      commentedBy:
+        type: integer
+        format: int32
+        description: User ID of the person who added the comment.
+        example: 12323
+      alertDefinitionId:
+        type: integer
+        format: int32
+        description: Identifier for the alert definition.
+        example: 3245176
+      count: 
+        type: integer
+        format: int32
+        description: Number of occurrences of the alert.
+        example: 1
+      lastTriggeredAt:
+        type: integer
+        format: int64
+        description: Timestamp (in seconds since epoch) when the alert was last triggered.
+        example: 1734517694.888000000
+      type:
+        type: string
+        description: Type of alert (e.g., GROUP, ALERT_EVENT).
+        example: ALERT_EVENT
+      groupingType:
+        type: string
+        description: Grouping method for the alert (e.g., ALERT_BASED).
+        example: ALERT_BASED
   PagedSearchResponseTriggeredResponse:
     type: object
     properties:
@@ -9333,6 +9448,12 @@ definitions:
           type: string
         description: Tags used for classifying, discussing, and interpreting security incidents. This feature is currently under development.
 
+  AlertsEventsEditRequest:
+    type: object
+    properties:
+      schema:
+        $ref: '#/definitions/RulesEventsEdit'
+        summary: Edit rules.
   AlertsEventsSearchRequest:
     type: object
     properties:
@@ -9361,6 +9482,86 @@ definitions:
         type: boolean
         default: true
         description: If left blank, descending sorting will result. If `false` results in ascending sorting.
+  RulesEventsEdit:
+    type: object
+    description: Edit Security rules.
+    properties:
+      id:
+        type: string
+        description: Unique identifier for the alert or event.
+        example: 1234e5a6-1d1d-12a3-a1fa-b12345b6b7a8
+      alertEventId:
+        type: string
+        description: Identifier for the specific alert event.
+        example: ac1f234f-12da-123d-1ecc-12ed3ccbac45
+      title:
+        type: string
+        description: Title of the alert.
+        example: Auth0 - Account blocked due to repeated failed login attempts
+      description:
+        type: string
+        description: Detailed description of the alert.
+        example: An account was blocked due to 10 failed login attempts from the same IP address.
+      severity:
+        type: string
+        description: Alert severity level (e.g., INFO, MEDIUM).
+        example: MEDIUM
+      status:
+        type: string
+        description: Current status of the alert (e.g., NEW, RESOLVED).
+        example: ASSIGNED
+      assignee:
+        type: integer
+        format: int32
+        description: User ID of the person assigned to the alert.
+        example: 1234567
+      triggeredAt:
+        type: integer
+        format: int64
+        description: Timestamp (in seconds since epoch) when the alert was triggered.
+        example: 1734517694.888000000
+      updatedAt:
+        type: integer
+        format: int64
+        description: Timestamp (in seconds since epoch) when the alert was last updated.
+        example: 1735046340.774085000
+      updatedBy:
+        type: integer
+        format: int32
+        description: User ID of the person who last updated the alert.
+        example: 12345
+      comment:
+        type: string
+        description: Comment associated with the alert.
+        example: This is a comment.
+      commentedBy:
+        type: integer
+        format: int32
+        description: User ID of the person who added the comment.
+        example: 12323
+      alertDefinitionId:
+        type: integer
+        format: int32
+        description: Identifier for the alert definition.
+        example: 3245176
+      count: 
+        type: integer
+        format: int32
+        description: Number of occurrences of the alert.
+        example: 1
+      lastTriggeredAt:
+        type: integer
+        format: int64
+        description: Timestamp (in seconds since epoch) when the alert was last triggered.
+        example: 1734517694.888000000
+      type:
+        type: string
+        description: Type of alert (e.g., GROUP, ALERT_EVENT).
+        example: ALERT_EVENT
+      groupingType:
+        type: string
+        description: Grouping method for the alert (e.g., ALERT_BASED).
+        example: ALERT_BASED
   RulesEventsFilter:
     type: object
     description: Filter by rule name, rule severity, or time range.
