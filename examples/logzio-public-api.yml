@@ -11482,6 +11482,10 @@ definitions:
           timezone:
             type: string
             description: Time zone for the cron job. If no time zone is selected, UTC will be used by default.
+      sendToAll:
+          type: boolean
+          default: false
+          description: If `true`, a single email will be sent to all email addresses.
 
   AlertOutput:
     type: object
@@ -11711,6 +11715,10 @@ definitions:
       enabled:
         type: boolean
         description: If `true`, the alert is enabled and active. Default value is `true`.
+      sendToAll:
+          type: boolean
+          default: false
+          description: If `true`, a single email will be sent to all email addresses.
   AlertTrigger:
     type: object
     description: Sets the triggering threshold and severity tab to label the event when the alert triggers.
@@ -11909,6 +11917,10 @@ definitions:
           timezone:
             type: string
             description: Time zone for the cron job. If no time zone is selected, UTC will be used by default.
+      sendToAll:
+          type: boolean
+          default: false
+          description: If `true`, a single email will be sent to all email addresses.
   RuleOutput:
     type: object
     description: Automatically sends out notifications with sample results when the rule triggers.
