@@ -9451,9 +9451,10 @@ definitions:
   AlertsEventsEditRequest:
     type: object
     properties:
-      schema:
-        $ref: '#/definitions/RulesEventsEdit'
-        summary: Edit rules.
+      filter:
+      $ref: '#/definitions/RulesEventsEdit'
+      summary: Edit rules.
+
   AlertsEventsSearchRequest:
     type: object
     properties:
@@ -11634,6 +11635,7 @@ definitions:
           type: object
           additionalProperties:
           example: {0: "region", 1: "region"}
+        default: false
   SubAlertOutput:
     type: object
     description: Selects the data output to be sent in the notification when the alert triggers. Not applicable, when grouping by fields or aggregating results, as the output is auto-selected.
@@ -12081,6 +12083,10 @@ definitions:
       enabled:
         type: boolean
         description: If `true`, the alert is enabled and active.
+      sendToAll:
+        type: boolean
+        default: false
+        description: If `true`, a single email will be sent to all email addresses.
   RuleTrigger:
     type: object
     description: Sets the triggering threshold and severity tab to label the event when the rule triggers.
@@ -12240,6 +12246,10 @@ definitions:
         items:
           type: string
         description: Tags used for classifying, discussing, and interpreting security incidents. This feature is currently under development.
+      sendToAll:
+        type: boolean
+        description: If `true`, one email will be sent with all email address.
+        default: false
 
   # ::::: RESTORE FROM ARCHIVE DEFINITIONS
   RestoreAccountConfiguration:
