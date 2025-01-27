@@ -4759,7 +4759,9 @@ paths:
         The results are paginated, and every request returns the next page, one at a time.
 
 
-        When the call returns an empty array, you'll know you've reached the end of your results.
+        When the call returns an empty array, you'll know you've reached the end of your results. 
+        
+        Note that the Scroll API is limited to searching only within the account associated with the token used. If the token belongs to the main account, the search will be limited to it and will not include sub-accounts.
 
 
         **Note**:
