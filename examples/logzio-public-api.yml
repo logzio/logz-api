@@ -317,6 +317,7 @@ x-tagGroups:
       - Grafana contact points
       - Grafana data source
       - Grafana alerting provisioning
+      - Grafana silence management
       - Grafana annotations
       - Grafana dashboards
       - Grafana dashboard search
@@ -1803,7 +1804,6 @@ paths:
               
   
 
-
   /v1/grafana/api/v1/provisioning/alert-rules/{UID}:
       get:
         operationId: getAlertRulesByUID
@@ -2331,7 +2331,77 @@ paths:
                   example: Annotation deleted
               
 
+# ::::: Silences
+ 
+  /v1/grafana/api/v2/silences/:
+      get:
+        operationId: getAllSilences
+        summary: Retrieve all silences
+        description: |
+          Fetch a list of all existing silences, including their id, status, and more.
+        tags:
+            - Grafana silence management
+        parameters:
+        
+        - in: body
+          name: body
+          required: false
+          schema:
+            $ref: '#/definitions/SilenceGetAll'
+        
+        responses:
+          200:
+            description: successful operation
+            schema:
+              type: array
+              items:
+                $ref: '#/definitions/SilenceGetAll'
 
+
+
+  /v1/grafana/api/v2/silences/create:
+      post:
+        operationId: createNewSilence
+        summary: Create new silence
+        description: |
+          Create a new silence to temporarily suppress alerts based on specified matchers and duration.
+        tags:
+            - Grafana silence management
+        parameters:
+          - in: body
+            name: body
+            required: false
+            schema:
+              $ref: '#/definitions/SilenceCreate'
+
+        responses:
+          200:
+            description: The silence was successfully created.
+          400:
+            description: The request body is invalid or missing required fields.
+
+  /v1/grafana/api/v2/silences/{UID}:
+    delete:
+      operationId: deleteSilence
+      summary: Delete a silence
+      description: |
+        Remove an existing silence to resume alert notifications for the affected matchers.
+      tags:
+          - Grafana silence management
+      parameters:
+          - in: path
+            name: UID
+            type: string
+            required: true
+            schema:
+              description: >-
+                Unique identifier of the silence.
+      responses:
+        200:
+            description: The silence was successfully deleted.
+        400:
+          description: The specified silence UID does not exist.
+  
 
 
 
@@ -11759,6 +11829,99 @@ definitions:
           MEDIUM: 10.0
           HIGH: 100.0
           SEVERE: 300.0
+
+  SilenceGetAll:
+    type: object
+    required:
+     - title
+     - subComponents
+    properties:
+      id:
+        type: string
+        description: Unique identifier for the silence.
+        example: e1a111a1-1a10-1caf-ae1b-1111112bf061
+      status:
+        type: object
+        description: The state of the silence (active or expired).
+        example: active
+      updatedAt:
+        type: string
+        description: Date and time in UTC when the silence was last updated.
+        example: 2020-04-02T18:58:16.000Z
+      comment:
+        type: string
+        description: A description or comment about the silence, its purpose, or any relevant details.
+        example: Created 2025-01-20 14:32
+      createdBy:
+        type: string
+        description: Name of the user who created the silence.
+        example: Rotem Froimovici
+      endsAt:
+        type: string
+        description: Date and time in UTC when the silence ends.
+        example: 2025-01-20T14:32:00.839Z
+      matchers:
+                  type: array
+                  description: List of matchers defining which alerts the silence applies to.
+                  items: 
+                    type: object
+                    properties: 
+                      isEqual: 
+                        type: string
+                        example: true
+                      isRegex:
+                        type: string
+                        example: false
+                      name: 
+                        type: string
+                        example: Name1
+                      value:
+                        type: string
+                        example: test123
+      startsAt:
+          type: string
+          description: Date and time in UTC when the silence begins.
+          example: 2025-01-20T12:32:12.380Z
+
+  SilenceCreate:
+    type: object
+    properties:
+      startsAt:
+          type: string
+          description: Date and time in UTC when the silence begins.
+          example: 2025-01-20T12:32:12.380Z
+      endsAt:
+        type: string
+        description: Date and time in UTC when the silence ends.
+        example: 2025-01-20T14:32:00.839Z
+      comment:
+        type: string
+        description: A description or comment about the silence, its purpose, or any relevant details.
+        example: Created 2025-01-20 14:32
+      createdBy:
+        type: string
+        description: Name of the user who created the silence.
+        example: Rotem Froimovici
+      
+      matchers:
+                  type: array
+                  description: List of matchers defining which alerts the silence applies to.
+                  items: 
+                    type: object
+                    properties: 
+                      isEqual: 
+                        type: string
+                        example: true
+                      isRegex:
+                        type: string
+                        example: false
+                      name: 
+                        type: string
+                        example: Name1
+                      value:
+                        type: string
+                        example: test123
+
 
   BoolFilter:
     type: object
