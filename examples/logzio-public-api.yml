@@ -2333,12 +2333,12 @@ paths:
 
 # ::::: Silences
  
-  /v1/grafana/api/v2/silences/:
+  /v1/grafana/api/alertmanager/grafana/api/v2/silences/:
       get:
         operationId: getAllSilences
         summary: Retrieve all silences
         description: |
-          Fetch a list of all existing silences, including their id, status, and more.
+          Retrieve a list of all existing silences, including their ID, status, and additional details.
         tags:
             - Grafana silence management
         parameters:
@@ -2353,13 +2353,11 @@ paths:
           200:
             description: successful operation
             schema:
-              type: array
-              items:
                 $ref: '#/definitions/SilenceGetAll'
 
 
 
-  /v1/grafana/api/v2/silences/create:
+  /v1/grafana/api/alertmanager/grafana/api/v2/silences:
       post:
         operationId: createNewSilence
         summary: Create new silence
@@ -2380,7 +2378,8 @@ paths:
           400:
             description: The request body is invalid or missing required fields.
 
-  /v1/grafana/api/v2/silences/{UID}:
+
+  /v1/grafana/api/alertmanager/grafana/api/v2/silence/{UID}:
     delete:
       operationId: deleteSilence
       summary: Delete a silence
