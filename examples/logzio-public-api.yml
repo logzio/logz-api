@@ -11854,7 +11854,7 @@ definitions:
       createdBy:
         type: string
         description: Name of the user who created the silence.
-        example: Rotem Froimovici
+        example: John Doe
       endsAt:
         type: string
         description: Date and time in UTC when the silence ends.
@@ -11900,7 +11900,7 @@ definitions:
       createdBy:
         type: string
         description: Name of the user who created the silence.
-        example: Rotem Froimovici
+        example: John Doe
       
       matchers:
                   type: array
