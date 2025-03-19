@@ -10856,6 +10856,13 @@ definitions:
           format: int32
         description: IDs of filters to attach to the token
         example: [ 339 ]
+      filtersOperator:
+        type: array
+        uniqueItems: true
+        items:
+          type: string
+        description: Logical operator used to combine filters. Possible values can be `OR` or `AND`.
+        example: "OR"
   UpdateSharedTokenRequest:
     type: object
     required:
@@ -10870,6 +10877,13 @@ definitions:
           description: ID of the filter
           example: 339
         description: IDs of filters to attach to the token. To remove all filters, use an empty array `[]`.
+      filtersOperator:
+        type: array
+        uniqueItems: true
+        items:
+          type: string
+        description: Logical operator used to combine filters. Possible values can be `OR` or `AND`.
+        example: "OR"
 
   # ::::: API TOKENS DEFINITIONS
   ApiTokenResponse:
