@@ -3144,7 +3144,7 @@ paths:
                   example: version-mismatch
                   description: Error status.
   
-  /v1/grafana/api/dashboards/uid/:uid:
+  /v1/grafana/api/dashboards/uid/<<UID>>:
       get:
         operationId: getDashboarById
         summary: Get dashboard by uid
@@ -5308,7 +5308,7 @@ paths:
           schema:
             $ref: '#/definitions/AlertV2Response'
 
-  /v2/alerts/{alertId}:
+  /v2/alerts/<<alertId>>:
     get:
       summary: Retrieve alert by ID
       description: |
