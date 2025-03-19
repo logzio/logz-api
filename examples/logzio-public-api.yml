@@ -871,7 +871,7 @@ paths:
                     example: Error message
 
 
-  /v1/provisioning/contact-points/{UID}:
+  /v1/grafana/api/v1/provisioning/contact-points/<<UID>>:
     delete:
       operationId: RouteDeleteContactpoints
       summary: Delete a contact point
@@ -956,7 +956,7 @@ paths:
                   example: Validator error.
 
 
-  /v1/provisioning/policies:
+  /v1/grafana/api/v1/provisioning/policies:
     delete:
       operationId: RouteResetPolicyTree
       summary: Clears the notification policy tree
@@ -1074,9 +1074,8 @@ paths:
                   items: 
                     type: string
                     example: string
-
     put:
-      operationId: RouteGetPolicyTree
+      operationId: RouteSetPolicyTree
       summary: Set notification policy tree
       description: |
         Set notification policy tree. 
@@ -1804,7 +1803,7 @@ paths:
               
   
 
-  /v1/grafana/api/v1/provisioning/alert-rules/{UID}:
+  /v1/grafana/api/v1/provisioning/alert-rules/<<UID>>:
       get:
         operationId: getAlertRulesByUID
         summary: Return a list of all alerts by UID
@@ -2379,7 +2378,7 @@ paths:
             description: The request body is invalid or missing required fields.
 
 
-  /v1/grafana/api/alertmanager/grafana/api/v2/silence/{UID}:
+  /v1/grafana/api/alertmanager/grafana/api/v2/silence/<<UID>>:
     delete:
       operationId: deleteSilence
       summary: Delete a silence
@@ -3145,7 +3144,7 @@ paths:
                   example: version-mismatch
                   description: Error status.
   
-  /v1/grafana/api/dashboards/uid/:uid:
+  /v1/grafana/api/dashboards/uid/<<UID>>:
       get:
         operationId: getDashboarById
         summary: Get dashboard by uid
@@ -5309,7 +5308,7 @@ paths:
           schema:
             $ref: '#/definitions/AlertV2Response'
 
-  /v2/alerts/{alertId}:
+  /v2/alerts/<<alertId>>:
     get:
       summary: Retrieve alert by ID
       description: |
