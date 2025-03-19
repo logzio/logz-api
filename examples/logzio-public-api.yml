@@ -1803,7 +1803,7 @@ paths:
               
   
 
-  /v1/grafana/api/v1/provisioning/alert-rules/{UID}:
+  /v1/grafana/api/v1/provisioning/alert-rules/<<UID>>:
       get:
         operationId: getAlertRulesByUID
         summary: Return a list of all alerts by UID
@@ -2378,7 +2378,7 @@ paths:
             description: The request body is invalid or missing required fields.
 
 
-  /v1/grafana/api/alertmanager/grafana/api/v2/silence/{UID}:
+  /v1/grafana/api/alertmanager/grafana/api/v2/silence/<<UID>>:
     delete:
       operationId: deleteSilence
       summary: Delete a silence
