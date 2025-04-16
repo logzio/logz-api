@@ -8927,6 +8927,11 @@ definitions:
         $ref: '#/definitions/DocSizeSetting'
       utilizationSettings:
         $ref: '#/definitions/AccountUtilizationSettings'
+      snapsearchRetentionDays:
+        type: integer
+        format: int32 
+        description: Number of days to retain data in the warm tier. Minimum value is 1.
+        example: 7
 
   DetailedTimeBasedAccount:
     type: object
@@ -8945,6 +8950,11 @@ definitions:
         $ref: '#/definitions/DailyUsagesList'
       docSizeSetting:
         $ref: '#/definitions/DocSizeSetting'
+      snapsearchRetentionDays:
+        type: integer
+        format: int32 
+        description: Number of days to retain data in the warm tier. Minimum value is 1.
+        example: 7
   LHDailyCount:
     type: object
     properties:
@@ -9178,6 +9188,11 @@ definitions:
         default: false
         description: If the account is an owner account, `true`. Otherwise, `false`. 
         example: false
+      snapsearchRetentionDays:
+        type: integer
+        format: int32 
+        description: Number of days to retain data in the warm tier. Minimum value is 1.
+        example: 7
   TimeBasedAccountCreationResponse:
     type: object
     properties:
@@ -9201,6 +9216,11 @@ definitions:
     description: Adds a LogSize field to each log to record the size in bytes, to better manage the account utilization.
     default: false
     example: true
+  snapsearchRetentionDays:
+        type: integer
+        format: int32 
+        description: Number of days to retain data in the warm tier. Minimum value is 1.
+        example: 7
 
 
 
