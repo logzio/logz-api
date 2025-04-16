@@ -5261,6 +5261,98 @@ paths:
             items:
               type: string
             example: [“metering-access”,“lag-monitor”,“business-analytics-metrics”,“consul-agent”,“auth0”]
+  
+  # diy parser
+  /v1/sawmill/pipelines:
+    post:
+      operationId: createSawmillPipeline
+      summary: Create a new Parsing rule
+      description: |
+            Creates a new Sawmill pipeline for parsing logs in Logz.io. The pipeline is inserted as the last step under the specified processing phase.
+    
+            A pipeline defines a set of parsing steps that follow the [Sawmill syntax](https://github.com/logzio/sawmill/wiki), and can be used to transform, enrich, or validate logs.
+    
+            **Note:** This endpoint is used to create parsing rules. If you're looking to test a pipeline against sample logs, use the `/sawmill/pipelines/test` endpoint instead.
+
+            Ensure the region in the URL matches your Logz.io account region.
+      tags:
+        - Parsing
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            type: object
+            required: 
+              - name
+              - step
+              - body
+            properties:
+              name:
+                type: string
+                description: A unique name for the pipeline.
+                example: "AWX - change type"
+              description:
+                type: string
+                description: Optional description of the pipeline.
+                example: "Change the type for AWX logs"
+              enabled:
+                type: boolean
+                description: Whether the pipeline should be active. Defaults to `true`.
+                example: true
+              step:
+                type: string
+                description: |
+                  The stage where the pipeline should be applied. Must be one of:
+                  - PRE_PROCESSING
+                  - GENERAL_PROCESSING
+                  - POST_PROCESSING
+                  - INVALID_PROCESSING
+                example: PRE_PROCESSING
+              body:
+                type: string
+                description: The full pipeline definition in valid Sawmill JSON format.
+                example: |
+                  {
+                    "steps": [
+                      {
+                        "kv": {
+                          "config": {
+                            "field": "hello",
+                            "fieldSplit": " ",
+                            "valueSplit": "=",
+                            "includeKeys": [ "time", "level", "msg" ]
+                          }
+                        }
+                      }
+                    ]
+                  }
+  responses:
+    '200':
+      description: Pipeline created successfully.
+      schema:
+        type: object
+        description: The newly created pipeline, including auto-populated fields.
+        properties:
+          id:
+            type: string
+            example: "a123b456-c789-0d12-e345-678f90abcde1"
+          name:
+            type: string
+          description:
+            type: string
+          enabled:
+            type: boolean
+          step:
+            type: string
+          body:
+            type: string
+    '400':
+      description: Invalid input. Possible cause: unsupported processor used in the pipeline body.
+    '500':
+      description: Internal server error.
 
 
   # ::::: Alerts V2 
