@@ -4171,7 +4171,7 @@ paths:
                 example: ^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9-]+)*(\.[A-Za-z]{2,})$
               accountName:
                 type: string
-                description: Name of metrics account to be created. If empty, the default name `<owner_account_name>_metrics` is used.
+                description: Name of metrics account to be created. If empty, the default name `<owner_account_name>_metrics` is used. Speical character such as `<`, `>`, `:`, `"`, `/`, `\`, `|`, `?`, `*` are not allowed.
               planUts:
                 type: integer
                 description: Usage plan for Unique Time Series (UTS). UTS defines the number of unique time series an account is allowed to have. If usage exceeds the plan, exceeding data points will not be processed.
@@ -4675,7 +4675,15 @@ paths:
                 type: object
                 description: >-
                   The query can take any of the parameters described in the [Elasticsearch Search API DSL documentation](https://www.elastic.co/guide/en/elasticsearch/reference/6.8/search.html) with the exceptions stated below.
+
+
+
+
+                  If you don’t want to apply any filters, pass an empty JSON object in the request body using --data '{}'.
   
+
+
+
                   #### Limitations
   
                   * When using `query_string`, `allow_leading_wildcard` must be set to `false`
@@ -7649,8 +7657,14 @@ paths:
           format: int32
           example: 305976
       responses:
-        default:
-          description: successful operation
+        204:
+            description: successful operation
+            schema:
+              type: object
+              properties:
+                message:
+                  type: string
+                  example: HTTP/1.1 204 No Content
 
 
   /v2/security/rules/bulk/update:
@@ -7979,7 +7993,7 @@ paths:
                 accountName:
                   type: string
                   required: true
-                  description: SIEM account name
+                  description: SIEM account name. Speical character such as `<`, `>`, `:`, `"`, `/`, `\`, `|`, `?`, `*` are not allowed.
                 accountsToScan:
                   type: array
                   description: IDs of accounts that will be accessed for logs. The owner account will be the default account to scan.
@@ -8979,7 +8993,7 @@ definitions:
         example: help@logz.io
       accountName:
         type: string
-        description: Name of the account
+        description: Name of the account. Speical character such as `<`, `>`, `:`, `"`, `/`, `\`, `|`, `?`, `*` are not allowed.
         example: AWS Lambda svr 3
       isFlexible:
         type: boolean
@@ -10697,11 +10711,11 @@ definitions:
         description: >-
           Add a search query to receive the `scrollID` in the result.
 
-
           The query can take any of the parameters described in the [Elasticsearch Search API DSL documentation](https://www.elastic.co/guide/en/elasticsearch/reference/6.8/search.html) with the exceptions stated below.
 
-
           You can only add the `query` parameters if you are not passing the `scroll_id` in the request.
+
+          If you don’t want to apply any filters, pass an empty JSON object in the request body using --data '{}'.
 
           #### Limitations
 
