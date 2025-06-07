@@ -726,6 +726,274 @@ paths:
           description: 'Internal server error.'
 
 
+  # ::::: Logz.io Dashboards
+
+  /perses-pulic/api/v1/projects:
+    get:
+      summary: Get all projects
+      description: |
+        Retrieves a list of all Dashboards' folders (projects).
+      tags:
+            - Dashboards get all folders
+      parameters:
+        - in: body
+          name: withDashboards
+          description: Include dashboard information in the response.
+          required: false
+      responses:
+        '200':
+          description: List of folders
+          schema:
+            type: array
+            items:
+              type: object
+              properties:
+                id:
+                  type: string
+                  example: id-1
+                name:
+                  type: string
+                  example: system-metrics
+                displayName:
+                  type: string
+                  example: System Metrics
+                description:
+                  type: string
+                  example: System monitoring dashboards
+                dashboards:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      uid:
+                        type: string
+                        example: dashboard-1
+                      title:
+                        type: string
+                        example: CPU usage
+                createdAt:
+                  type: string
+                  example: 2024-03-20T10:00:00Z
+    
+    
+  /perses-pulic/api/v1/projects/:
+    post:
+      summary: Create project
+      description: |
+        Retrieves a list of all Dashboards' folders (projects).
+      tags:
+            - Dashboards get all folders
+      parameters:
+        - in: body
+          name: body
+          description: The project to create.
+          required: true
+      responses:
+        '201':
+          description: Created project
+          properties:
+                ProjectModel:
+                  type: string
+                  example: project-1
+    
+  /perses-pulic/api/v1/projects/{folderId}:
+    delete:
+      summary: Delete project
+      description: |
+        Deletes a project (folder) with the specified ID.
+      tags:
+            - Dashboards get all folders
+      parameters:
+        - in: body
+          name: folderId
+          description: The ID of the project to delete.
+          type: string
+          example: my-project
+          required: true
+      responses:
+        '400':
+          description: Not Found
+          schema:
+            type: object
+            properties:
+            message:
+              type: string
+              example: Error message
+            example: Error message
+        '401':
+          description: Unauthorized
+          schema:
+            type: object
+            properties:
+              message:
+              type: string 
+              example: Authentication required
+        '403':
+          description: Forbidden
+          schema:
+            type: object
+            properties:
+              message:
+              type: string 
+              example: Insufficient permissions
+        '404':
+          description: Not Found
+          schema:
+            type: object
+            properties:
+              message:
+              type: string 
+              example: Project not found
+        '409':
+          description: Conflict
+          schema:
+            type: object
+            properties:
+              message:
+              type: string 
+              example: Project with this name already exists
+        '500':
+          description: Internal Server Error
+          schema:
+            type: object
+            properties:
+              message:
+              type: string 
+              example: An unexpected error occurred
+    
+  /perses-pulic/api/v1/projects/{name}/1:
+    get:
+      summary: Get project by name
+      description: |
+        Retrieves a list of all Dashboards' folders (projects).
+      tags:
+            - Dashboards get all folders
+      parameters:
+        - in: body
+          name: body
+          description: The name of the project to retrieve.
+          type: string
+          example: my-project
+          required: true
+      responses:
+        '200':
+          description: Get project by name
+          schema:
+            type: array
+            items:
+              type: object
+              properties:
+                id:
+                  type: string
+                  example: project-1
+                name:
+                  type: string
+                  example: system-metrics
+                displayName:
+                  type: string
+                  example: System Metrics
+                description:
+                  type: string
+                  example: System monitoring dashboards
+                createdAt:
+                  type: string
+                  example: 2024-03-20T10:00:00Z
+    
+  /perses-pulic/api/v1/projects/{folderId}/rename:
+    put:
+      summary: Rename project
+      description: |
+        Retrieves a list of all Dashboards' folders (projects).
+      tags:
+            - Dashboards get all folders
+      parameters:
+        - in: body
+          name: folderId
+          required: true
+          type: string
+          example: my-project
+          description: The ID of the project to rename.
+      responses:
+        '200':
+          description: Project renamed successfully
+    
+  /perses-pulic/api/v1/projects/search:
+    post:
+      summary: Search projects
+      description: |
+        Search for projects based on provided criteria.
+      tags:
+            - Dashboards get all folders
+      parameters:
+        - in: body
+        -  name: query
+           type: string
+           example: my-project
+           description: The search query to filter projects.
+           required: false
+        - name: limit
+          type: integer
+          description: Maximum number of projects to return (default is 1000)
+          required: false
+        - name: page
+          description: Page number for fetching projects from other than the first one
+          type: integer
+          required: false
+        - name: sort
+          description: Sorting criteria for the projects
+          type: string
+          required: false
+        - name: order
+          type: string
+          description: Sorting order for the projects (asc or desc)
+          example: asc
+      responses:
+        '200':
+          description: List of search results
+          schema:
+            type: array
+            items:
+              type: object
+              properties:
+                items:
+                  type: string
+                  example: project-1
+                total:
+                  type: in
+                  example: 10
+                page:
+                  type: integer
+                  example: 2
+                limit:
+                  type: integer
+                  example: 10
+    
+
+  /perses-pulic/api/v1/projects/{name}:
+    put:
+      summary: Update project
+      description: |
+        Updates an existing project (folder) with the specified name.
+      tags:
+            - Dashboards get all folders
+      parameters:
+        - in: body
+          name: body
+          type: string
+          example: my-project
+          required: true
+      responses:
+        '200':
+          description: Project updated successfully
+          properties:
+                id:
+                  type: integer
+                uid:
+                  type: string
+                title:
+                  type: string
+    
+
 
 
   # ::::: GRAFANA
@@ -4171,7 +4439,7 @@ paths:
                 example: ^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9-]+)*(\.[A-Za-z]{2,})$
               accountName:
                 type: string
-                description: Name of metrics account to be created. If empty, the default name `<owner_account_name>_metrics` is used. Speical character such as `<`, `>`, `:`, `"`, `/`, `\`, `|`, `?`, `*` are not allowed.
+                description: Name of metrics account to be created. If empty, the default name `<owner_account_name>_metrics` is used.
               planUts:
                 type: integer
                 description: Usage plan for Unique Time Series (UTS). UTS defines the number of unique time series an account is allowed to have. If usage exceeds the plan, exceeding data points will not be processed.
@@ -4675,15 +4943,7 @@ paths:
                 type: object
                 description: >-
                   The query can take any of the parameters described in the [Elasticsearch Search API DSL documentation](https://www.elastic.co/guide/en/elasticsearch/reference/6.8/search.html) with the exceptions stated below.
-
-
-
-
-                  If you don’t want to apply any filters, pass an empty JSON object in the request body using --data '{}'.
   
-
-
-
                   #### Limitations
   
                   * When using `query_string`, `allow_leading_wildcard` must be set to `false`
@@ -7657,14 +7917,8 @@ paths:
           format: int32
           example: 305976
       responses:
-        204:
-            description: successful operation
-            schema:
-              type: object
-              properties:
-                message:
-                  type: string
-                  example: HTTP/1.1 204 No Content
+        default:
+          description: successful operation
 
 
   /v2/security/rules/bulk/update:
@@ -7993,7 +8247,7 @@ paths:
                 accountName:
                   type: string
                   required: true
-                  description: SIEM account name. Speical character such as `<`, `>`, `:`, `"`, `/`, `\`, `|`, `?`, `*` are not allowed.
+                  description: SIEM account name
                 accountsToScan:
                   type: array
                   description: IDs of accounts that will be accessed for logs. The owner account will be the default account to scan.
@@ -8993,7 +9247,7 @@ definitions:
         example: help@logz.io
       accountName:
         type: string
-        description: Name of the account. Speical character such as `<`, `>`, `:`, `"`, `/`, `\`, `|`, `?`, `*` are not allowed.
+        description: Name of the account
         example: AWS Lambda svr 3
       isFlexible:
         type: boolean
@@ -10711,11 +10965,11 @@ definitions:
         description: >-
           Add a search query to receive the `scrollID` in the result.
 
+
           The query can take any of the parameters described in the [Elasticsearch Search API DSL documentation](https://www.elastic.co/guide/en/elasticsearch/reference/6.8/search.html) with the exceptions stated below.
 
-          You can only add the `query` parameters if you are not passing the `scroll_id` in the request.
 
-          If you don’t want to apply any filters, pass an empty JSON object in the request body using --data '{}'.
+          You can only add the `query` parameters if you are not passing the `scroll_id` in the request.
 
           #### Limitations
 
