@@ -726,20 +726,21 @@ paths:
           description: 'Internal server error.'
 
 
-  # ::::: Logz.io Dashboards
+  # ::::: Logz.io Dashboards - Folders
 
   /perses-pulic/api/v1/projects:
     get:
-      summary: Get all projects
+      summary: Get all dashboards folders
       description: |
         Retrieves a list of all Dashboards' folders (projects).
       tags:
             - Dashboards get all folders
       parameters:
-        - in: body
-          name: withDashboards
-          description: Include dashboard information in the response.
+        - in: query
+          name: bodywithDashboards
+          type: 'string'
           required: false
+          description: Include dashboard information in the response.
       responses:
         '200':
           description: List of folders
@@ -778,38 +779,50 @@ paths:
     
   /perses-pulic/api/v1/projects/:
     post:
-      summary: Create project
+      summary: Create dashboards folder
       description: |
-        Retrieves a list of all Dashboards' folders (projects).
+        Create a new Dashboards' folders (projects).
       tags:
-            - Dashboards get all folders
-      parameters:
+            - Dashboards create new folders
+      parameters: 
         - in: body
           name: body
-          description: The project to create.
           required: true
+          schema:
+            type: object
+            properties:
+            name:
+             type: string
+             description: The name of the folder to create.
+             example: my-folder
+             required: true
       responses:
         '201':
-          description: Created project
+          description: Created dashboard folder
           properties:
                 ProjectModel:
                   type: string
-                  example: project-1
+                  example: folder-1
     
   /perses-pulic/api/v1/projects/{folderId}:
     delete:
-      summary: Delete project
+      summary: Delete dashboard folder
       description: |
-        Deletes a project (folder) with the specified ID.
+        Deletes a folder (project) with the specified ID.
       tags:
-            - Dashboards get all folders
-      parameters:
+            - Delete dashboard folder
+      parameters: 
         - in: body
-          name: folderId
-          description: The ID of the project to delete.
-          type: string
-          example: my-project
+          name: body
           required: true
+          schema:
+            type: object
+            properties:
+              folderId:
+                type: string
+                description: The ID of the folder to delete.
+                example: my-folder
+                required: true      
       responses:
         '400':
           description: Not Found
@@ -843,7 +856,7 @@ paths:
             properties:
               message:
               type: string 
-              example: Project not found
+              example: Folder not found
         '409':
           description: Conflict
           schema:
@@ -851,7 +864,7 @@ paths:
             properties:
               message:
               type: string 
-              example: Project with this name already exists
+              example: Folder with this name already exists
         '500':
           description: Internal Server Error
           schema:
@@ -863,21 +876,26 @@ paths:
     
   /perses-pulic/api/v1/projects/{name}/1:
     get:
-      summary: Get project by name
+      summary: Get dashboard folder by name
       description: |
-        Retrieves a list of all Dashboards' folders (projects).
+        Retrieves a list of specific Dashboards' folders (projects) by name.
       tags:
-            - Dashboards get all folders
-      parameters:
+            - Dashboards get specific folder
+      parameters: 
         - in: body
           name: body
-          description: The name of the project to retrieve.
-          type: string
-          example: my-project
           required: true
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+                description: The name of the folder to retrieve.
+                example: my-folder
+                required: true
       responses:
         '200':
-          description: Get project by name
+          description: Get folder by name
           schema:
             type: array
             items:
@@ -885,68 +903,77 @@ paths:
               properties:
                 id:
                   type: string
-                  example: project-1
+                  example: folder-1
                 name:
-                  type: string
-                  example: system-metrics
+                 type: string
+                 example: system-metrics
                 displayName:
-                  type: string
-                  example: System Metrics
+                 type: string
+                 example: System Metrics
                 description:
-                  type: string
-                  example: System monitoring dashboards
+                 type: string
+                 example: System monitoring dashboards
                 createdAt:
-                  type: string
-                  example: 2024-03-20T10:00:00Z
+                 type: string
+                 example: 2024-03-20T10:00:00Z
     
   /perses-pulic/api/v1/projects/{folderId}/rename:
     put:
-      summary: Rename project
+      summary: Rename dashboard folder
       description: |
-        Retrieves a list of all Dashboards' folders (projects).
+        Rename an existing Dashboards' folder (project).
       tags:
-            - Dashboards get all folders
-      parameters:
+            - Dashboards rename folders
+      parameters: 
         - in: body
-          name: folderId
+          name: body
           required: true
-          type: string
-          example: my-project
-          description: The ID of the project to rename.
+          schema:
+            type: object
+            properties:
+              folderId:
+                type: string
+                description: The ID of the folder to rename.
+                example: my-folder
+                required: true      
       responses:
         '200':
-          description: Project renamed successfully
+          description: Folder renamed successfully
     
   /perses-pulic/api/v1/projects/search:
     post:
-      summary: Search projects
+      summary: Search dashboard folders
       description: |
-        Search for projects based on provided criteria.
+        Search for folders based on provided criteria.
       tags:
-            - Dashboards get all folders
-      parameters:
+            - Dashboards search folders
+      parameters: 
         - in: body
-        -  name: query
-           type: string
-           example: my-project
-           description: The search query to filter projects.
-           required: false
-        - name: limit
-          type: integer
-          description: Maximum number of projects to return (default is 1000)
-          required: false
-        - name: page
-          description: Page number for fetching projects from other than the first one
-          type: integer
-          required: false
-        - name: sort
-          description: Sorting criteria for the projects
-          type: string
-          required: false
-        - name: order
-          type: string
-          description: Sorting order for the projects (asc or desc)
-          example: asc
+          name: body
+          schema:
+            type: object
+            properties:
+              query:
+                type: string
+                example: my-folder
+                description: The search query to filter folders.
+                required: false
+              limit:
+                type: integer
+                description: Maximum number of folders to return (default is 1000)
+                required: false
+              page:
+                type: integer
+                description: Page number for fetching folders from other than the first one
+                required: false
+              sort:
+                type: string
+                description: Sorting criteria for the folders
+                required: false
+              order:
+                type: string
+                description: Sorting order for the folders (asc or desc)
+                example: asc
       responses:
         '200':
           description: List of search results
@@ -957,7 +984,7 @@ paths:
               properties:
                 items:
                   type: string
-                  example: project-1
+                  example: folder-1
                 total:
                   type: in
                   example: 10
@@ -971,20 +998,26 @@ paths:
 
   /perses-pulic/api/v1/projects/{name}:
     put:
-      summary: Update project
+      summary: Update dashboard folder
       description: |
-        Updates an existing project (folder) with the specified name.
+        Updates an existing folder (project) with the specified name.
       tags:
-            - Dashboards get all folders
-      parameters:
+            - Dashboards update folder
+      parameters: 
         - in: body
           name: body
-          type: string
-          example: my-project
           required: true
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+                description: The name of the folders to retrieve.
+                example: my-folder
+                required: true
       responses:
         '200':
-          description: Project updated successfully
+          description: Folder updated successfully
           properties:
                 id:
                   type: integer
