@@ -725,6 +725,296 @@ paths:
         500:
           description: 'Internal server error.'
 
+  # ::::: Logz.io Dashboards - Dashboards
+
+  /perses-pulic/api/v1/dashboards:
+    get:
+      summary: Get all dashboards
+      description: |
+        Retrieves a list of all dashboards.
+      tags:
+            - Dashboards get all
+      parameters:
+        - in: body
+          type: 'string'
+          required: false
+      responses:
+        '200':
+          description: List of dashboards
+          schema:
+            type: array
+            items:
+              type: object
+              properties:
+                uid:
+                  type: string
+                  example: dashboard-1
+              schema:
+              - name: title
+                type: string
+                example: CPU usage
+              - name: panels
+                type: string
+              - name: refresh
+                type: string
+                example: 5s
+              veersion:
+                type: string
+                example: 1.0.0
+              createdAt:
+                type: string
+                example: 2024-03-20T10:00:00Z
+    
+  /perses-pulic/api/v1/projects/{folderId}/dashboards/{uid}:
+    get:
+      summary: Get dashboard by ID
+      description: |
+        Retrieves a specific dashboard by its ID.
+      tags:
+            - Dashboards get by ID
+      parameters:
+        - in: path
+          name: dashboardId
+          type: string
+          required: true
+          description: The ID of the dashboard to retrieve.
+      responses:
+        '200':
+          description: Dashboard details
+          schema:
+            type: object
+            properties:
+              uid:
+                type: string
+                example: dashboard-1
+              title:
+                type: string
+                example: CPU usage
+              panels:
+                type: string
+              refresh:
+                type: string
+                example: 5s
+              version:
+                type: string
+                example: 1.0.0
+              createdAt:
+                type: string
+                example: 2024-03-20T10:00:00Z
+
+  /perses-pulic/api/v1/projects/{folderId}/dashboards:
+    post:
+      summary: Create a new dashboard
+      description: |
+        Creates a new dashboard in the specified folder.
+      tags:
+            - Dashboards create new
+      parameters:
+        - in: path
+          name: folderId
+          type: string
+          required: true
+          description: The ID of the folder where the dashboard will be created.
+        - in: body
+          name: body
+          required: true
+          schema:
+            type: object
+            properties:
+              title:
+                type: string
+                example: CPU usage
+              panels:
+                type: string
+              refresh:
+                type: string
+                example: 5s
+      responses:
+        '201':
+          description: Created dashboard details
+          schema:
+            type: object
+            properties:
+              uid:
+                type: string
+                example: dashboard-1
+    
+  /perses-pulic/api/v1/projects/{folderId}/dashboards/{uid}/:
+    put:
+      summary: Update an existing dashboard
+      description: |
+        Updates an existing dashboard in the specified folder.
+      tags:
+            - Dashboards update
+      parameters:
+        - in: path
+          name: folderId
+          type: string
+          required: true
+          description: The ID of the folder where the dashboard is located.
+        - in: path
+          name: uid
+          type: string
+          required: true
+          description: The ID of the dashboard to update.
+        - in: body
+          name: body
+          required: true
+          schema:
+            type: object
+            properties:
+              title:
+                type: string
+                example: CPU usage updated
+              panels:
+                type: string
+              refresh:
+                type: string
+                example: 10s
+      responses:
+        '200':
+          description: Updated dashboard details
+          schema:
+            type: object
+            properties:
+              uid:
+                type: string
+                example: dashboard-1
+    
+  /perses-pulic/api/v1/projects/{folderId}/dashboards/{uid}/1:
+    delete:
+      summary: Delete a dashboard
+      description: |
+        Deletes a specific dashboard by its ID.
+      tags:
+            - Dashboards delete
+      parameters:
+        - in: path
+          name: folderId
+          type: string
+          required: true
+          description: The ID of the folder where the dashboard is located.
+        - in: path
+          name: uid
+          type: string
+          required: true
+          description: The ID of the dashboard to delete.
+      responses:
+        '204':
+          description: Dashboard deleted successfully
+        '404':
+          description: Dashboard not found
+  
+  /perses-pulic/api/v1/dashboards/move:
+    post:
+      summary: Move a dashboard to a different folder
+      description: |
+        Moves a dashboard to a different folder.
+      tags:
+            - Dashboards move
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            type: object
+            properties:
+              uid:
+                type: string
+                example: dashboard-1
+              targetFolderId:
+                type: string
+                example: folder-2
+      responses:
+        '200':
+          description: Dashboard moved successfully
+          schema:
+            type: object
+            properties:
+              uid:
+                type: string
+                example: dashboard-1
+
+  /perses-pulic/api/v1/dashboards/users:
+    get:
+      summary: Get dashboard by user
+      description: |
+        Retrieves a list of dashboards created by a specific user.
+      tags:
+            - Dashboards get by user
+      parameters:
+        - in: query
+          name: userId
+          type: string
+          required: true
+          description: The ID of the user whose dashboards are to be retrieved.
+      responses:
+        '200':
+          description: List of dashboards by user
+          schema:
+            type: array
+            items:
+              type: object
+              properties:
+                uid:
+                  type: string
+                  example: dashboard-1
+                title:
+                  type: string
+                  example: CPU usage
+
+  /perses-pulic/api/v1/projects/{folderId}/dashboards/{uid}/snapshot:
+    post:
+      summary: Create a snapshot of a dashboard
+      description: |
+        Creates a snapshot of a specific dashboard.
+      tags:
+            - Dashboards create snapshot
+      parameters:
+        - in: path
+          name: folderId
+          type: string
+          required: true
+          description: The ID of the folder where the dashboard is located.
+        - in: path
+          name: uid
+          type: string
+          required: true
+          description: The ID of the dashboard to create a snapshot for.
+      responses:
+        '201':
+          description: Snapshot created successfully
+          schema:
+            type: object
+            properties:
+              snapshotUrl:
+                type: string
+                example: https://snapshot.logz.io/dashboard-1-snapshot
+
+  /perses-pulic/api/v1/globaldatasources:
+    get:
+      summary: Get all global data sources
+      description: |
+        Retrieves a list of all global data sources.
+      tags:
+            - Dashboards get all global data sources
+      responses:
+        '200':
+          description: List of global data sources
+          schema:
+            type: array
+            items:
+              type: object
+              properties:
+                uid:
+                  type: string
+                  example: datasource-1
+                name:
+                  type: string
+                  example: Prometheus
+                type:
+                  type: string
+                  example: prometheus
 
   # ::::: Logz.io Dashboards - Folders
 
