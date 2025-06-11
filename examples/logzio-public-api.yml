@@ -963,33 +963,6 @@ paths:
                   type: string
                   example: CPU usage
 
-  /perses-pulic/api/v1/projects/{folderId}/dashboards/{uid}/snapshot:
-    post:
-      summary: Create a snapshot of a dashboard
-      description: |
-        Creates a snapshot of a specific dashboard.
-      tags:
-            - Dashboards create snapshot
-      parameters:
-        - in: path
-          name: folderId
-          type: string
-          required: true
-          description: The ID of the folder where the dashboard is located.
-        - in: path
-          name: uid
-          type: string
-          required: true
-          description: The ID of the dashboard to create a snapshot for.
-      responses:
-        '201':
-          description: Snapshot created successfully
-          schema:
-            type: object
-            properties:
-              snapshotUrl:
-                type: string
-                example: https://snapshot.logz.io/dashboard-1-snapshot
 
   /perses-pulic/api/v1/globaldatasources:
     get:
