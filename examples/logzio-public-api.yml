@@ -725,6 +725,528 @@ paths:
         500:
           description: 'Internal server error.'
 
+  # ::::: Logz.io Dashboards - Dashboards
+
+  /perses-pulic/api/v1/dashboards:
+    get:
+      summary: Get all dashboards
+      description: |
+        Retrieves a list of all dashboards.
+      tags:
+            - Dashboards get all
+      parameters:
+        - in: body
+          type: 'string'
+          required: false
+      responses:
+        '200':
+          description: List of dashboards
+          schema:
+            type: array
+            items:
+              type: object
+              properties:
+                uid:
+                  type: string
+                  example: dashboard-1
+              schema:
+              - name: title
+                type: string
+                example: CPU usage
+              - name: panels
+                type: string
+              - name: refresh
+                type: string
+                example: 5s
+              veersion:
+                type: string
+                example: 1.0.0
+              createdAt:
+                type: string
+                example: 2024-03-20T10:00:00Z
+    
+  /perses-pulic/api/v1/projects/{folderId}/dashboards/{uid}:
+    get:
+      summary: Get dashboard by ID
+      description: |
+        Retrieves a specific dashboard by its ID.
+      tags:
+            - Dashboards get by ID
+      parameters:
+        - in: path
+          name: dashboardId
+          type: string
+          required: true
+          description: The ID of the dashboard to retrieve.
+      responses:
+        '200':
+          description: Dashboard details
+          schema:
+            type: object
+            properties:
+              uid:
+                type: string
+                example: dashboard-1
+              title:
+                type: string
+                example: CPU usage
+              panels:
+                type: string
+              refresh:
+                type: string
+                example: 5s
+              version:
+                type: string
+                example: 1.0.0
+              createdAt:
+                type: string
+                example: 2024-03-20T10:00:00Z
+
+  /perses-pulic/api/v1/projects/{folderId}/dashboards:
+    post:
+      summary: Create a new dashboard
+      description: |
+        Creates a new dashboard in the specified folder.
+      tags:
+            - Dashboards create new
+      parameters:
+        - in: path
+          name: folderId
+          type: string
+          required: true
+          description: The ID of the folder where the dashboard will be created.
+        - in: body
+          name: body
+          required: true
+          schema:
+            type: object
+            properties:
+              title:
+                type: string
+                example: CPU usage
+              panels:
+                type: string
+              refresh:
+                type: string
+                example: 5s
+      responses:
+        '201':
+          description: Created dashboard details
+          schema:
+            type: object
+            properties:
+              uid:
+                type: string
+                example: dashboard-1
+    
+  /perses-pulic/api/v1/projects/{folderId}/dashboards/{uid}/:
+    put:
+      summary: Update an existing dashboard
+      description: |
+        Updates an existing dashboard in the specified folder.
+      tags:
+            - Dashboards update
+      parameters:
+        - in: path
+          name: folderId
+          type: string
+          required: true
+          description: The ID of the folder where the dashboard is located.
+        - in: path
+          name: uid
+          type: string
+          required: true
+          description: The ID of the dashboard to update.
+        - in: body
+          name: body
+          required: true
+          schema:
+            type: object
+            properties:
+              title:
+                type: string
+                example: CPU usage updated
+              panels:
+                type: string
+              refresh:
+                type: string
+                example: 10s
+      responses:
+        '200':
+          description: Updated dashboard details
+          schema:
+            type: object
+            properties:
+              uid:
+                type: string
+                example: dashboard-1
+    
+  /perses-pulic/api/v1/projects/{folderId}/dashboards/{uid}/1:
+    delete:
+      summary: Delete a dashboard
+      description: |
+        Deletes a specific dashboard by its ID.
+      tags:
+            - Dashboards delete
+      parameters:
+        - in: path
+          name: folderId
+          type: string
+          required: true
+          description: The ID of the folder where the dashboard is located.
+        - in: path
+          name: uid
+          type: string
+          required: true
+          description: The ID of the dashboard to delete.
+      responses:
+        '204':
+          description: Dashboard deleted successfully
+        '404':
+          description: Dashboard not found
+  
+  /perses-pulic/api/v1/dashboards/move:
+    post:
+      summary: Move a dashboard to a different folder
+      description: |
+        Moves a dashboard to a different folder.
+      tags:
+            - Dashboards move
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            type: object
+            properties:
+              uid:
+                type: string
+                example: dashboard-1
+              targetFolderId:
+                type: string
+                example: folder-2
+      responses:
+        '200':
+          description: Dashboard moved successfully
+          schema:
+            type: object
+            properties:
+              uid:
+                type: string
+                example: dashboard-1
+
+  /perses-pulic/api/v1/dashboards/users:
+    get:
+      summary: Get dashboard by user
+      description: |
+        Retrieves a list of dashboards created by a specific user.
+      tags:
+            - Dashboards get by user
+      parameters:
+        - in: query
+          name: userId
+          type: string
+          required: true
+          description: The ID of the user whose dashboards are to be retrieved.
+      responses:
+        '200':
+          description: List of dashboards by user
+          schema:
+            type: array
+            items:
+              type: object
+              properties:
+                uid:
+                  type: string
+                  example: dashboard-1
+                title:
+                  type: string
+                  example: CPU usage
+
+
+  /perses-pulic/api/v1/globaldatasources:
+    get:
+      summary: Get all global data sources
+      description: |
+        Retrieves a list of all global data sources.
+      tags:
+            - Dashboards get all global data sources
+      responses:
+        '200':
+          description: List of global data sources
+          schema:
+            type: array
+            items:
+              type: object
+              properties:
+                uid:
+                  type: string
+                  example: datasource-1
+                name:
+                  type: string
+                  example: Prometheus
+                type:
+                  type: string
+                  example: prometheus
+
+  # ::::: Logz.io Dashboards - Folders
+
+  /perses-pulic/api/v1/projects:
+    get:
+      summary: Get all dashboards folders
+      description: |
+        Retrieves a list of all dashboard folders (projects).
+      tags:
+            - Dashboards get all folders
+      parameters:
+        - in: query
+          name: withDashboards
+          type: string
+          required: false
+          description: Include dashboard information in the response
+      responses:
+        '200':
+          description: List of dashboard folders
+          schema:
+            type: array
+            items:
+              type: object
+              properties:
+                id:
+                  type: string
+                  example: folder-1
+                name:
+                 type: string
+                 example: system-metrics
+                displayName:
+                 type: string
+                 example: System Metrics
+                description:
+                 type: string
+                 example: System monitoring dashboards
+                createdAt:
+                 type: string
+                 example: 2024-03-20T10:00:00Z
+    
+  /perses-pulic/api/v1/projects/:
+    post:
+      summary: Create dashboards folder
+      description: |
+        Creates a new folder (project) with the specified name.
+      tags:
+            - Dashboards create new folder
+      parameters: 
+        - in: body
+          name: body
+          required: true
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+                description: The name of the folder to create.
+                example: my-folder
+                required: true      
+      responses:
+        '201':
+          description: Folder created successfully
+          schema:
+            type: object
+            properties:
+              id:
+                type: string
+                example: folder-1
+    
+  /perses-pulic/api/v1/projects/{folderId}:
+    delete:
+      summary: Delete dashboard folder
+      description: |
+        Deletes a specific dashboard folder (project) by its ID.
+      tags:
+            - Dashboards delete folder
+      parameters: 
+        - in: path
+          name: folderId
+          type: string
+          required: true
+          description: The ID of the folder to delete.
+      responses:
+        '204':
+          description: Folder deleted successfully
+        '404':
+          description: Folder not found
+        '401':
+          description: Unauthorized access to delete folder
+        '400':
+          description: Bad request, invalid folder ID
+        '403':
+          description: Forbidden, insufficient permissions to delete folder
+        '409':
+          description: Conflict, folder is not empty or has dependencies
+        '500':
+          description: Internal server error, unable to delete folder
+    
+  /perses-pulic/api/v1/projects/{name}:
+    get:
+      summary: Get dashboard folder by name
+      description: |
+        Retrieves a specific dashboard folder (project) by its name.
+      tags:
+            - Dashboards get folder by name
+      parameters: 
+        - in: path
+          name: name
+          type: string
+          required: true
+          description: The name of the folder to retrieve.
+      responses:
+        '200':
+          description: Folder details
+          schema:
+            type: object
+            properties:
+              id:
+                type: string
+                example: folder-1
+              name:
+                type: string
+                example: my-folder
+              displayName:
+                type: string
+                example: My Folder
+              description:
+                type: string
+                example: This is my dashboard folder
+              createdAt:
+                type: string
+                example: 2024-03-20T10:00:00Z
+    
+  /perses-pulic/api/v1/projects/{folderId}/rename:
+    put:
+      summary: Rename dashboard folder
+      description: |
+        Renames an existing dashboard folder (project) with the specified name.
+      tags:
+            - Dashboards rename folder
+      parameters: 
+        - in: path
+          name: folderId
+          type: string
+          required: true
+          description: The ID of the folder to rename.
+        - in: body
+          name: body
+          required: true
+          schema:
+            type: object
+            properties:
+              newName:
+                type: string
+                description: The new name for the folder.
+                example: my-new-folder
+                required: true      
+      responses:
+        '200':
+          description: Folder renamed successfully
+          schema:
+            type: object
+            properties:
+              id:
+                type: string
+                example: folder-1
+              name:
+                type: string
+                example: my-new-folder
+    
+    
+  /perses-pulic/api/v1/projects/search:
+    get:
+      summary: Search dashboard folders
+      description: |
+        Searches for dashboard folders (projects) by name.
+      tags:
+        - Dashboards search folder
+      parameters:
+        - in: query
+          name: query
+          type: string
+          required: true
+          description: The search query to filter folders by name.
+        - in: query
+          name: limit
+          type: integer
+          required: false
+          description: Maximum number of folders to return (default is 1000)
+          example: 1000
+        - in: query
+          name: page
+          type: integer
+          required: false
+          description: Page number for fetching folders from other than the first one
+          example: 1
+        - in: query
+          name: sort
+          type: string
+          required: false
+          description: Sort criteria for the results (e.g., 'asc', 'desc')
+          example: asc
+      responses:
+        '200':
+          description: List of matching folders
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      example: folder-1
+                    name:
+                      type: string
+                      example: my-folder
+    
+
+  /perses-pulic/api/v1/projects/{name}1:
+    put:
+      summary: Update dashboard folder
+      description: |
+        Updates an existing dashboard folder (project) with the specified name.
+      tags:
+            - Dashboards update folder
+      parameters: 
+        - in: path
+          name: name
+          type: string
+          required: true
+          description: The name of the folder to update.
+        - in: body
+          name: body
+          required: true
+          schema:
+            type: object
+            properties:
+              displayName:
+                type: string
+                description: The new display name for the folder.
+                example: My Updated Folder
+              description:
+                type: string
+                description: The new description for the folder.
+                example: This is my updated dashboard folder      
+      responses:
+        '200':
+          description: Folder updated successfully
+          schema:
+            type: object
+            properties:
+              id:
+                type: string
+                example: folder-1
+              name:
+                type: string
+                example: my-folder
 
 
 
@@ -4171,7 +4693,7 @@ paths:
                 example: ^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9-]+)*(\.[A-Za-z]{2,})$
               accountName:
                 type: string
-                description: Name of metrics account to be created. If empty, the default name `<owner_account_name>_metrics` is used. Speical character such as `<`, `>`, `:`, `"`, `/`, `\`, `|`, `?`, `*` are not allowed.
+                description: Name of metrics account to be created. If empty, the default name `<owner_account_name>_metrics` is used.
               planUts:
                 type: integer
                 description: Usage plan for Unique Time Series (UTS). UTS defines the number of unique time series an account is allowed to have. If usage exceeds the plan, exceeding data points will not be processed.
@@ -4675,15 +5197,7 @@ paths:
                 type: object
                 description: >-
                   The query can take any of the parameters described in the [Elasticsearch Search API DSL documentation](https://www.elastic.co/guide/en/elasticsearch/reference/6.8/search.html) with the exceptions stated below.
-
-
-
-
-                  If you don’t want to apply any filters, pass an empty JSON object in the request body using --data '{}'.
   
-
-
-
                   #### Limitations
   
                   * When using `query_string`, `allow_leading_wildcard` must be set to `false`
@@ -7657,14 +8171,8 @@ paths:
           format: int32
           example: 305976
       responses:
-        204:
-            description: successful operation
-            schema:
-              type: object
-              properties:
-                message:
-                  type: string
-                  example: HTTP/1.1 204 No Content
+        default:
+          description: successful operation
 
 
   /v2/security/rules/bulk/update:
@@ -7993,7 +8501,7 @@ paths:
                 accountName:
                   type: string
                   required: true
-                  description: SIEM account name. Speical character such as `<`, `>`, `:`, `"`, `/`, `\`, `|`, `?`, `*` are not allowed.
+                  description: SIEM account name
                 accountsToScan:
                   type: array
                   description: IDs of accounts that will be accessed for logs. The owner account will be the default account to scan.
@@ -8993,7 +9501,7 @@ definitions:
         example: help@logz.io
       accountName:
         type: string
-        description: Name of the account. Speical character such as `<`, `>`, `:`, `"`, `/`, `\`, `|`, `?`, `*` are not allowed.
+        description: Name of the account
         example: AWS Lambda svr 3
       isFlexible:
         type: boolean
@@ -10711,11 +11219,11 @@ definitions:
         description: >-
           Add a search query to receive the `scrollID` in the result.
 
+
           The query can take any of the parameters described in the [Elasticsearch Search API DSL documentation](https://www.elastic.co/guide/en/elasticsearch/reference/6.8/search.html) with the exceptions stated below.
 
-          You can only add the `query` parameters if you are not passing the `scroll_id` in the request.
 
-          If you don’t want to apply any filters, pass an empty JSON object in the request body using --data '{}'.
+          You can only add the `query` parameters if you are not passing the `scroll_id` in the request.
 
           #### Limitations
 
