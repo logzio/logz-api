@@ -189,7 +189,7 @@ tags:
       Archiving is not affected by drop filters. Logs dropped by drop filters will still be archived, if archiving is configured for the account. With archiving configured, you can readily use drop filters to reduce logging bulk and restore the logs in the event that they become relevant.
   - name: Manage shared tokens
     description: >-
-      You can share Kibana visualization and dashboard snapshots using shared tokens.
+      You can share Kibana visualization and dashboard snapshots using shared tokens. Snapshots are stored for 30 days and automatically deleted afterwards.
       Token filters are available to help you control what data to expose.
 
 
@@ -4341,7 +4341,7 @@ paths:
         operationId: getGrafanaSnapshot
         summary: Get list of Snapshots
         description: |
-          Get list of Snapshots. 
+          Get list of Snapshots. Note that snapshots are stored for 30 days and automatically deleted afterwards.
           Please ensure to change the region in the URL to match your account's region.
         tags:
           - Grafana snapshots
@@ -4409,7 +4409,7 @@ paths:
         operationId: postGrafanaSnapshot
         summary: Create a snapshot
         description: |
-          Creates a snapshot. 
+          Creates a snapshot. Snapshots are stored for 30 days and automatically deleted afterwards.
           Please ensure to change the region in the URL to match your account's region.
         tags:
           - Grafana snapshots
@@ -4476,7 +4476,7 @@ paths:
   /v1/grafana/api/snapshots/:key/:
       get:
         operationId: getGrafanaSnapshotbyKey
-        summary: Get Snapshot by Key
+        summary: Get Snapshot by Key. Snapshots are stored for 30 days and automatically deleted afterwards.
         description: |
           Gets Snapshot by Key. 
           Please ensure to change the region in the URL to match your account's region.
@@ -4581,7 +4581,7 @@ paths:
   
       delete:
         operationId: deleteGrafanaSnapshotbyKey
-        summary: Delete Snapshot by Key
+        summary: Delete Snapshot by Key. Snapshots are stored for 30 days and automatically deleted afterwards.
         description: >-
           Deletes snapshot by Key.
         tags:
@@ -4610,9 +4610,9 @@ paths:
   /v1/grafana/api/snapshots-delete/:deleteKey:
       get:
         operationId: deleteGrafanaSnapshotbyDeleteKey
-        summary: Delete snapshot by deleteKey
+        summary: Delete snapshot by deleteKey.
         description: |
-          Delete snapshot by deleteKey. 
+          Delete snapshot by deleteKey. Note that snapshots are stored for 30 days and automatically deleted afterwards.
           Please ensure to change the region in the URL to match your account's region.
         tags:
           - Grafana snapshots
@@ -7704,7 +7704,7 @@ paths:
         - Logz.io snapshots
       summary: Create a snapshot
       description: |
-        Creates a new Kibana snapshot and shares with recipients through email or notification endpoint. 
+        Creates a new Kibana snapshot and shares with recipients through email or notification endpoint. Snapshots are stored for 30 days and automatically deleted afterwards.
         Please ensure to change the region in the URL to match your account's region.
       operationId: createSnapshot
       parameters:
@@ -7725,7 +7725,7 @@ paths:
         - Logz.io snapshots
       summary: Retrieve a snapshot by ID
       description: |
-        Returns the details of a snapshot, such as status and the snapshot image URL. 
+        Returns the details of a snapshot, such as status and the snapshot image URL. Note that snapshots are stored for 30 days and automatically deleted afterwards.
         Please ensure to change the region in the URL to match your account's region.
       operationId: getSnapshot
       parameters:
