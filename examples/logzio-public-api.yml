@@ -4476,9 +4476,9 @@ paths:
   /v1/grafana/api/snapshots/:key/:
       get:
         operationId: getGrafanaSnapshotbyKey
-        summary: Get Snapshot by Key. Snapshots are stored for 30 days and automatically deleted afterwards.
+        summary: Get Snapshot by Key.
         description: |
-          Gets Snapshot by Key. 
+          Gets Snapshot by Key.  Snapshots are stored for 30 days and automatically deleted afterwards.
           Please ensure to change the region in the URL to match your account's region.
         tags:
           - Grafana snapshots
@@ -4581,9 +4581,9 @@ paths:
   
       delete:
         operationId: deleteGrafanaSnapshotbyKey
-        summary: Delete Snapshot by Key. Snapshots are stored for 30 days and automatically deleted afterwards.
+        summary: Delete Snapshot by Key.
         description: >-
-          Deletes snapshot by Key.
+          Deletes snapshot by Key. Snapshots are stored for 30 days and automatically deleted afterwards.
         tags:
           - Grafana snapshots
         parameters:
