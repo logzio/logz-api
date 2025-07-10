@@ -11967,7 +11967,7 @@ definitions:
           description: >-
             To sort by creation date, use `"createdAt"`.
             To sort by name, use `"name"`.
-          example: NAME
+          example: name
         descending:
           type: boolean
           description: >-
