@@ -10264,9 +10264,9 @@ definitions:
         description: Sort by a single parameter.
         enum:
           - SEVERITY
-          - NAME
-          - CREATED_AT
-          - UPDATED_AT
+          - name
+          - createdAt
+          - updatedAt
       descending:
         type: boolean
         default: true
@@ -11962,12 +11962,12 @@ definitions:
         field:
           type: string
           enum:
-            - CREATED_AT
-            - NAME
+            - createdAt
+            - name
           description: >-
             To sort by creation date, use `"createdAt"`.
             To sort by name, use `"name"`.
-          example: NAME
+          example: name
         descending:
           type: boolean
           description: >-
