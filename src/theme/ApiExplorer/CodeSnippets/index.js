@@ -182,7 +182,7 @@ function CodeSnippets({ postman, codeSamples }) {
   const contentType = (0, hooks_1.useTypedSelector)(
     (state) => state.contentType.value
   );
-  const accept = (0, hooks_1.useTypedSelector)((state) => state.accept.value);
+  //const accept = (0, hooks_1.useTypedSelector)((state) => state.accept.value);
   const server = (0, hooks_1.useTypedSelector)((state) => state.server.value);
   const body = (0, hooks_1.useTypedSelector)((state) => state.body);
   const pathParams = (0, hooks_1.useTypedSelector)(
@@ -234,7 +234,7 @@ function CodeSnippets({ postman, codeSamples }) {
         pathParams,
         cookieParams,
         contentType,
-        accept,
+        //accept,
         headerParams,
         body,
         server,
@@ -267,7 +267,7 @@ function CodeSnippets({ postman, codeSamples }) {
         pathParams,
         cookieParams,
         contentType,
-        accept,
+        //accept,
         headerParams,
         body,
         server,
@@ -289,7 +289,7 @@ function CodeSnippets({ postman, codeSamples }) {
       setCodeText("");
     }
   }, [
-    accept,
+    //accept,
     body,
     contentType,
     cookieParams,
@@ -309,7 +309,7 @@ function CodeSnippets({ postman, codeSamples }) {
         pathParams,
         cookieParams,
         contentType,
-        accept,
+        //accept,
         headerParams,
         body,
         server,
