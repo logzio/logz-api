@@ -11731,6 +11731,13 @@ definitions:
         type: array
         items:
           $ref: '#/definitions/FieldCondition'
+      thresholdInGB:
+        type: number
+        format: double
+        description: >-
+          The threshold in GB for the drop filter. If the total size of the logs that match the filter exceeds this threshold, the logs are dropped before indexing.
+          <br> If not specified, the default is `0`, which means that all logs that match the filter are dropped.
+        example: 10.5
 
 
   FieldCondition:
@@ -11765,6 +11772,13 @@ definitions:
         description: Filters for an exact match of a field:value pair.
         items:
           $ref: '#/definitions/FieldCondition'
+      thresholdInGB:
+        type: number
+        format: double
+        description: >-
+          The threshold in GB for the drop filter. If the total size of the logs that match the filter exceeds this threshold, the logs are dropped before indexing.
+          <br> If not specified, the default is `0`, which means that all logs that match the filter are dropped.
+        example: 10.5
 
 
   # ::::: Archive DEFINITIONS
