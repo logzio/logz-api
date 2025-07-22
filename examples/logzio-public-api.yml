@@ -727,7 +727,7 @@ paths:
 
   # ::::: Logz.io Dashboards - Dashboards
 
-  /perses-pulic/api/v1/dashboards:
+  /perses-public/api/v1/dashboards:
     get:
       summary: Get all dashboards
       description: |
@@ -765,7 +765,7 @@ paths:
                 type: string
                 example: 2024-03-20T10:00:00Z
     
-  /perses-pulic/api/v1/projects/{folderId}/dashboards/{uid}:
+  /perses-public/api/v1/projects/{folderId}/dashboards/{uid}:
     get:
       summary: Get dashboard by ID
       description: |
@@ -802,7 +802,7 @@ paths:
                 type: string
                 example: 2024-03-20T10:00:00Z
 
-  /perses-pulic/api/v1/projects/{folderId}/dashboards:
+  /perses-public/api/v1/projects/{folderId}/dashboards:
     post:
       summary: Create a new dashboard
       description: |
@@ -839,7 +839,7 @@ paths:
                 type: string
                 example: dashboard-1
     
-  /perses-pulic/api/v1/projects/{folderId}/dashboards/{uid}/:
+  /perses-public/api/v1/projects/{folderId}/dashboards/{uid}/:
     put:
       summary: Update an existing dashboard
       description: |
@@ -881,7 +881,7 @@ paths:
                 type: string
                 example: dashboard-1
     
-  /perses-pulic/api/v1/projects/{folderId}/dashboards/{uid}/1:
+  /perses-public/api/v1/projects/{folderId}/dashboards/{uid}/1:
     delete:
       summary: Delete a dashboard
       description: |
@@ -905,7 +905,7 @@ paths:
         '404':
           description: Dashboard not found
   
-  /perses-pulic/api/v1/dashboards/move:
+  /perses-public/api/v1/dashboards/move:
     post:
       summary: Move a dashboard to a different folder
       description: |
@@ -935,7 +935,7 @@ paths:
                 type: string
                 example: dashboard-1
 
-  /perses-pulic/api/v1/dashboards/users:
+  /perses-public/api/v1/dashboards/users:
     get:
       summary: Get dashboard by user
       description: |
@@ -964,7 +964,7 @@ paths:
                   example: CPU usage
 
 
-  /perses-pulic/api/v1/globaldatasources:
+  /perses-public/api/v1/globaldatasources:
     get:
       summary: Get all global data sources
       description: |
@@ -991,7 +991,7 @@ paths:
 
   # ::::: Logz.io Dashboards - Folders
 
-  /perses-pulic/api/v1/projects:
+  /perses-public/api/v1/projects:
     get:
       summary: Get all dashboards folders
       description: |
@@ -1028,7 +1028,7 @@ paths:
                  type: string
                  example: 2024-03-20T10:00:00Z
     
-  /perses-pulic/api/v1/projects/:
+  /perses-public/api/v1/projects/:
     post:
       summary: Create dashboards folder
       description: |
@@ -1057,7 +1057,7 @@ paths:
                 type: string
                 example: folder-1
     
-  /perses-pulic/api/v1/projects/{folderId}:
+  /perses-public/api/v1/projects/{folderId}:
     delete:
       summary: Delete dashboard folder
       description: |
@@ -1086,7 +1086,7 @@ paths:
         '500':
           description: Internal server error, unable to delete folder
     
-  /perses-pulic/api/v1/projects/{name}:
+  /perses-public/api/v1/projects/{name}:
     get:
       summary: Get dashboard folder by name
       description: |
@@ -1121,7 +1121,7 @@ paths:
                 type: string
                 example: 2024-03-20T10:00:00Z
     
-  /perses-pulic/api/v1/projects/{folderId}/rename:
+  /perses-public/api/v1/projects/{folderId}/rename:
     put:
       summary: Rename dashboard folder
       description: |
@@ -1159,7 +1159,7 @@ paths:
                 example: my-new-folder
     
     
-  /perses-pulic/api/v1/projects/search:
+  /perses-public/api/v1/projects/search:
     get:
       summary: Search dashboard folders
       description: |
@@ -1208,7 +1208,7 @@ paths:
                       example: my-folder
     
 
-  /perses-pulic/api/v1/projects/{name}1:
+  /perses-public/api/v1/projects/{name}1:
     put:
       summary: Update dashboard folder
       description: |
