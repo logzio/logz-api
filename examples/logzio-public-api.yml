@@ -11134,6 +11134,7 @@ definitions:
           - search
           - visualization
           - dashboard
+          - query
         description: The object type to export
   KibanaImportResponse:
     type: object
