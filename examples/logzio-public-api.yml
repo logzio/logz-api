@@ -8501,7 +8501,7 @@ paths:
                 accountName:
                   type: string
                   required: true
-                  description: SIEM account name
+                  description: Name of the SIEM account. Allowed characters include letters, numbers, dashes (`-`), dots (`.`), underscores (`_`), and spaces. Special characters such as `<`, `>`, `:`, `\"`, `/`, `\\`, `|`, `?`, `*` are not supported.
                 accountsToScan:
                   type: array
                   description: IDs of accounts that will be accessed for logs. The owner account will be the default account to scan.
@@ -9311,7 +9311,7 @@ definitions:
     properties:
       accountName:
         type: string
-        description: Name of the account
+        description: Name of the account.
         example: Jean Valjean
       accountId:
         type: integer
@@ -9401,7 +9401,7 @@ definitions:
     properties:
       accountName:
         type: string
-        description: Name of the account
+        description: Name of the account. Allowed characters include letters, numbers, dashes (`-`), dots (`.`), underscores (`_`), and spaces. Special characters such as `<`, `>`, `:`, `\"`, `/`, `\\`, `|`, `?`, `*` are not supported.
         example: AWS Lambda svr 3
       reservedDailyGB:
         type: number
@@ -9501,7 +9501,7 @@ definitions:
         example: help@logz.io
       accountName:
         type: string
-        description: Name of the account
+        description: Name of the account. Allowed characters include letters, numbers, dashes (`-`), dots (`.`), underscores (`_`), and spaces. Special characters such as `<`, `>`, `:`, `\"`, `/`, `\\`, `|`, `?`, `*` are not supported.
         example: AWS Lambda svr 3
       isFlexible:
         type: boolean
