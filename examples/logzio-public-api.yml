@@ -11728,10 +11728,14 @@ definitions:
         type: string
         description: Filters for the [log type](/user-guide/log-shipping/built-in-log-types.html).
         example: apache
+      description:
+        type: string
+        description: Description of the drop filter
+        example: Drop all logs with response code 500
       fieldConditions:
         type: array
         items:
-          $ref: '#/definitions/FieldCondition'
+          $ref: '#/definitions/FieldCondition'      
       thresholdInGB:
         type: number
         format: double
@@ -11768,6 +11772,10 @@ definitions:
         type: string
         description: Filters for the [log type](/user-guide/log-shipping/built-in-log-types.html).
         example: apache
+      description:
+        type: string
+        description: Description of the drop filter
+        example: Drop all logs with response code 500
       fieldConditions:
         type: array
         description: Filters for an exact match of a field:value pair.
