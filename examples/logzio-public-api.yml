@@ -1325,7 +1325,7 @@ paths:
               version:   { type: integer, format: int64 }
             additionalProperties: true
 
-  /v1/grafana/api/folders/{id}:
+  /v1/grafana/api/folders/{uid}:
     parameters:
       - in: path
         name: uid
@@ -1378,10 +1378,6 @@ paths:
               type: string
               description: The title of the folder
               example: Updated Folder Title
-            version:
-              type: integer
-              description: The version number of the folder
-              example: 2
             overwrite:
               type: boolean
               description: Whether to overwrite if folder exists
