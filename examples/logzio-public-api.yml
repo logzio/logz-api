@@ -9614,7 +9614,7 @@ definitions:
     properties:
       accountId:
         type: integer
-        format: int32
+        format: int64
         description: ID of the account
         example: 99999
       email:
@@ -9629,7 +9629,7 @@ definitions:
         type: boolean
         default: false
         description: >-
-          Indicates whether the plan has **shared volume** enabled.
+          Time-based accounts only. Indicates whether the plan has **shared volume** enabled.
           
           
           If `true`, the volume of data that the account can index per calendar day is determined by 2 parameters: `reservedDailyGB` (Required) and  `maxDailyGB` (Optional, can be null).
@@ -9642,6 +9642,7 @@ definitions:
         format: float
         default: null
         description: >-
+          Time-based only. Daily reserved capacity in GB.
           * If `isFlexible=false`, this field does not apply and will be null.
 
           * If `isFlexible=true`, this determines the daily volume in GBs that is reserved for the account, given as an integer.
