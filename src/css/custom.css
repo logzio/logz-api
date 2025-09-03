@@ -29,6 +29,11 @@
   --ifm-code-font-size: 90%; /*95%;*/
 }
 
+.plan-badge{display:inline-flex;align-items:center;font-size:10.5px;line-height:1.25;padding:2px 8px;margin-left:8px;border-radius:9999px;white-space:nowrap;background:var(--ifm-badge-background-color);border:1px solid var(--ifm-color-emphasis-300);color:var(--ifm-color-content)}
+.plan-time-based{background:#eaf2ff;color:#1e40af}
+.plan-consumption{background:#f6eaff;color:#6b21a8}
+
+
 /* Sidebar Method labels */
 .api-method>.menu__link {
   align-items: center;

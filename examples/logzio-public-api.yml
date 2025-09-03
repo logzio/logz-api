@@ -5010,7 +5010,11 @@ paths:
 
         * Must be run with an API token from the main account.
 
-        Please ensure to change the region in the URL to match your account's region.
+        * Plan-specific fields - In the schema below, properties may be labeled as **Subscription** or **Consumption**. If a field doesn’t apply to your plan, it may be `null`.
+
+        * Please ensure to change the region in the URL to match your account's region.
+
+
       tags:
         - Manage time-based log accounts
       operationId: getAll
@@ -5025,6 +5029,12 @@ paths:
       summary: Create a sub account
       description: |
         Creates a new logging sub account. Must be run with an API token from the main account. 
+        
+        
+        In the schema below, properties may be labeled as **Subscription** or **Consumption**. If a field doesn’t apply to your plan, it may be `null`.
+        
+        
+        
         Please ensure to change the region in the URL to match your account's region.
       tags:
         - Manage time-based log accounts
@@ -5048,6 +5058,12 @@ paths:
       summary: Retrieve account settings by ID
       description: |
         Returns account configuration settings as a JSON object. Must be run with an API token from the main account. 
+        
+        
+        In the schema below, properties may be labeled as **Subscription** or **Consumption**. If a field doesn’t apply to your plan, it may be `null`. 
+        
+        
+        
         Please ensure to change the region in the URL to match your account's region.
       tags:
         - Manage time-based log accounts
@@ -9506,10 +9522,12 @@ definitions:
       isFlexible:
         type: boolean
         default: false
+        x-plan: Subscription
       reservedDailyGB:
         type: number
         format: float
         default: null
+        x-plan: Subscription
         description: >-
           * If `isFlexible=false`, don't send this field or send it null.
    
@@ -9519,6 +9537,7 @@ definitions:
       maxDailyGB:
         type: number
         format: float
+        x-plan: Subscription
         description: >-
           The maximum volume of data that an account can index per calendar day.
 
@@ -9628,8 +9647,9 @@ definitions:
       isFlexible:
         type: boolean
         default: false
+        x-plan: Subscription
         description: >-
-          Time-based accounts only. Indicates whether the plan has **shared volume** enabled.
+          Indicates whether the plan has **shared volume** enabled.
           
           
           If `true`, the volume of data that the account can index per calendar day is determined by 2 parameters: `reservedDailyGB` (Required) and  `maxDailyGB` (Optional, can be null).
@@ -9641,14 +9661,16 @@ definitions:
         type: number
         format: float
         default: null
+        x-plan: Subscription
         description: >-
-          Time-based only. Daily reserved capacity in GB.
+          Daily reserved capacity in GB.
           * If `isFlexible=false`, this field does not apply and will be null.
 
           * If `isFlexible=true`, this determines the daily volume in GBs that is reserved for the account, given as an integer.
       maxDailyGB:
         type: number
         format: float
+        x-plan: Subscription
         description: >-
           The maximum volume of data that an account can index per calendar day.
 
@@ -9682,6 +9704,7 @@ definitions:
       isCapped:
         type: boolean
         default: false
+        x-plan: Subscription
         description: >-
           * If `isFlexible=false`, this field does not apply and will be `false`.
    
@@ -9691,6 +9714,7 @@ definitions:
       totalTimeBasedDailyGB:
         type: number
         format: float
+        x-plan: Subscription
         description: >-
           * If `isFlexible=false`, this field does not apply and will be `null`.
    
@@ -9700,6 +9724,7 @@ definitions:
       sharedGB:
         type: number
         format: float
+        x-plan: Subscription
         description: >-
           * If `isFlexible=false`, this field does not apply and will be `null`.
    
@@ -9716,6 +9741,12 @@ definitions:
         format: int32 
         description: Number of days to retain data in the warm tier. Minimum value is 1.
         example: 7
+      softLimitGB:
+          type: number
+          format: float
+          description: Consumption only. Soft cap in GB. Null for subscription accounts.
+          x-plan: Consumption
+
   TimeBasedAccountCreationResponse:
     type: object
     properties:
@@ -9744,7 +9775,6 @@ definitions:
         format: int32 
         description: Number of days to retain data in the warm tier. Minimum value is 1.
         example: 7
-
 
 
   # ::::: CLOUD SIEM DEFINITIONS
