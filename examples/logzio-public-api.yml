@@ -5092,6 +5092,8 @@ paths:
 
         * For the main account, if `isFlexible=false`, the parameters `maxDailyGB` and `reservedDailyGB` cannot be updated using this endpoint.
 
+        * In the schema below, properties may be labeled as **Subscription** or **Consumption**. If a field doesn’t apply to your plan, it may be `null`.
+
         Please ensure to change the region in the URL to match your account's region.
 
       tags:
@@ -9423,6 +9425,7 @@ definitions:
         type: number
         format: float
         default: null
+        x-plan: Subscription
         description: >-
           * If `isFlexible=false`, this field does not apply. Leave it null.
    
@@ -9432,6 +9435,7 @@ definitions:
       maxDailyGB:
         type: number
         format: float
+        x-plan: Subscription
         description: >-
           The maximum volume of data that an account can index per calendar day.
 
