@@ -31,7 +31,27 @@
 
 .plan-badge{display:inline-flex;align-items:center;font-size:10.5px;line-height:1.25;padding:2px 8px;margin-left:8px;border-radius:9999px;white-space:nowrap;background:var(--ifm-badge-background-color);border:1px solid var(--ifm-color-emphasis-300);color:var(--ifm-color-content)}
 .plan-time-based{background:#eaf2ff;color:#1e40af}
-.plan-consumption{background:#f6eaff;color:#6b21a8}
+.plan-consumption {
+  background: #eafbf2;      
+  color: #0f766e;           
+  border-color: #a7f3d0;    
+}
+
+[data-theme='dark'] .plan-consumption {
+  background: #0f1f1a;      
+  color: #7ee0b5;           
+  border-color: #1e3a2f;    
+}
+.plan-subscription {
+  background: #ebe7ff;   
+  color: #3f37c9;
+  border-color: #c9c2ff;
+}
+[data-theme='dark'] .plan-subscription {
+  background: #26233a;   
+  color: #cbb9ff;
+  border-color: #3d335e;
+}
 
 
 /* Sidebar Method labels */
