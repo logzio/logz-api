@@ -9665,12 +9665,12 @@ definitions:
         type: number
         format: float
         default: null
-        x-plan: Subscription
         description: >-
           Daily reserved capacity in GB.
           * If `isFlexible=false`, this field does not apply and will be null.
 
           * If `isFlexible=true`, this determines the daily volume in GBs that is reserved for the account, given as an integer.
+        x-plan: Subscription
       maxDailyGB:
         type: number
         format: float

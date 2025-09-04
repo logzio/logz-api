@@ -1,5 +1,4 @@
 import React from "react";
-
 import CodeBlock from "@theme/CodeBlock";
 /* eslint-disable import/no-extraneous-dependencies*/
 import clsx from "clsx";
@@ -8,43 +7,54 @@ import { createDescription } from "docusaurus-theme-openapi-docs/lib/markdown/cr
 import { guard } from "docusaurus-theme-openapi-docs/lib/markdown/utils";
 import ReactMarkdown from "react-markdown";
 import rehypeRaw from "rehype-raw";
+import "./_SchemaItem.css";
 
+/* small pill */
 function PlanBadge({ plan }) {
   if (!plan) return null;
   const safe = String(plan).toLowerCase().replace(/[^a-z0-9-]/g, "");
   const label =
-    safe === "time-based"
-      ? "Time-based"
-      : safe === "consumption"
-      ? "Consumption"
-      : plan;
+    safe === "time-based" ? "Time-based"
+    : safe === "consumption" ? "Consumption"
+    : String(plan);
   return <span className={`plan-badge plan-${safe}`}>{label}</span>;
 }
 
 function SchemaItem({
-  children: collapsibleSchemaContent,
-  collapsible,
+  children: collapsibleSchemaContent,   // nested schema UI from the theme
+  collapsible,                          // unused on purpose; we always render header + desc
   name,
   qualifierMessage,
   required,
   schemaName,
   schema,
 }) {
-  let deprecated;
-  let schemaDescription;
+  let deprecated = false;
+  let schemaDescription = null;
   let defaultValue;
-  let nullable;
-  let plan;
+  let nullable = false;
+  let plan = null;
+
   if (schema) {
-    deprecated = schema.deprecated;
-    schemaDescription = schema.description;
+    deprecated = schema.deprecated ?? false;
     defaultValue = schema.default;
-    nullable = schema.nullable;
+    // nullable may be OAS3 `nullable` or OAS2 `x-nullable`
+    nullable = (schema.nullable ?? schema["x-nullable"]) ?? false;
+
+    // description can live under multiple keys depending on generators
+    schemaDescription =
+      schema.description ??
+      schema.markdownDescription ??
+      schema["x-description"] ??
+      schema.extensions?.["x-description"] ??
+      null;
+
+    // vendor extension for the pill
     plan =
-      schema?.['x-plan'] ??
-      schema?.extensions?.['x-plan'] ??
-      schema?.['x_plan'] ??
-      schema?.['xPlan'] ??
+      schema["x-plan"] ??
+      schema.extensions?.["x-plan"] ??
+      schema["x_plan"] ??
+      schema["xPlan"] ??
       null;
   }
 
@@ -67,7 +77,7 @@ function SchemaItem({
         children={createDescription(description)}
         components={{
           pre: "div",
-          code({ node, inline, className, children, ...props }) {
+          code({ inline, className, children }) {
             const match = /language-(\w+)/.exec(className || "");
             if (inline) return <code>{children}</code>;
             return !inline && match ? (
@@ -94,7 +104,7 @@ function SchemaItem({
   const renderDefaultValue = guard(
     typeof defaultValue === "boolean" ? defaultValue.toString() : defaultValue,
     (value) => (
-      <div className="">
+      <div>
         <ReactMarkdown children={`**Default value:** \`${value}\``} />
       </div>
     )
@@ -119,26 +129,18 @@ function SchemaItem({
         {!deprecated && renderRequired}
         {renderDeprecated}
       </span>
+
       {renderQualifierMessage}
       {renderDefaultValue}
       {renderSchemaDescription}
-      {collapsibleSchemaContent ?? collapsibleSchemaContent}
+
+      {/* Always show nested schema after the description */}
+      {collapsibleSchemaContent}
     </div>
   );
 
-  return (
-    <div className="openapi-schema__list-item">
-      <span className="openapi-schema__container">
-        <strong className={clsx("openapi-schema__property", { "openapi-schema__strikethrough": deprecated })}>
-          {name}
-        </strong>
-        <PlanBadge plan={plan} />
-        <span className="openapi-schema__name"> {schemaName}</span>
-        {/* ... */}
-      </span>
-      {/* ... */}
-    </div>
-  );
+  // IMPORTANT: never switch to only children; that hides description/name on nested objects
+  return <div className="openapi-schema__list-item">{schemaContent}</div>;
 }
 
 export default SchemaItem;
