@@ -45,8 +45,10 @@ yarn docusaurus gen-api-docs logz
 ## Adding new pages/categories
 1. Follow local deployment instructions
 
-2. Update the api spec under examples/logzio-public-api.yml. Divide the sections using `# ::::: NAME` and create a unique URL, summary, and operationId.
+2. Edit the API spec at `examples/logzio-public-api.yml`. Split sections with headers like `# ::::: NAME`. For each new endpoint, set a unique path (`/v1/account-management/time-based-accounts:`) or HTTP methods (`get`, `put`, etc.), add `summary`, and `operationId`.
 
-3. Add the new section to the relevant section under `sidebar.js`. Each category starts with `"type":"category"`, and each page starts with `"type":"doc"`. The ID and label should be unique.
+3. Add the new page or category to `sidebar.js`. Use `"type":"category"` for a new category, and `"type":"doc"` for a new page. ID and label must be unique. The page name should match the operationId you set in the `.yml`, for example, `operationId: updateTimeBasedAccount` should be added to sidebar.js like this: `{"type":"doc","id":"logz/update-time-based-account","label":"Update an account","className":"api-method put"}`
 
-4. Save your changes and run the plugin generate command `yarn docusaurus gen-api-docs logz` to generate the new page you created.
+6. Save your changes and run the plugin generate command `yarn docusaurus gen-api-docs logz` to generate the new page you created.
+
+
