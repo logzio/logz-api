@@ -1253,26 +1253,27 @@ paths:
   # ::::: GRAFANA
 
 
+  paths:
   /v1/grafana/api/folders:
     get:
       summary: Get all folders
+      operationId: getAllFolders
       description: |
-        Returns all folders that the authenticated user has permission to view. 
-        Please ensure to change the region in the URL to match your account's region.
-      tags:
-            - Grafana get all folders
+        Returns all folders the authenticated user can view.
+        Make sure the region in the URL matches your account's region.
+      tags: [Grafana Folders]
       parameters:
         - name: limit
           in: query
-          description: Maximum number of folders to return (default is 1000)
+          description: Maximum number of folders to return (default 1000)
           type: integer
         - name: page
           in: query
-          description: Page number for fetching folders from other than the first one
+          description: Page number (starts at 1)
           type: integer
         - name: parentUid
           in: query
-          description: Parent folder UID for fetching subfolders (optional)
+          description: Parent folder UID to fetch subfolders
           type: string
       responses:
         '200':
@@ -1282,13 +1283,167 @@ paths:
             items:
               type: object
               properties:
-                id:
-                  type: integer
-                uid:
-                  type: string
-                title:
-                  type: string
-  
+                id:    { type: integer }
+                uid:   { type: string }
+                title: { type: string }
+
+    post:
+      summary: Create a new Grafana folder
+      operationId: createNewGrafanaFolder
+      description: |
+        Creates a new folder.
+        Make sure the region in the URL matches your account's region.
+      tags: [Grafana Folders]
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            type: object
+            required: [title]
+            properties:
+              title:
+                type: string
+                example: My New Folder
+              uid:
+                type: string
+              overwrite:
+                type: boolean
+                example: false
+      responses:
+        '200':
+          description: Folder created
+          schema:
+            type: object
+            properties:
+              id:    { type: integer }
+              uid:   { type: string }
+              title: { type: string }
+              url:   { type: string }
+              created:   { type: string, format: date-time }
+              updated:   { type: string, format: date-time }
+              version:   { type: integer, format: int64 }
+            additionalProperties: true
+
+  /v1/grafana/api/folders/{uid}:
+    parameters:
+      - in: path
+        name: uid
+        type: string
+        required: true
+        description: The UID of the folder
+    get:
+      summary: Get Grafana folder by UID
+      operationId: getGrafanaFolderByUid
+      tags: [Grafana Folders]
+      description: |
+        Returns a single folder by UID.
+        Make sure the region in the URL matches your account's region.
+      responses:
+        '200':
+          description: Folder details
+          schema:
+            type: object
+            properties:
+              id:    { type: integer }
+              uid:   { type: string }
+              title: { type: string }
+              url:   { type: string }
+              created:   { type: string, format: date-time }
+              updated:   { type: string, format: date-time }
+              createdBy: { type: string }
+              updatedBy: { type: string }
+              version:   { type: integer, format: int64 }
+
+    put:
+      summary: Update a Grafana folder by UID
+      operationId: updateGrafanaFolderByUid
+      tags: [Grafana Folders]
+      description: |
+        Updates a folder by UID.
+        Make sure the region in the URL matches your account's region.
+      parameters:
+      - in: body
+        name: body
+        required: true
+        schema:
+          type: object
+          required: [title]
+          properties:
+            uid:
+              type: string
+              description: The UID of the folder
+              example: "my-folder-uid"
+            title:
+              type: string
+              description: The title of the folder
+              example: Updated Folder Title
+            overwrite:
+              type: boolean
+              description: Whether to overwrite if folder exists
+              example: false
+      responses:
+        '200':
+          description: Folder updated
+          schema:
+            type: object
+            properties:
+              id:
+                type: integer
+                description: The numeric ID of the folder
+                example: 123
+              uid:
+                type: string
+                description: The UID of the folder
+                example: "my-folder-uid"
+              title:
+                type: string
+                description: The title of the folder
+                example: "Updated Folder Title"
+              url:
+                type: string
+                description: The URL path to the folder
+                example: "/dashboards/f/my-folder-uid/updated-folder-title"
+              created:
+                type: string
+                format: date-time
+                description: ISO timestamp when the folder was created
+                example: "2024-01-15T10:30:00Z"
+              updated:
+                type: string
+                format: date-time
+                description: ISO timestamp when the folder was last updated
+                example: "2024-01-16T14:45:30Z"
+              version:
+                type: integer
+                description: The version number of the folder
+                example: 2
+
+    delete:
+      summary: Delete a Grafana folder by UID
+      operationId: deleteGrafanaFolderByUid
+      tags: [Grafana Folders]
+      description: |
+        Deletes a folder by UID.
+        Make sure the region in the URL matches your account's region.
+      responses:
+        '204':
+          description: Folder deleted
+        '404':
+          description: Folder not Found
+        '400':
+          description: Folder is not empty
+          schema:
+            type: object
+            properties:
+              message:
+              type: string
+            example: "Folder cannot be deleted: folder is not empty"
+          messageId:
+            type: string
+            example: "folder.not-empty"
+
+      
   /v1/grafana/api/v1/provisioning/contact-points:
       get:
         operationId: RouteGetContactpoints
@@ -11814,10 +11969,14 @@ definitions:
         type: string
         description: Filters for the [log type](/user-guide/log-shipping/built-in-log-types.html).
         example: apache
+      description:
+        type: string
+        description: Description of the drop filter
+        example: Drop all logs with response code 500
       fieldConditions:
         type: array
         items:
-          $ref: '#/definitions/FieldCondition'
+          $ref: '#/definitions/FieldCondition'      
       thresholdInGB:
         type: number
         format: double
@@ -11854,6 +12013,10 @@ definitions:
         type: string
         description: Filters for the [log type](/user-guide/log-shipping/built-in-log-types.html).
         example: apache
+      description:
+        type: string
+        description: Description of the drop filter
+        example: Drop all logs with response code 500
       fieldConditions:
         type: array
         description: Filters for an exact match of a field:value pair.
