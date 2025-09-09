@@ -9368,18 +9368,30 @@ definitions:
         type: boolean
         default: false
         description: >-
+          
           Indicates whether the plan has **shared volume** enabled.
           
+
+
+          For **Consumption** accounts, this field defaults should be `false`.
           
+
+
           If `true`, the volume of data that the account can index per calendar day is determined by 2 parameters: `reservedDailyGB` (Required) and  `maxDailyGB` (Optional, can be null).
+
+
 
           
           If `false`, the volume of data that the account can index per calendar day is determined only by `maxDailyGB`. The parameter `reservedDailyGB` does not apply.
         example: true
+        x-plan: Subscription
       reservedDailyGB:
         type: number
         format: float
+        x-plan: Subscription
         description: >-
+          * If **Consumption** account (`isFlexible: false`), this value is always null.
+          
           * If `isFlexible=false`, this field does not apply.
    
          
@@ -9392,6 +9404,9 @@ definitions:
           The maximum volume of data that an account can index per calendar day.
 
 
+          * If **Consumption** account (`isFlexible: false`), this value determines the account's soft cap in GB.
+
+
           * If `isFlexible=false` this is the only capacity reserved for use by the account. Cannot be null.
 
 
@@ -9400,10 +9415,16 @@ definitions:
           
           * If null (and `isFlexible=true`), the account is uncapped and can continue to index data as long as shared volume is available.
         example: 5
+        x-plan: Subscription
       retentionDays:
         type: integer
         format: int32
         description: How long log data is stored and searchable in Kibana, in days.
+      softLimitGB:
+        type: number
+        format: float
+        x-plan: Consumption
+        description: The account's soft limit in GB. If **Subscription** account, this value is always null.
   DailyUsagesList:
     type: object
     properties:
@@ -9421,33 +9442,6 @@ definitions:
         type: string
         description: Name of the account. Allowed characters include letters, numbers, dashes (`-`), dots (`.`), underscores (`_`), and spaces. Special characters such as `<`, `>`, `:`, `\"`, `/`, `\\`, `|`, `?`, `*` are not supported.
         example: AWS Lambda svr 3
-      reservedDailyGB:
-        type: number
-        format: float
-        default: null
-        x-plan: Subscription
-        description: >-
-          * If `isFlexible=false`, this field does not apply. Leave it null.
-   
-         
-          * If `isFlexible=true`, this parameter is required. It determines the volume that is reserved for the account.
-        example: 3
-      maxDailyGB:
-        type: number
-        format: float
-        x-plan: Subscription
-        description: >-
-          The maximum volume of data that an account can index per calendar day.
-
-
-          * If `isFlexible=false` this parameter can only be used to update a sub account, but not a main account. It determines the only capacity reserved for use by the account. It cannot be null.
-
-
-          * If `isFlexible=true` this is used to limit the account's access to shared volume. Once the data shipped to the account exceeds the account's reserved capacity, the account can continue to index data up to its `maxDailyGB`, as long as shared volume is available.
-          
-          
-          * If null (and `isFlexible=true`), the account is uncapped and can continue to index data as long as shared volume is available.
-        example: 5
       retentionDays:
         type: integer
         format: int32
@@ -9474,6 +9468,37 @@ definitions:
         format: int32 
         description: Number of days to retain data in the warm tier. Minimum value is 1.
         example: 7
+      reservedDailyGB:
+        type: number
+        format: float
+        default: null
+        x-plan: Subscription
+        description: >-
+          * If **Consumption** account (`isFlexible: false`), this value is always null.
+          
+          * If `isFlexible=false`, this field does not apply. Leave it null.
+   
+         
+          * If `isFlexible=true`, this parameter is required. It determines the volume that is reserved for the account.
+        example: 3
+      maxDailyGB:
+        type: number
+        format: float
+        x-plan: Subscription
+        description: >-
+          The maximum volume of data that an account can index per calendar day.
+
+          * If **Consumption** account (`isFlexible: false`), this value is always null.
+
+
+          * If `isFlexible=false` this parameter can only be used to update a sub account, but not a main account. It determines the only capacity reserved for use by the account. It cannot be null.
+
+
+          * If `isFlexible=true` this is used to limit the account's access to shared volume. Once the data shipped to the account exceeds the account's reserved capacity, the account can continue to index data up to its `maxDailyGB`, as long as shared volume is available.
+          
+          
+          * If null (and `isFlexible=true`), the account is uncapped and can continue to index data as long as shared volume is available.
+        example: 5
 
   DetailedTimeBasedAccount:
     type: object
@@ -9523,37 +9548,6 @@ definitions:
         type: string
         description: Name of the account. Allowed characters include letters, numbers, dashes (`-`), dots (`.`), underscores (`_`), and spaces. Special characters such as `<`, `>`, `:`, `\"`, `/`, `\\`, `|`, `?`, `*` are not supported.
         example: AWS Lambda svr 3
-      isFlexible:
-        type: boolean
-        default: false
-        x-plan: Subscription
-      reservedDailyGB:
-        type: number
-        format: float
-        default: null
-        x-plan: Subscription
-        description: >-
-          * If `isFlexible=false`, don't send this field or send it null.
-   
-         
-          * If `isFlexible=true`, this parameter is required. It determines the volume that is reserved for the account.
-        example: 3
-      maxDailyGB:
-        type: number
-        format: float
-        x-plan: Subscription
-        description: >-
-          The maximum volume of data that an account can index per calendar day.
-
-
-          * If `isFlexible=false` this is the only capacity reserved for use by the account. Cannot be null.
-
-
-          * If `isFlexible=true` this is used to limit the account's access to shared volume. Once the data shipped to the account exceeds the account's reserved capacity, the account can continue to index data up to its `maxDailyGB`, as long as shared volume is available.
-          
-          
-          * If null (and `isFlexible=true`), the account is uncapped and can continue to index data as long as shared volume is available.
-        example: 5
       retentionDays:
         type: integer
         format: int32
@@ -9575,6 +9569,41 @@ definitions:
         $ref: '#/definitions/DocSizeSetting'
       utilizationSettings:
         $ref: '#/definitions/AccountUtilizationSettings'
+      isFlexible:
+        type: boolean
+        default: false
+        x-plan: Subscription
+      reservedDailyGB:
+        type: number
+        format: float
+        default: null
+        x-plan: Subscription
+        description: >-
+          * If **Consumption** account (`isFlexible: false`), this value is always null.
+          
+          * If `isFlexible=false`, don't send this field or send it null.
+   
+         
+          * If `isFlexible=true`, this parameter is required. It determines the volume that is reserved for the account.
+        example: 3
+      maxDailyGB:
+        type: number
+        format: float
+        x-plan: Subscription
+        description: >-
+          The maximum volume of data that an account can index per calendar day.
+
+          * If **Consumption** account (`isFlexible: false`), this value determines the account's soft cap in GB. 
+
+          * If `isFlexible=false` this is the only capacity reserved for use by the account. Cannot be null.
+
+
+          * If `isFlexible=true` this is used to limit the account's access to shared volume. Once the data shipped to the account exceeds the account's reserved capacity, the account can continue to index data up to its `maxDailyGB`, as long as shared volume is available.
+          
+          
+          * If null (and `isFlexible=true`), the account is uncapped and can continue to index data as long as shared volume is available.
+        example: 5
+
  
   SharingAccount:
     type: object
@@ -9648,45 +9677,6 @@ definitions:
         type: string
         description: Name of the account
         example: 404 errors
-      isFlexible:
-        type: boolean
-        default: false
-        x-plan: Subscription
-        description: >-
-          Indicates whether the plan has **shared volume** enabled.
-          
-          
-          If `true`, the volume of data that the account can index per calendar day is determined by 2 parameters: `reservedDailyGB` (Required) and  `maxDailyGB` (Optional, can be null).
-
-          
-          If `false`, the volume of data that the account can index per calendar day is determined only by `maxDailyGB`. The parameter `reservedDailyGB` does not apply and should be null.
-        example: true
-      reservedDailyGB:
-        type: number
-        format: float
-        default: null
-        description: >-
-          Daily reserved capacity in GB.
-          * If `isFlexible=false`, this field does not apply and will be null.
-
-          * If `isFlexible=true`, this determines the daily volume in GBs that is reserved for the account, given as an integer.
-        x-plan: Subscription
-      maxDailyGB:
-        type: number
-        format: float
-        x-plan: Subscription
-        description: >-
-          The maximum volume of data that an account can index per calendar day.
-
-
-          * If `isFlexible=false` this is the only capacity reserved for use by the account. Cannot be null.
-
-
-          * If `isFlexible=true` this is used to limit the account's access to shared volume. Once the data shipped to the account exceeds the account's reserved capacity, the account can continue to index data up to its `maxDailyGB`, as long as shared volume is available. 
-          
-          
-          * If null (and `isFlexible=true`), the account is uncapped and can continue to index data as long as shared volume is available.
-        example: 5
       retentionDays:
         type: integer
         format: int32
@@ -9705,36 +9695,6 @@ definitions:
         description: Accounts that have permissions to access this account's Kibana objects.
       utilizationSettings:
         $ref: '#/definitions/AccountUtilizationSettings'
-      isCapped:
-        type: boolean
-        default: false
-        x-plan: Subscription
-        description: >-
-          * If `isFlexible=false`, this field does not apply and will be `false`.
-   
-         
-          * If `isFlexible=true`, this field determines whether the account is capped  by GB. If the account is capped, `true`.
-        example: false
-      totalTimeBasedDailyGB:
-        type: number
-        format: float
-        x-plan: Subscription
-        description: >-
-          * If `isFlexible=false`, this field does not apply and will be `null`.
-   
-         
-          * If `isFlexible=true`, this determines the account plan volume in GB.
-        example: 5.0
-      sharedGB:
-        type: number
-        format: float
-        x-plan: Subscription
-        description: >-
-          * If `isFlexible=false`, this field does not apply and will be `null`.
-   
-         
-          * If `isFlexible=true`, this determines the shareable volume in GB.
-        example: 5.0
       isOwner:
         type: boolean
         default: false
@@ -9745,10 +9705,101 @@ definitions:
         format: int32 
         description: Number of days to retain data in the warm tier. Minimum value is 1.
         example: 7
+      isFlexible:
+        type: boolean
+        default: false
+        x-plan: Subscription
+        description: >-
+          
+          Indicates whether the plan has **shared volume** enabled.
+
+
+
+          For `Consumption` accounts, this field defaults should be `false`.
+          
+
+
+          If `true`, the volume of data that the account can index per calendar day is determined by 2 parameters: `reservedDailyGB` (Required) and  `maxDailyGB` (Optional, can be null).
+
+
+          
+          If `false`, the volume of data that the account can index per calendar day is determined only by `maxDailyGB`. The parameter `reservedDailyGB` does not apply and should be null.
+        example: true
+      reservedDailyGB:
+        type: number
+        format: float
+        default: null
+        x-plan: Subscription
+        description: >-
+          Daily reserved capacity in GB.
+
+          * If **Consumption** account (`isFlexible: false`), this value is always null.
+
+          * If `isFlexible=false`, this field does not apply and will be null.
+
+          * If `isFlexible=true`, this determines the daily volume in GBs that is reserved for the account, given as an integer.
+      maxDailyGB:
+        type: number
+        format: float
+        x-plan: Subscription
+        description: >-
+          The maximum volume of data that an account can index per calendar day.
+
+          * If **Consumption** account (`isFlexible: false`), this value determines the account's soft cap in GB. 
+
+
+          * If `isFlexible=false` this is the only capacity reserved for use by the account. Cannot be null.
+
+
+          * If `isFlexible=true` this is used to limit the account's access to shared volume. Once the data shipped to the account exceeds the account's reserved capacity, the account can continue to index data up to its `maxDailyGB`, as long as shared volume is available. 
+          
+          
+          * If null (and `isFlexible=true`), the account is uncapped and can continue to index data as long as shared volume is available.
+        example: 5
+      isCapped:
+        type: boolean
+        default: false
+        x-plan: Subscription
+        description: >-
+          
+          * If **Consumption** account (`isFlexible: false`), this value is always null.
+          
+          * If `isFlexible=false`, this field does not apply and will be `false`.
+   
+         
+          * If `isFlexible=true`, this field determines whether the account is capped  by GB. If the account is capped, `true`.
+        example: false
+      totalTimeBasedDailyGB:
+        type: number
+        format: float
+        x-plan: Subscription
+        description: >-
+          * If **Consumption** account (`isFlexible: false`), this value is always null.
+          
+          * If `isFlexible=false`, this field does not apply and will be `null`.
+   
+         
+          * If `isFlexible=true`, this determines the account plan volume in GB.
+        example: 5.0
+      sharedGB:
+        type: number
+        format: float
+        x-plan: Subscription
+        description: >-
+          * If **Consumption** account (`isFlexible: false`), this value is always null.
+          
+          * If `isFlexible=false`, this field does not apply and will be `null`.
+   
+         
+          * If `isFlexible=true`, this determines the shareable volume in GB.
+        example: 5.0
       softLimitGB:
           type: number
           format: float
-          description: Consumption only. Soft cap in GB. Null for subscription accounts.
+          description: >-
+            If **Subscription** account, this value is always null.
+            
+            Indicates the account's soft cap in GB.
           x-plan: Consumption
 
   TimeBasedAccountCreationResponse:
