@@ -9654,6 +9654,14 @@ definitions:
           
           * If null (and `isFlexible=true`), the account is uncapped and can continue to index data as long as shared volume is available.
         example: 5
+      softLimitGB:
+          type: number
+          format: float
+          description: >-
+            If **Subscription** account, this value is always null.
+            
+            Indicates the account's soft cap in GB.
+          x-plan: Consumption
 
   DetailedTimeBasedAccount:
     type: object
@@ -9758,6 +9766,14 @@ definitions:
           
           * If null (and `isFlexible=true`), the account is uncapped and can continue to index data as long as shared volume is available.
         example: 5
+      softLimitGB:
+          type: number
+          format: float
+          description: >-
+            If **Subscription** account, this value is always null.
+            
+            Indicates the account's soft cap in GB.
+          x-plan: Consumption
 
  
   SharingAccount:
