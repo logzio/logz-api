@@ -191,7 +191,8 @@ const config = {
             ],
           },
         ],
-        copyright: `Copyright © ${new Date().getFullYear()} Logshero Ltd.`,
+        copyright: `Any use of the Logz.io API is subject to our <a href="https://logz.io/about-us/terms-of-use/" target="_blank" rel="noopener">Terms of Use</a>.<br/>Copyright © ${new Date().getFullYear()} Logshero Ltd.`,
+        
       },
       hotjar: {
         applicationId: "3812653",
