@@ -327,6 +327,211 @@ x-tagGroups:
     
 paths:
 
+  # ::::: Unified Alerts
+  paths:
+    /v2/unified-alerts/{type}/{id}:
+      get:
+        summary: Get Unified Alert
+        operationId: getUnifiedAlert
+        description: Retrieve a unified alert by its type and ID.
+        tags:
+          - Unified Alerts
+        parameters:
+          - name: type
+            in: path
+            required: true
+            schema:
+              type: string
+            description: The type of the unified alert.
+          - name: id
+            in: path
+            required: true
+            schema:
+              type: string
+            description: The ID of the unified alert.
+        responses:
+          '200':
+            description: Unified alert details.
+            content:
+              application/json:
+                schema:
+                  $ref: '#/definitions/UnifiedAlertResponse'
+  
+      put:
+        summary: Update Unified Alert
+        operationId: updateUnifiedAlert
+        description: Update an existing unified alert by its type and ID.
+        tags:
+          - Unified Alerts
+        parameters:
+          - name: type
+            in: path
+            required: true
+            schema:
+              type: string
+            description: The type of the unified alert.
+          - name: id
+            in: path
+            required: true
+            schema:
+              type: string
+            description: The ID of the unified alert.
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/UnifiedAlertRequest'
+        responses:
+          '200':
+            description: Unified alert updated successfully.
+            content:
+              application/json:
+                schema:
+                  $ref: '#/definitions/UnifiedAlertResponse'
+  
+      delete:
+        summary: Delete Unified Alert
+        operationId: deleteUnifiedAlert
+        description: Delete a unified alert by its type and ID.
+        tags:
+          - Unified Alerts
+        parameters:
+          - name: type
+            in: path
+            required: true
+            schema:
+              type: string
+            description: The type of the unified alert.
+          - name: id
+            in: path
+            required: true
+            schema:
+              type: string
+            description: The ID of the unified alert.
+        responses:
+          '200':
+            description: Unified alert deleted successfully.
+  
+    /v2/unified-alerts/{type}:
+      post:
+        summary: Create Unified Alert
+        operationId: createUnifiedAlert
+        description: Create a new unified alert.
+        tags:
+          - Unified Alerts
+        parameters:
+          - name: type
+            in: path
+            required: true
+            schema:
+              type: string
+            description: The type of the unified alert.
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/UnifiedAlertRequest'
+        responses:
+          '200':
+            description: Unified alert created successfully.
+            content:
+              application/json:
+                schema:
+                  $ref: '#/definitions/UnifiedAlertResponse'
+  
+    /v2/unified-alerts/{type}/{id}/disable:
+      post:
+        summary: Disable Unified Alert
+        operationId: disableUnifiedAlert
+        description: Disable a unified alert by its type and ID.
+        tags:
+          - Unified Alerts
+        parameters:
+          - name: type
+            in: path
+            required: true
+            schema:
+              type: string
+            description: The type of the unified alert.
+          - name: id
+            in: path
+            required: true
+            schema:
+              type: string
+            description: The ID of the unified alert.
+        responses:
+          '200':
+            description: Unified alert disabled successfully.
+  
+    /v2/unified-alerts/{type}/{id}/enable:
+      post:
+        summary: Enable Unified Alert
+        operationId: enableUnifiedAlert
+        description: Enable a unified alert by its type and ID.
+        tags:
+          - Unified Alerts
+        parameters:
+          - name: type
+            in: path
+            required: true
+            schema:
+              type: string
+            description: The type of the unified alert.
+          - name: id
+            in: path
+            required: true
+            schema:
+              type: string
+            description: The ID of the unified alert.
+        responses:
+          '200':
+            description: Unified alert enabled successfully.
+  
+    /v2/unified-alerts/search:
+      post:
+        summary: Search Unified Alerts
+        operationId: searchUnifiedAlerts
+        description: Search for unified alerts based on filters.
+        tags:
+          - Unified Alerts
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/UnifiedAlertsSearchRequest'
+        responses:
+          '200':
+            description: A list of unified alerts matching the search criteria.
+            content:
+              application/json:
+                schema:
+                  $ref: '#/definitions/PagedSearchResponseUnifiedAlertResponse'
+  
+    /v2/unified-alerts/events/search:
+      post:
+        summary: Search Unified Alert Events
+        operationId: searchUnifiedAlertEvents
+        description: Search for events related to unified alerts.
+        tags:
+          - Unified Alerts
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/UnifiedAlertEventsSearchRequest'
+        responses:
+          '200':
+            description: A list of unified alert events matching the search criteria.
+            content:
+              application/json:
+                schema:
+                  $ref: '#/definitions/PagedSearchResponseUnifiedAlertEvent'
+
+
   # ::::: PROMETHEUS
 
 
@@ -13434,3 +13639,434 @@ definitions:
           - 'RESTORE_ACCOUNT'
           - 'SECURITY_ACCOUNT'
           - 'TRACING_ACCOUNT'
+
+  UnifiedAlertRequest:
+    type: object
+    properties:
+      title:
+        type: string
+        description: The title of the unified alert.
+      description:
+        type: string
+        description: A description of the unified alert.
+      tags:
+        type: array
+        items:
+          type: string
+        description: Tags associated with the unified alert.
+      folderId:
+        type: string
+        description: The folder ID where the alert is stored.
+      dashboardId:
+        type: string
+        description: The dashboard ID associated with the alert.
+      panelId:
+        type: string
+        description: The panel ID associated with the alert.
+      runbook:
+        type: string
+        description: The runbook URL for the alert.
+      rca:
+        type: boolean
+        description: Whether RCA (Root Cause Analysis) is enabled for the alert.
+      rcaNotificationEndpointIds:
+        type: array
+        items:
+          type: integer
+          format: int32
+        description: Notification endpoint IDs for RCA.
+      useAlertNotificationEndpointsForRca:
+        type: boolean
+        description: Whether to use alert notification endpoints for RCA.
+      recipients:
+        $ref: '#/definitions/AlertRecipients'
+      alertConfiguration:
+        $ref: '#/definitions/AlertConfiguration'
+      enabled:
+        type: boolean
+        description: Whether the alert is enabled.
+
+  UnifiedAlertResponse:
+    type: object
+    properties:
+      id:
+        type: string
+        description: The ID of the unified alert.
+      title:
+        type: string
+        description: The title of the unified alert.
+      description:
+        type: string
+        description: A description of the unified alert.
+      tags:
+        type: array
+        items:
+          type: string
+        description: Tags associated with the unified alert.
+      folderId:
+        type: string
+        description: The folder ID where the alert is stored.
+      dashboardId:
+        type: string
+        description: The dashboard ID associated with the alert.
+      panelId:
+        type: string
+        description: The panel ID associated with the alert.
+      runbook:
+        type: string
+        description: The runbook URL for the alert.
+      rca:
+        type: boolean
+        description: Whether RCA (Root Cause Analysis) is enabled for the alert.
+      rcaNotificationEndpointIds:
+        type: array
+        items:
+          type: integer
+          format: int32
+        description: Notification endpoint IDs for RCA.
+      useAlertNotificationEndpointsForRca:
+        type: boolean
+        description: Whether to use alert notification endpoints for RCA.
+      recipients:
+        $ref: '#/definitions/AlertRecipients'
+      alertConfiguration:
+        $ref: '#/definitions/AlertConfiguration'
+      enabled:
+        type: boolean
+        description: Whether the alert is enabled.
+      createdAt:
+        type: integer
+        format: int64
+        description: The timestamp when the alert was created.
+      updatedAt:
+        type: integer
+        format: int64
+        description: The timestamp when the alert was last updated.
+
+  UnifiedAlertsSearchRequest:
+    type: object
+    properties:
+      filter:
+        $ref: '#/definitions/UnifiedAlertsFilter'
+      sort:
+        type: array
+        items:
+          $ref: '#/definitions/UnifiedAlertsSortBy'
+      pagination:
+        $ref: '#/definitions/Pagination'
+
+  UnifiedAlertsFilter:
+    type: object
+    properties:
+      alertIds:
+        type: array
+        items:
+          type: string
+        description: A list of alert IDs to filter by.
+      dashboardIds:
+        type: array
+        items:
+          type: string
+        description: A list of dashboard IDs to filter by.
+      panelIds:
+        type: array
+        items:
+          type: string
+        description: A list of panel IDs to filter by.
+      searchTerm:
+        type: string
+        description: A search term to filter alerts by title.
+      source:
+        type: string
+        enum:
+          - LOG_ALERT
+          - METRIC_ALERT
+        description: The source type of the alert.
+      severities:
+        type: array
+        items:
+          type: string
+          enum:
+            - INFO
+            - LOW
+            - MEDIUM
+            - HIGH
+            - SEVERE
+        description: A list of severities to filter by.
+      tags:
+        type: array
+        items:
+          type: string
+        description: A list of tags to filter by.
+      enabled:
+        type: boolean
+        description: Whether to filter by enabled alerts.
+
+  UnifiedAlertsSortBy:
+    type: object
+    properties:
+      field:
+        type: string
+        enum:
+          - title
+          - severity
+          - tags
+          - updatedAt
+          - enabled
+        description: The field to sort by.
+      direction:
+        type: string
+        enum:
+          - ASC
+          - DESC
+        description: The sort direction.
+
+  AlertRecipients:
+    type: object
+    properties:
+      emails:
+        type: array
+        items:
+          type: string
+        description: A list of email recipients.
+      notificationEndpointIds:
+        type: array
+        items:
+          type: integer
+          format: int32
+        description: A list of notification endpoint IDs.
+
+  AlertConfiguration:
+    type: object
+    discriminator: type
+    properties:
+      type:
+        type: string
+        enum:
+          - LOG_ALERT
+          - METRIC_ALERT
+        description: The type of the alert configuration.
+  
+  UnifiedAlertEventsSearchRequest:
+    type: object
+    properties:
+      filter:
+        $ref: '#/definitions/UnifiedAlertEventsFilter'
+      sort:
+        type: array
+        items:
+          $ref: '#/definitions/UnifiedAlertEventsSortBy'
+      pagination:
+        $ref: '#/definitions/Pagination'
+
+  UnifiedAlertEventsFilter:
+    type: object
+    properties:
+      alertIds:
+        type: array
+        items:
+          type: string
+        description: A list of alert IDs to filter by.
+      searchTerm:
+        type: string
+        description: A search term to filter events by name.
+      source:
+        type: string
+        enum:
+          - LOG_ALERT
+          - METRIC_ALERT
+        description: The source type of the alert.
+      states:
+        type: array
+        items:
+          type: string
+          enum:
+            - TRIGGERED
+            - RESOLVED
+            - PENDING
+            - NO_DATA
+            - UNKNOWN
+        description: A list of states to filter by.
+      severities:
+        type: array
+        items:
+          type: string
+          enum:
+            - INFO
+            - LOW
+            - MEDIUM
+            - HIGH
+            - SEVERE
+        description: A list of severities to filter by.
+      tags:
+        type: array
+        items:
+          type: string
+        description: A list of tags to filter by.
+      timeframe:
+        $ref: '#/definitions/TimeframeFilter'
+      dashboardIds:
+        type: array
+        items:
+          type: string
+        description: A list of dashboard IDs to filter by.
+      muted:
+        type: boolean
+        description: Whether to filter by muted alerts.
+
+  UnifiedAlertEventsSortBy:
+    type: object
+    properties:
+      field:
+        type: string
+        enum:
+          - name
+          - groups
+          - severity
+          - state
+          - tags
+          - lastTriggeredAt
+          - reason
+          - isMuted
+        description: The field to sort by.
+      direction:
+        type: string
+        enum:
+          - ASC
+          - DESC
+        description: The sort direction.
+
+  TimeframeFilter:
+    type: object
+    properties:
+      from:
+        type: integer
+        format: int64
+        description: The start time in epoch seconds.
+      to:
+        type: integer
+        format: int64
+        description: The end time in epoch seconds.
+
+  FieldSearchRequest:
+    type: object
+    properties:
+      filter:
+        $ref: '#/definitions/FieldsFilter'
+      pagination:
+        $ref: '#/definitions/Pagination'
+
+  FieldsFilter:
+    type: object
+    properties:
+      searchTerm:
+        type: string
+        description: A search term for field values.
+
+  PagedSearchResponseUnifiedAlertEvent:
+    type: object
+    properties:
+      total:
+        type: integer
+        format: int32
+        description: The total number of results.
+      results:
+        type: array
+        items:
+          $ref: '#/definitions/UnifiedAlertEvent'
+        description: The list of unified alert events.
+      pagination:
+        $ref: '#/definitions/Pagination'
+
+  UnifiedAlertEvent:
+    type: object
+    properties:
+      alertEventId:
+        type: string
+        description: The ID of the alert event.
+      sourceType:
+        type: string
+        enum:
+          - LOG_ALERT
+          - METRIC_ALERT
+        description: The source type of the alert event.
+      name:
+        type: string
+        description: The name of the alert event.
+      groups:
+        type: object
+        additionalProperties:
+          type: string
+        description: The groups associated with the alert event.
+      severity:
+        type: string
+        enum:
+          - INFO
+          - LOW
+          - MEDIUM
+          - HIGH
+          - SEVERE
+        description: The severity of the alert event.
+      state:
+        type: string
+        enum:
+          - TRIGGERED
+          - RESOLVED
+          - PENDING
+          - NO_DATA
+          - UNKNOWN
+        description: The state of the alert event.
+      reason:
+        type: string
+        description: The reason for the alert event's state.
+      tags:
+        type: array
+        items:
+          type: string
+        description: Tags associated with the alert event.
+      lastTriggeredAt:
+        type: integer
+        format: int64
+        description: The timestamp when the alert event was last triggered.
+      alertId:
+        type: string
+        description: The ID of the associated alert.
+      panelId:
+        type: string
+        description: The panel ID associated with the alert event.
+      dashboardUid:
+        type: string
+        description: The dashboard UID associated with the alert event.
+      folderUid:
+        type: string
+        description: The folder UID associated with the alert event.
+      rca:
+        type: boolean
+        description: Whether RCA (Root Cause Analysis) is enabled for the alert event.
+      runbook:
+        type: string
+        description: The runbook URL for the alert event.
+      rcaNotificationEndpointIds:
+        type: array
+        items:
+          type: integer
+          format: int32
+        description: Notification endpoint IDs for RCA.
+      muted:
+        type: boolean
+        description: Whether the alert event is muted.
+
+  PagedSearchResponseString:
+    type: object
+    properties:
+      total:
+        type: integer
+        format: int32
+        description: The total number of results.
+      results:
+        type: array
+        items:
+          type: string
+        description: The list of field values.
+      pagination:
+        $ref: '#/definitions/Pagination'
