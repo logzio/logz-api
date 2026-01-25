@@ -1,0 +1,21 @@
+---
+id: logz/unified-alerts-delete
+title: Delete Unified Alert
+---
+
+# Delete Unified Alert
+
+Delete a unified alert by its type and ID.
+
+### Endpoint
+`DELETE /event-manager/v2/unified-alerts/{type}/{id}`
+
+### Description
+This endpoint deletes a specific unified alert based on its type and ID.
+
+### Parameters
+- **type** (path): The type of the unified alert (e.g., `LOG_ALERT`, `METRIC_ALERT`).
+- **id** (path): The ID of the unified alert.
+
+### Response
+Returns the object that was deleted.
