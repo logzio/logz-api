@@ -255,7 +255,6 @@ paths:
         Search for events related to unified alerts.
 
         **Notice**: There is a limit of 10,000 results per source type (metric/log).  
-        The returned results may be incomplete if the total exceeds this limit.
       tags:
         - Unified Alerts
       requestBody:
@@ -424,9 +423,8 @@ components:
     UnifiedAlertsFilter:
       type: object
       description: |
-        The request filters are all optional. 
-        Results are matching with AND logic between the different filter types.
-        For filters that accept multiple values, those values are matched with OR logic.
+        **How filters work:** Filters are optional. 
+        We match **all** selected categories (AND), but will include results for **any** value selected within a single category (OR).
       properties:
         alertIds:
           type: array
@@ -1166,9 +1164,8 @@ components:
     UnifiedAlertEventsFilter:
       type: object
       description: |
-        The request filters are all optional. 
-        Results are matching with AND logic between the different filter types.
-        For filters that accept multiple values, those values are matched with OR logic.
+        **How filters work:** Filters are optional. 
+        We match **all** selected categories (AND), but will include results for **any** value selected within a single category (OR).
       properties:
         alertIds:
           type: array
