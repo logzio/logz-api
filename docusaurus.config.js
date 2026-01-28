@@ -272,6 +272,16 @@ const config = {
             template: "api.mustache",
             hideSendButton: true,
           },
+          logzOpenApi3: {
+            specPath: "examples/logzio-public-api-openapi3.yml",
+            outputDir: "docs/logz",
+            sidebarOptions: {
+              groupPathsBy: "tag",
+              categoryLinkSource: "tag",
+            },
+            template: "api.mustache",
+            hideSendButton: true,
+          },
         },
       },
     ],
