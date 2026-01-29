@@ -308,13 +308,13 @@ components:
           description: Tags associated with the unified alert.
         folderId:
           type: string
-          description: The folder ID where the alert is stored.
+          description: The folder ID associated with the dashboard ID specified.
         dashboardId:
           type: string
-          description: The dashboard ID associated with the alert.
+          description: The dashboard ID associated with the panel ID specified.
         panelId:
           type: string
-          description: The panel ID associated with the alert.
+          description: The panel ID for Unified Dashboards panel included in the notification for quick access and used by the AI Agent to run an RCA when enabled.
         runbook:
           type: string
           description: The runbook for the alert.
@@ -387,10 +387,10 @@ components:
           properties:
             createdAt:
               type: integer
-              description: The timestamp when the alert was created in epoch seconds.
+              description: The timestamp when the alert was created in seconds since Unix epoch.
             updatedAt:
               type: integer
-              description: The timestamp when the alert was last updated in epoch seconds.
+              description: The timestamp when the alert was last updated in seconds since Unix epoch.
  
     PagedSearchResponseUnifiedAlertResponse:
       type: object
@@ -523,13 +523,32 @@ components:
             suppressNotificationsMinutes:
               type: integer
               format: int32
-              default: 5
+              minimum: 5
+              maximum: 1440
+              description: Add a waiting period in minutes to space out notifications. (The alert will still trigger but will not send out notifications during the waiting period.)
+              example: 60
             alertOutputTemplateType:
               $ref: '#/components/schemas/AlertOutputTemplateType'
             searchTimeFrameMinutes:
               type: integer
+              minimum: 5
+              maximum: 1440
               format: int32
-              default: 5
+              description: >-
+                The time frame for evaluating the log data is a sliding window, with 1 minute granularity.
+
+
+                The recommended minimum and maximum values are not validated, but needed to guarantee the alert's accuracy.
+
+
+                The minimum recommended time frame is 5 minutes, as anything shorter will be less reliable and unnecessarily resource-heavy.
+
+
+                The maximum recommended time frame is 1440 minutes (24 hours). The alert runs on the index from today and yesterday (in UTC) and the maximum time frame increases throughout the day, reaching 48 hours exactly before midnight UTC.
+
+
+                The default value is 5. 
+              example: 20
             subComponents:
               type: array
               items:
@@ -641,7 +660,7 @@ components:
           type: integer
           format: int32
           default: 15
-          description: The number of minutes to wait before evaluating the trigger condition.
+          description: Period in which the condition must be met before the alert fires.
       example:
         type: threshold
         pendingPeriod: 15
@@ -682,10 +701,10 @@ components:
           description: The type of the trigger (Math Trigger).
         expression:
           type: string
-          description: The mathematical expression to evaluate for the math trigger using the refId for query result.
+          description: The mathematical expression to evaluate for the math trigger using the refId for query references.
       example:
         type: math
-        expression: "avg(cpu.usage) > 80"
+        expression: "$A > 100 || ($B < 50 && $C > 75)"
 
     ThresholdOperator:
       type: object
@@ -1212,7 +1231,7 @@ components:
             type: string
           description: Filter by alert tags
         timeframe:
-          description: Filter events within the timeframe
+          description: Filter events within the timeframe, based on the event lastTriggeredAt.
           $ref: '#/components/schemas/TimeframeFilter'
         dashboardIds:
           type: array
@@ -1222,8 +1241,12 @@ components:
           description: Filter by dashboard IDs
         muted:
           type: boolean
-          description: Filter by muted/unmuted alert events. 
-                       Notice only log alerts can be muted, so all metric alerts will be shown as unmuted.
+          description: |-
+            Filter by muted/unmuted alert events. 
+            
+            An alert is marked as muted within the suppress notifications timeframe. 
+            
+            Notice: Muting is only applicable to log alerts. Metric alerts are alway muted: false.
     
     UnifiedAlertEventsSortBy:
       type: object
@@ -1251,11 +1274,11 @@ components:
         from:
           type: integer
           format: int64
-          description: Start time in epoch seconds
+          description: Start time in seconds since Unix epoch.
         to:
           type: integer
           format: int64
-          description: End time in epoch seconds
+          description: End time in seconds since Unix epoch.
     
     UnifiedAlertEvent:
       type: object
@@ -1286,7 +1309,7 @@ components:
             - MEDIUM
             - HIGH
             - SEVERE
-          description: The severity level of the alert event.
+          description: The severity level for this alert. This can be used to prioritize alerts and can be used in alert filtering.
         state:
           type: string
           enum:
@@ -1306,19 +1329,19 @@ components:
         lastTriggeredAt:
           type: integer
           format: int64
-          description: The timestamp (in epoch seconds) when the alert was last triggered.
+          description: The timestamp (in seconds since Unix epoch) when the alert was last triggered.
         alertId:
           type: string
-          description: The unique identifier of the alert that generated this event.
+          description: The ID of the alert that generated this event.
         panelId:
           type: string
-          description: The unique identifier of the panel associated with the alert event.
+          description: The ID of the panel associated with the alert event.
         dashboardUid:
           type: string
-          description: The unique identifier of the dashboard associated with the alert event.
+          description: The ID of the dashboard associated with panel of the alert event.
         folderUid:
           type: string
-          description: The unique identifier of the folder containing the dashboard.
+          description: The ID of the folder containing the dashboard associated with panel of the alert event.
         rca:
           type: boolean
           description: Indicates whether Root Cause Analysis (RCA) is enabled for the alert event.
@@ -1333,7 +1356,10 @@ components:
           description: A list of notification endpoint IDs for Root Cause Analysis (RCA).
         muted:
           type: boolean
-          description: Indicates whether the alert event is muted. Notice that only log alerts can be muted. metric alerts will always be unmuted.
+          description: |-
+            Specifies whether the alert event is muted within the suppress notifications timeframe. 
+            
+            Muting is only applicable to log alerts. Metric alerts are always muted: false.
     
     PagedSearchResponseUnifiedAlertEvent:
       type: object
