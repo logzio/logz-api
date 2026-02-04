@@ -294,6 +294,9 @@ components:
   schemas:
     UnifiedAlertRequest:
       type: object
+      required:
+        - title
+        - alertConfiguration
       properties:
         title:
           type: string
@@ -306,15 +309,31 @@ components:
           items:
             type: string
           description: Tags associated with the unified alert.
-        folderId:
-          type: string
-          description: The folder ID associated with the dashboard ID specified.
-        dashboardId:
-          type: string
-          description: The dashboard ID associated with the panel ID specified.
-        panelId:
-          type: string
-          description: The panel ID for Unified Dashboards panel included in the notification for quick access and used by the AI Agent to run an RCA when enabled.
+        linkedPanel:
+          type: object
+          description: |-
+            Represents the Unified Dashboards panel linked to this alert.
+            
+            This provides a direct reference to the visualization source of the alert, enabling navigation from alert → panel for context and troubleshooting.
+            
+            The panel is included in the notification for quick access and used by the AI Agent to run an RCA when enabled.
+          required:
+            - folderId
+            - dashboardId
+            - panelId
+          properties:
+            folderId:
+              type: string
+              description: The folder ID where the dashboard is located.
+              required: true
+            dashboardId:
+              type: string
+              description: The dashboard ID where he panel is located.
+              required: true
+            panelId:
+              type: string
+              description: The panel ID associated to this alert.
+              required: true
         runbook:
           type: string
           description: The runbook for the alert.
@@ -1333,15 +1352,24 @@ components:
         alertId:
           type: string
           description: The ID of the alert that generated this event.
-        panelId:
-          type: string
-          description: The ID of the panel associated with the alert event.
-        dashboardUid:
-          type: string
-          description: The ID of the dashboard associated with panel of the alert event.
-        folderUid:
-          type: string
-          description: The ID of the folder containing the dashboard associated with panel of the alert event.
+        linkedPanel:
+          type: object
+          description: |-
+            Represents the Unified Dashboards panel linked to this alert.
+            
+            This provides a direct reference to the visualization source of the alert, enabling navigation from alert → panel for context and troubleshooting.
+            
+            The panel is included in the notification for quick access and used by the AI Agent to run an RCA when enabled.
+          properties:
+            folderId:
+              type: string
+              description: The folder ID where the dashboard is located.
+            dashboardId:
+              type: string
+              description: The dashboard ID where he panel is located.
+            panelId:
+              type: string
+              description: The panel ID associated to this alert.
         rca:
           type: boolean
           description: Indicates whether Root Cause Analysis (RCA) is enabled for the alert event.
