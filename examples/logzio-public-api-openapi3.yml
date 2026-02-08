@@ -410,6 +410,12 @@ components:
             updatedAt:
               type: integer
               description: The timestamp when the alert was last updated in seconds since Unix epoch.
+            createdBy:
+              type: string
+              description: The email of the user or api token name who created the alert.
+            updatedBy:
+              type: string
+              description: The email of the user or api token name who last updated the alert.
  
     PagedSearchResponseUnifiedAlertResponse:
       type: object
