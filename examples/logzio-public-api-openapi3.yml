@@ -494,6 +494,16 @@ components:
         enabled:
           type: boolean
           description: Whether to filter by enabled alerts.
+        createdBy:
+          type: array
+          items:
+            type: string
+          description: A list of users who created the alerts to filter by.
+        updatedBy:
+          type: array
+          items:
+            type: string
+          description: A list of users who last updated the alerts to filter by.
 
     UnifiedAlertsSortBy:
       type: object
@@ -505,6 +515,8 @@ components:
             - severity
             - tags
             - updatedAt
+            - createdBy
+            - updatedBy
             - enabled
           description: The field to sort by.
         direction:
