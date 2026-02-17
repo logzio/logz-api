@@ -1,0 +1,46 @@
+---
+id: enable-unified-alert
+title: "Enable Unified Alert"
+description: "Enable a unified alert by its type and ID."
+sidebar_label: "Enable Unified Alert"
+hide_title: true
+hide_table_of_contents: true
+api: eJytVlFv2zYQ/isH7mFJIEtZ0Cc9FAvaFDCapsGSDBvSADlTZ4kIRaq8k1PP8H8fSMmJndYb1u4pkcn7+H0fj3e3UhWxDqYT450q1ZnDmSVA6J2ZG6oALQWB2RKMMMiyI0BXwfRtrjIlWLMqb9XNuPc07mV1l6kOA7YkFOL6SjlsSZUqhqtMmXhQh9KoTAX63JtAlSol9JQp1g21qMrVsLlULMG4Wq2zF0SvGxro+DlIQ7t8c/BpHwMGKuHe+prvM7hvSYLRfJ+rdfbEylT/J6fp228zUuu7iMydd0wcwU6OX8U/uxA3O7ZTuo0KuNeamOe9tcvIXb36VmyyHy68wDvfuyqHyIc70tuQ07dQeWJwXoC+GI7M1plqSRpfRQ88i8oGK0pVLE6KUcckxXOxiiasi5Wp1sXAT2WKKSw2l90Hq0rViHRcFgV2Jre+/is3Xr306+YKzpAFDi58kIaCg99NqI0zeJgu6CukCfZ7wU7ZIFxiFKvh4GpZOVrug9G4F+YNOqwQDt6Qk4B2HwLtJ3LWB98RHLwL6B7mfZB9GP3Dv2Kce1d5d5iSh0n3wcgymfzH5PRyOrn++P7sQpW3d9vrVzFdhxTb2fWUvtiZ97TcJH1DWFFQ2eY5bMe8pPWn70GjgxYd1gRL3wc4vZyC+AdyDPPg25T6t+eDrq3Fu4Nn6d1Gd/FTUSE3M4+hKphEjKu5GNAnQ1x06hA6rCn/5LbOwkCAWvveyWTMcZ1DJPhorAVHVIF4mBFYX9dUgXHiE7lAlhboBM59DR/SWS05AR/ganr2YYMaoxeGHlPM9sHMXhsUquDRSANG8k/u2u/xJIvHf+PszSHGDREbwzqLMvehzUBbox9SUE0Y4sb4v/huEkzdCLTk+iwVYyZLWuD26Ojae8vwelS1Yfx6i8/R0Q9dRP7JTeVnBtN2PggOLj0QdYOK8cCUiZRvu6YxhCV0wSyMpZo4xrX4QKAbdON3zxQ4KRrd4QzYg5lHcJiRNbSI7ecZFxpkmBE50L7tgm8NU5VBRZaEwMjgT6DOoo7fw40huHitCWDjv3FCdcDUNIaKaNzcp0djxMZ3sZXSsfVRaPnj/IrCwmjaetgbQ3Hme5n0XKSdEz+f9EzF1yVwp3UmZWitf+SkWTzoQCiUjek1CGq9M+LDUNEZUAfPDG1vxXSWnnMp+KrXMr5LBDautpSkhjnq+KBUpmLdHrj8kh/nxypT2jtBLVE8tWhS2SLb/fpcrHZrWeU1PyVS7E7WaHJMEWAsKqcd6obgJOE/R5dF8fj4mGNazX2oizGUi/Ppm7OLq7PJSX6cN9LadCexObXotoDHeWXHxpcmr5IicvKf55uhXgp9kaKzaFwUl9ivxgZ5qxYnUdFOi1SZKsdRp0zDxdgm7zLVxO5a3qrVaoZMN8Gu1/Hnzz2FWNfvMrXAYNLuWOUrw2kAUOUcLdM/6Dr4bRxaDuEHJ6M9sje9w8XGsUDbxy+VqQdabia72OW+m/Heuem7+JhKre+2x5rLj1fXar3+G8mUvs8=
+sidebar_class_name: "post api-method"
+info_path: docs/logz/logz-io-api
+custom_edit_url: null
+hide_send_button: true
+---
+
+import ApiTabs from "@theme/ApiTabs";
+import DiscriminatorTabs from "@theme/DiscriminatorTabs";
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import SecuritySchemes from "@theme/ApiExplorer/SecuritySchemes";
+import MimeTabs from "@theme/MimeTabs";
+import ParamsItem from "@theme/ParamsItem";
+import ResponseSamples from "@theme/ResponseSamples";
+import SchemaItem from "@theme/SchemaItem";
+import SchemaTabs from "@theme/SchemaTabs";
+import Markdown from "@theme/Markdown";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+
+<h1 className={"openapi__heading"}>Enable Unified Alert</h1>
+
+<MethodEndpoint method={"post"} path={"/v2/unified-alerts/{type}/{id}/enable"}></MethodEndpoint>
+
+
+
+Enable a unified alert by its type and ID.
+
+## Request
+
+<details style={{"marginBottom":"1rem"}} className={"openapi-markdown__details"} data-collapsed={false} open={true}><summary style={{}}><h3 className={"openapi-markdown__details-summary-header-params"}>Path Parameters</h3></summary><div><ul><ParamsItem className={"paramsItem"} param={{"name":"type","in":"path","required":true,"schema":{"type":"string"},"description":"The type of the unified alert. options are: `logs`, `metrics`."}}></ParamsItem><ParamsItem className={"paramsItem"} param={{"name":"id","in":"path","required":true,"schema":{"type":"string"},"description":"The ID of the unified alert."}}></ParamsItem></ul></div></details><div><div><ApiTabs label={undefined} id={undefined}><TabItem label={"204"} value={"204"}><div>
+
+Unified alert enabled successfully.
+
+</div><div></div></TabItem><TabItem label={"404"} value={"404"}><div>
+
+Alert Not Found. The specified alert ID does not exist.
+
+</div><div></div></TabItem></ApiTabs></div></div>

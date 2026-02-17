@@ -12518,6 +12518,19 @@ definitions:
           type: integer
           format: int32
 
+  AlertSchedule:
+    type: object
+    description: Defines the frequency and the time frame in which an alert will be evaluated.
+    properties:
+      cronExpression:
+        type: string
+        description: Cron job for the intervals schedule.
+        example: "0 0/60 9-17 ? * * *"
+      timezone:
+        type: string
+        description: Time zone for the cron job. If no time zone is selected, UTC will be used by default.
+        example: "America/Sao_Paulo"
+  
   SubAlert:
     type: object
     properties:
@@ -12618,17 +12631,7 @@ definitions:
       correlations:
         $ref: '#/definitions/SubAlertCorrelation'
       schedule:
-        type: object
-        description: Defines the frequency and the time frame in which an alert will be evaluated.
-        properties:
-          cronExpression:
-            type: string
-            description: Cron job for the intervals schedule.
-            example: "0 0/60 9-17 ? * * *"
-          timezone:
-            type: string
-            description: Time zone for the cron job. If no time zone is selected, UTC will be used by default.
-            example: "America/Sao_Paulo"
+        $ref: '#/definitions/AlertSchedule'
       enabled:
         type: boolean
         description: If `true`, the alert is enabled and active. Default value is `true`.

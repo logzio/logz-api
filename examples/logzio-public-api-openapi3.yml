@@ -1,0 +1,1421 @@
+openapi: 3.0.3
+info:
+  title: Logz.io API
+  termsOfService: 'https://logz.io/about-us/terms-of-use/'
+  description: >
+    Unified Alerts API allows you to create, manage, and monitor alerts across multiple Logz.io products from a single interface.
+  version: 1.0.0
+  contact:
+    email: help@logz.io
+    url: https://docs.logz.io/
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+
+servers:
+  - url: https://api.logz.io
+    description: US East (Northern Virginia)
+  - url: https://api-au.logz.io
+    description: Asia Pacific (Sydney)
+  - url: https://api-ca.logz.io
+    description: Canada (Central)
+  - url: https://api-eu.logz.io
+    description: Europe (Frankfurt)
+  - url: https://api-uk.logz.io
+    description: Europe (London)
+
+tags:
+  - name: Unified Alerts
+    description: |-
+      Logz.io Unified Alerts is a new and improved alerting system that allows you to create, manage, and monitor alerts across multiple Logz.io products from a single interface.
+      
+      Logz.io Unified Alerts continuously monitor your logs and metrics, triggering when defined conditions are met. 
+      
+      Alerts generate searchable event logs and can send customizable notifications.
+
+paths:
+  # ::::: Unified Alerts
+  /v2/unified-alerts/{type}/{id}:
+    get:
+      summary: Get Unified Alert
+      description: Retrieve a unified alert by its type and ID.
+      tags:
+        - Unified Alerts
+      parameters:
+        - name: type
+          in: path
+          required: true
+          schema:
+            type: string
+          description: |-
+            The type of the unified alert. options are: `logs`, `metrics`.
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The ID of the unified alert.
+      responses:
+        '200':
+          description: Unified alert details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnifiedAlertResponse'
+        '404':
+          description: Alert Not Found. The specified alert ID does not exist.
+
+    put:
+      summary: Update Unified Alert
+      description: Update an existing unified alert by its type and ID.
+      tags:
+        - Unified Alerts
+      parameters:
+        - name: type
+          in: path
+          required: true
+          schema:
+            type: string
+          description: |-
+            The type of the unified alert. options are: `logs`, `metrics`. 
+            Make sure `alertConfiguration.type` matches the type parameter
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The ID of the unified alert.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UnifiedAlertRequest'
+            examples:
+              LogAlertExample:
+                $ref: '#/components/schemas/UnifiedAlertRequest/examples/LogAlertRequest'
+              MetricAlertExample:
+                $ref: '#/components/schemas/UnifiedAlertRequest/examples/MetricAlertRequest'
+      responses:
+        '200':
+          description: Unified alert updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnifiedAlertResponse'
+        '400':
+          description: Bad Request. The request body is invalid. Check response body for the problem.
+        '404':
+          description: Alert Not Found. The specified alert ID does not exist.
+
+    delete:
+      summary: Delete Unified Alert
+      description: Delete a unified alert by its type and ID.
+      tags:
+        - Unified Alerts
+      parameters:
+        - name: type
+          in: path
+          required: true
+          schema:
+            type: string
+          description: |-
+            The type of the unified alert. options are: `logs`, `metrics`.
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The ID of the unified alert.
+      responses:
+        '200':
+          description: Unified alert deleted successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnifiedAlertResponse'
+        '404':
+          description: Alert Not Found. The specified alert ID does not exist.
+
+  /v2/unified-alerts/{type}:
+    post:
+      summary: Create Unified Alert
+      description: Create a new unified alert.
+      tags:
+        - Unified Alerts
+      parameters:
+        - name: type
+          in: path
+          required: true
+          schema:
+            type: string
+          description:  |-
+            The type of the unified alert. options are: `logs`, `metrics`. 
+            Make sure `alertConfiguration.type` matches the type parameter
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UnifiedAlertRequest'
+            examples:
+              LogAlertExample:
+                $ref: '#/components/schemas/UnifiedAlertRequest/examples/LogAlertRequest'
+              MetricAlertExample:
+                $ref: '#/components/schemas/UnifiedAlertRequest/examples/MetricAlertRequest'
+      responses:
+        '200':
+          description: Unified alert created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UnifiedAlertResponse'
+        '400':
+          description: Bad Request. The request body is invalid. Check response body for the problem.
+
+  /v2/unified-alerts/{type}/{id}/disable:
+    post:
+      summary: Disable Unified Alert
+      description: Disable a unified alert by its type and ID.
+      tags:
+        - Unified Alerts
+      parameters:
+        - name: type
+          in: path
+          required: true
+          schema:
+            type: string
+          description: |-
+            The type of the unified alert. options are: `logs`, `metrics`.
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The ID of the unified alert.
+      responses:
+        '204':
+          description: Unified alert disabled successfully.
+        '404':
+          description: Alert Not Found. The specified alert ID does not exist.
+
+  /v2/unified-alerts/{type}/{id}/enable:
+    post:
+      summary: Enable Unified Alert
+      description: Enable a unified alert by its type and ID.
+      tags:
+        - Unified Alerts
+      parameters:
+        - name: type
+          in: path
+          required: true
+          schema:
+            type: string
+          description: |-
+            The type of the unified alert. options are: `logs`, `metrics`.
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The ID of the unified alert.
+      responses:
+        '204':
+          description: Unified alert enabled successfully.
+        '404':
+          description: Alert Not Found. The specified alert ID does not exist.
+
+  /v2/unified-alerts/search:
+    post:
+      summary: Search Unified Alerts
+      description: |
+        Search for unified alerts based on filters.
+      tags:
+        - Unified Alerts
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UnifiedAlertsSearchRequest'
+      responses:
+        '200':
+          description: A list of unified alerts matching the search criteria.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PagedSearchResponseUnifiedAlertResponse'
+        '400':
+          description: Bad Request. The request body is invalid. Check response body for the problem.
+
+  /v2/unified-alerts/events/search:
+    post:
+      summary: Search Unified Alert Events
+      description: |
+        Search for events related to unified alerts.
+
+        **Notice**: There is a limit of 10,000 results per source type (metric/log).  
+      tags:
+        - Unified Alerts
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UnifiedAlertEventsSearchRequest'
+      responses:
+        '200':
+          description: A list of unified alert events matching the search criteria.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PagedSearchResponseUnifiedAlertEvent'
+        '400':
+          description: Bad Request. The request body is invalid. Check response body for the problem.
+
+security:
+    - X-API-TOKEN: []
+
+components:
+  securitySchemes:
+    X-API-TOKEN:
+      type: apiKey
+      in: header
+      name: X-API-TOKEN
+      description: >-
+        You can manage your API tokens from the [Logz.io API tokens](https://app.logz.io/#/dashboard/settings/manage-tokens/api) page.
+
+        API tokens are account-specific. You will need to be logged into the relevant Log Management or SIEM account to view the API tokens associated with it.
+
+        To manage your API tokens, log into the relevant account in your Logz.io platform, click the gear in the top-right menu, and select [**Tools > Manage tokens > API tokens**](https://app.logz.io/#/dashboard/settings/manage-tokens/api).
+
+        It's important to keep your tokens secure. API tokens carry privileges to make changes to users and accounts, so if you believe an API token has been compromised, delete it, and replace it with a new token in your integrations.
+  
+  schemas:
+    UnifiedAlertRequest:
+      type: object
+      required:
+        - title
+        - alertConfiguration
+      properties:
+        title:
+          type: string
+          description: The title of the unified alert.
+        description:
+          type: string
+          description: A description of the unified alert.
+        tags:
+          type: array
+          items:
+            type: string
+          description: Tags associated with the unified alert.
+        linkedPanel:
+          type: object
+          description: |-
+            Represents the Unified Dashboards panel linked to this alert.
+            
+            This provides a direct reference to the visualization source of the alert, enabling navigation from alert → panel for context and troubleshooting.
+            
+            The panel is included in the notification for quick access and used by the AI Agent to run an RCA when enabled.
+          required:
+            - folderId
+            - dashboardId
+            - panelId
+          properties:
+            folderId:
+              type: string
+              description: The folder ID where the dashboard is located.
+              required: true
+            dashboardId:
+              type: string
+              description: The dashboard ID where he panel is located.
+              required: true
+            panelId:
+              type: string
+              description: The panel ID associated to this alert.
+              required: true
+        runbook:
+          type: string
+          description: The runbook for the alert.
+        rca:
+          type: boolean
+          description: Whether RCA (Root Cause Analysis) is enabled for the alert.
+        rcaNotificationEndpointIds:
+          type: array
+          items:
+            type: integer
+          description: Notification endpoint IDs for RCA.
+        useAlertNotificationEndpointsForRca:
+          type: boolean
+          description: Whether to use alert notification endpoints for RCA.
+        recipients:
+          $ref: '#/components/schemas/AlertRecipients'
+        alertConfiguration:
+          $ref: '#/components/schemas/AlertConfiguration'
+        enabled:
+          type: boolean
+          description: Whether the alert is enabled.
+      examples:
+        LogAlertRequest:
+          summary: Example for log alert type
+          value:
+            title: "Example Log Alert"
+            description: "Example alert description"
+            tags: ["production", "errors"]
+            folderId: "folder123"
+            dashboardId: "dashboard456"
+            panelId: "panel789"
+            runbook: "Runbook description for what to do when the alert triggers"
+            rca: true
+            rcaNotificationEndpointIds: [12345, 67890]
+            useAlertNotificationEndpointsForRca: true
+            recipients:
+              $ref: '#/components/schemas/AlertRecipients/example'
+            alertConfiguration:
+              $ref: '#/components/schemas/LogAlert/example'
+            enabled: true
+        MetricAlertRequest:
+          summary: Example for metric alert type
+          value:
+            title: "Example Metric Alert"
+            description: "Example alert description"
+            tags: ["production", "errors"]
+            folderId: "folder123"
+            dashboardId: "dashboard456"
+            panelId: "panel789"
+            runbook: "Runbook description for what to do when the alert triggers"
+            rca: true
+            rcaNotificationEndpointIds: [12345, 67890]
+            useAlertNotificationEndpointsForRca: true
+            recipients:
+              $ref: '#/components/schemas/AlertRecipients/example'
+            alertConfiguration:
+              $ref: '#/components/schemas/MetricAlert/example'
+            enabled: true
+
+    UnifiedAlertResponse:
+      type: object
+      allOf:
+        - type: object
+          properties:
+            id:
+              type: string
+              description: The ID of the unified alert.
+        - $ref: '#/components/schemas/UnifiedAlertRequest'
+        - type: object
+          properties:
+            createdAt:
+              type: integer
+              description: The timestamp when the alert was created in seconds since Unix epoch.
+            updatedAt:
+              type: integer
+              description: The timestamp when the alert was last updated in seconds since Unix epoch.
+            createdBy:
+              type: string
+              description: The email of the user or api token name who created the alert.
+            updatedBy:
+              type: string
+              description: The email of the user or api token name who last updated the alert.
+ 
+    PagedSearchResponseUnifiedAlertResponse:
+      type: object
+      properties:
+        total:
+          type: integer
+          description: The total number of unified alerts matching the search criteria.
+        results:
+          type: array
+          items:
+            allOf:
+              - $ref: '#/components/schemas/UnifiedAlertResponse'
+          description: The list of unified alerts matching the search criteria.
+        pagination:
+          $ref: '#/components/schemas/Pagination'
+
+    UnifiedAlertsSearchRequest:
+      type: object
+      properties:
+        filter:
+          $ref: '#/components/schemas/UnifiedAlertsFilter'
+        sort:
+          type: array
+          items:
+            $ref: '#/components/schemas/UnifiedAlertsSortBy'
+          description: Sort criteria for the search results. By field and sort direction.
+        pagination:
+          $ref: '#/components/schemas/Pagination'
+
+    UnifiedAlertsFilter:
+      type: object
+      description: |
+        **How filters work:** Filters are optional. 
+        We match **all** selected categories (AND), but will include results for **any** value selected within a single category (OR).
+      properties:
+        alertIds:
+          type: array
+          items:
+            type: string
+          description: A list of alert IDs to filter by.
+        dashboardIds:
+          type: array
+          items:
+            type: string
+          description: A list of dashboard IDs to filter by.
+        panelIds:
+          type: array
+          items:
+            type: string
+          description: A list of panel IDs to filter by.
+        searchTerm:
+          type: string
+          description: A search term to filter alerts by title. Search is case-insensitive and matches partial titles.
+        source:
+          type: string
+          enum:
+            - LOG_ALERT
+            - METRIC_ALERT
+          description: The source type of the alert.
+        severities:
+          type: array
+          items:
+            type: string
+            enum:
+              - INFO
+              - LOW
+              - MEDIUM
+              - HIGH
+              - SEVERE
+          description: A list of severities to filter by.
+        tags:
+          type: array
+          items:
+            type: string
+          description: A list of tags to filter by.
+        enabled:
+          type: boolean
+          description: Whether to filter by enabled alerts.
+        createdBy:
+          type: array
+          items:
+            type: string
+          description: A list of users who created the alerts to filter by.
+        updatedBy:
+          type: array
+          items:
+            type: string
+          description: A list of users who last updated the alerts to filter by.
+
+    UnifiedAlertsSortBy:
+      type: object
+      properties:
+        field:
+          type: string
+          enum:
+            - title
+            - severity
+            - tags
+            - updatedAt
+            - createdBy
+            - updatedBy
+            - enabled
+          description: The field to sort by.
+        direction:
+          type: string
+          enum:
+            - ASC
+            - DESC
+          description: The sort direction.
+
+    AlertConfiguration:
+      type: object
+      discriminator:
+        propertyName: type
+        mapping:
+          LOG_ALERT: '#/components/schemas/LogAlert'
+          METRIC_ALERT: '#/components/schemas/MetricAlert'
+      oneOf:
+        - $ref: '#/components/schemas/LogAlert'
+        - $ref: '#/components/schemas/MetricAlert'
+      examples:
+        LogAlertConfigExample:
+          summary: Example for log alert configuration
+          value:
+            $ref: '#/components/schemas/LogAlert/example'
+        MetricAlertConfigExample:
+          summary: Example for metric alert configuration
+          value:
+            $ref: '#/components/schemas/MetricAlert/example'
+
+    LogAlert:
+      allOf:
+        - $ref: '#/components/schemas/AlertConfiguration'
+        - type: object
+          required:
+            - subComponents
+          properties:
+            type:
+              type: string
+              enum:
+                - LOG_ALERT
+            suppressNotificationsMinutes:
+              type: integer
+              format: int32
+              minimum: 5
+              maximum: 1440
+              description: Add a waiting period in minutes to space out notifications. (The alert will still trigger but will not send out notifications during the waiting period.)
+              example: 60
+            alertOutputTemplateType:
+              $ref: '#/components/schemas/AlertOutputTemplateType'
+            searchTimeFrameMinutes:
+              type: integer
+              minimum: 5
+              maximum: 1440
+              format: int32
+              description: >-
+                The time frame for evaluating the log data is a sliding window, with 1 minute granularity.
+
+
+                The recommended minimum and maximum values are not validated, but needed to guarantee the alert's accuracy.
+
+
+                The minimum recommended time frame is 5 minutes, as anything shorter will be less reliable and unnecessarily resource-heavy.
+
+
+                The maximum recommended time frame is 1440 minutes (24 hours). The alert runs on the index from today and yesterday (in UTC) and the maximum time frame increases throughout the day, reaching 48 hours exactly before midnight UTC.
+
+
+                The default value is 5. 
+              example: 20
+            subComponents:
+              type: array
+              items:
+                $ref: '#/components/schemas/SubAlert'
+              minItems: 1
+            correlations:
+              $ref: '#/components/schemas/SubAlertCorrelation'
+            schedule:
+              $ref: '#/components/schemas/AlertSchedule'
+      example:
+        type: LOG_ALERT
+        suppressNotificationsMinutes: 10
+        alertOutputTemplateType: JSON
+        searchTimeFrameMinutes: 5
+        subComponents:
+          - queryDefinition:
+              query: "error OR exception"
+              filters:
+                bool:
+                  must:
+                    - match_phrase:
+                        Field:
+                          query: value
+              groupBy:
+                - host
+              aggregation:
+                aggregationType: COUNT
+            trigger:
+              operator: GREATER_THAN
+              severityThresholdTiers:
+                MEDIUM: 10
+                HIGH: 50
+            output:
+              shouldUseAllFields: true
+        correlations:
+          correlationOperators:
+            - AND
+          joins:
+            - {0: "host", 1: "host"}
+        schedule:
+          cronExpression: "0 0/5 * * * ?"
+          timezone: "UTC"
+
+    MetricAlert:
+      allOf:
+        - $ref: '#/components/schemas/AlertConfiguration'
+        - type: object
+          required:
+            - severity
+            - trigger
+            - queries
+          properties:
+            type:
+              type: string
+              enum:
+                - METRIC_ALERT
+            severity:
+              type: string
+              enum:
+                - INFO
+                - LOW
+                - MEDIUM
+                - HIGH
+                - SEVERE
+              description: The severity level of the metric alert.
+            trigger:
+              $ref: '#/components/schemas/MetricTrigger'
+            queries:
+              type: array
+              items:
+                $ref: '#/components/schemas/MetricQueryModel'
+      example:
+        type: METRIC_ALERT
+        severity: MEDIUM
+        trigger:
+          type: threshold
+          pendingPeriod: 15
+          condition:
+            operatorType: above
+            threshold: 100
+        queries:
+          - refId: "A"
+            queryDefinition:
+              accountId: 12345
+              promqlQuery: "avg(cpu.usage) by (host)"
+
+    MetricTrigger:
+      type: object
+      description: Metric alert trigger configuration
+      discriminator:
+        propertyName: type
+        mapping:
+          threshold: '#/components/schemas/ThresholdTrigger'
+          math: '#/components/schemas/MathTrigger'
+      oneOf:
+        - $ref: '#/components/schemas/ThresholdTrigger'
+        - $ref: '#/components/schemas/MathTrigger'
+      required:
+        - type
+        - pendingPeriod
+      properties:
+        type:
+          type: string
+          description: The type of the metric trigger.
+          enum:
+            - threshold
+            - math
+        pendingPeriod:
+          type: integer
+          format: int32
+          default: 15
+          description: Period in which the condition must be met before the alert fires.
+      example:
+        type: threshold
+        pendingPeriod: 15
+        condition:
+          operatorType: above
+          threshold: 100
+    
+    ThresholdTrigger:
+      type: object
+      description: Trigger that evaluates a threshold condition.
+      required:
+        - condition
+      properties:
+        type:
+          type: string
+          enum:
+            - threshold
+          description: The type of the trigger (Threshold Trigger).
+        condition:
+          $ref: '#/components/schemas/ThresholdOperator'
+          description: The condition to evaluate for the threshold trigger.
+      example:
+        type: threshold
+        condition:
+          operatorType: above
+          threshold: 100
+    
+    MathTrigger:
+      type: object
+      description: Trigger that evaluates a mathematical expression.
+      required:
+        - expression
+      properties:
+        type:
+          type: string
+          enum:
+            - math
+          description: The type of the trigger (Math Trigger).
+        expression:
+          type: string
+          description: The mathematical expression to evaluate for the math trigger using the refId for query references.
+      example:
+        type: math
+        expression: "$A > 100 || ($B < 50 && $C > 75)"
+
+    ThresholdOperator:
+      type: object
+      description: Threshold operator configuration
+      discriminator:
+        propertyName: operatorType
+        mapping:
+          above: '#/components/schemas/AboveOperator'
+          below: '#/components/schemas/BelowOperator'
+          within_range: '#/components/schemas/WithinRangeOperator'
+          outside_range: '#/components/schemas/OutsideRangeOperator'
+      oneOf:
+        - $ref: '#/components/schemas/AboveOperator'
+        - $ref: '#/components/schemas/BelowOperator'
+        - $ref: '#/components/schemas/WithinRangeOperator'
+        - $ref: '#/components/schemas/OutsideRangeOperator'
+      required:
+        - operatorType
+      properties:
+        operatorType:
+          type: string
+          description: The type of the threshold operator.
+          enum:
+            - above
+            - below
+            - within_range
+            - outside_range
+    
+    AboveOperator:
+      type: object
+      description: Operator for "above" threshold.
+      required:
+        - threshold
+      properties:
+        operatorType:
+          type: string
+          description: The type for "above" threshold.
+          enum:
+            - above
+        threshold:
+          type: number
+          format: double
+          description: The threshold value for the "above" operator.
+      example:
+        operatorType: above
+        threshold: 100.0
+    
+    BelowOperator:
+      type: object
+      description: Operator for "below" threshold.
+      required:
+        - threshold
+      properties:
+        operatorType:
+          type: string
+          description: The type for "below" threshold.
+          enum:
+            - below
+        threshold:
+          type: number
+          format: double
+          description: The threshold value for the "below" operator.
+      example:
+        operatorType: below
+        threshold: 50.0
+    
+    WithinRangeOperator:
+      type: object
+      description: Operator for "within range" threshold.
+      required:
+        - minThreshold
+        - maxThreshold
+      properties:
+        operatorType:
+          type: string
+          description: The type for "within_range" threshold.
+          enum:
+            - within_range
+        minThreshold:
+          type: number
+          format: double
+          description: The minimum threshold value for the "within range" operator.
+        maxThreshold:
+          type: number
+          format: double
+          description: The maximum threshold value for the "within range" operator.
+      example:
+        operatorType: within_range
+        minThreshold: 50.0
+        maxThreshold: 100.0
+    
+    OutsideRangeOperator:
+      type: object
+      description: Operator for "outside range" threshold.
+      required:
+        - minThreshold
+        - maxThreshold
+      properties:
+        operatorType:
+          type: string
+          description: The type for "outside_range" threshold.
+          enum:
+            - outside_range
+        minThreshold:
+          type: number
+          format: double
+          description: The minimum threshold value for the "outside range" operator.
+        maxThreshold:
+          type: number
+          format: double
+          description: The maximum threshold value for the "outside range" operator.
+      example:
+        operatorType: outside_range
+        minThreshold: 10.0
+        maxThreshold: 50.0
+
+    AlertOutputTemplateType:
+      type: string
+      enum:
+        - JSON
+        - TEXT
+      description: The output template type for the alert notification.
+
+    MetricQueryModel:
+      type: object
+      required:
+        - queryDefinition
+      properties:
+        refId:
+          type: string
+          default: "A"
+          description: Reference ID for the query. Relevant mostly when using Math trigger condition to reference the query results.
+        queryDefinition:
+          $ref: '#/components/schemas/MetricQueryDefinition'
+      example:
+        refId: "A"
+        queryDefinition:
+          accountId: 12345
+          promqlQuery: "avg(cpu.usage) by (host)"
+
+    MetricQueryDefinition:
+      type: object
+      required:
+        - accountId
+        - promqlQuery
+      properties:
+        accountId:
+          type: integer
+          format: int32
+          description: The Logz.io account ID **of type Metrics Account** to query metrics from.
+        promqlQuery:
+          type: string
+          description: The PromQL query to execute. 
+      example:
+        accountId: 12345
+        promqlQuery: "avg(cpu.usage) by (host)"
+    
+    Pagination:
+      type: object
+      description: >
+        Default pagination is a page of 25 results. Look for the `total` field in the response for the number of available results overall, and use the pagination function to page through the results.
+      properties:
+        pageNumber:
+          type: integer
+          format: int32
+          description: >
+            If you overshoot the page number, it will return empty with no results, but it won't fail the request.
+          default: 1
+          example: 1
+        pageSize:
+          type: integer
+          format: int32
+          description: >
+            Controls the number of results per page.
+          default: 25
+          example: 100
+
+    AlertRecipients:
+      type: object
+      description: Add email addresses and/or endpoint channels to automatically receive notifications with sample data when the alert triggers.
+      properties:
+        emails:
+          type: array
+          description: Array of email addresses to be notified when the alert triggers.
+          items:
+            type: string
+            example: test@logz.io
+        notificationEndpointIds:
+          type: array
+          description: Array of IDs of pre-configured endpoint channels to notify when the alert triggers.
+          items:
+            type: integer
+            format: int32
+            example: 12345
+      example:
+        emails:
+          - "test@logz.io"
+        recipients:
+          - 12345
+
+    AlertSchedule:
+      type: object
+      description: Defines the frequency and the time frame in which an alert will be evaluated.
+      properties:
+        cronExpression:
+          type: string
+          description: Cron job for the intervals schedule.
+          example: "0 0/60 9-17 ? * * *"
+        timezone:
+          type: string
+          description: Time zone for the cron job. If no time zone is selected, UTC will be used by default.
+          example: "America/Sao_Paulo"
+
+    SubAlert:
+      type: object
+      properties:
+        queryDefinition:
+          $ref: '#/components/schemas/AlertQuery'
+        trigger:
+          $ref: '#/components/schemas/AlertTrigger'
+        output:
+          $ref: '#/components/schemas/SubAlertOutput'
+
+    SubAlertCorrelation:
+      type: object
+      description: >-
+        Only applicable when multiple sub-components are in use. Selects a logic for correlating the alert’s sub-components.
+
+        `AND` is currently the only supported operator. When `AND` is the `correlationOperator`, both sub-components must meet their triggering criteria for the alert to trigger.
+      properties:
+        correlationOperators:
+          type: array
+          items:
+            type: string
+            enum:
+              - AND
+        joins:
+          type: array
+          description: >-
+            Specifies which group by fields must have the same values to trigger the alert.
+
+            Joins the group by fields from the first and second sub-components. The key represents the index of the sub component in the array (See the example - the index of the first sub-component is 0, the second is 1).
+
+            The fields must be ordered pairs of the group by fields already in use in the `queryDefinition`.
+          items:
+            type: object
+            additionalProperties: {}
+            example: {0: "region", 1: "region"}
+          default: false
+
+    SubAlertOutput:
+      type: object
+      description: Selects the data output to be sent in the notification when the alert triggers. Not applicable, when grouping by fields or aggregating results, as the output is auto-selected.
+      properties:
+        shouldUseAllFields:
+          type: boolean
+          description: If `true`, the notification output will include entire logs with all of their fields in the sample data.
+          default: true
+
+    AlertTrigger:
+      type: object
+      description: Sets the triggering threshold and severity tab to label the event when the alert triggers.
+      properties:
+        operator:
+          type: string
+          enum:
+            - LESS_THAN
+            - GREATER_THAN
+            - LESS_THAN_OR_EQUALS
+            - GREATER_THAN_OR_EQUALS
+            - EQUALS
+            - NOT_EQUALS
+          example: GREATER_THAN_OR_EQUALS
+          description: Specifies the operator for evaluating the results.
+        severityThresholdTiers:
+          type: object
+          description: >-
+            Sets a severity label per trigger threshold as a key:value pair.
+
+            If using more than one sub-component, only 1 severityThresholdTiers is allowed. Otherwise, 1 per `enum` are allowed (for a total of 5 thresholds of increasing severities).
+
+            Increasing severity must adhere to the logic of the operator.
+          enum:
+          - INFO
+          - LOW
+          - MEDIUM
+          - HIGH
+          - SEVERE
+          additionalProperties: {}
+          default:
+            MEDIUM: 10.0
+          example:
+            MEDIUM: 10.0
+            HIGH: 100.0
+            SEVERE: 300.0
+    
+    AlertOutput:
+      type: object
+      description: Automatically sends out notifications with sample results when the alert triggers.
+      properties:
+        recipients:
+          $ref: '#/components/schemas/AlertRecipients'
+        suppressNotificationsMinutes:
+          type: integer
+          format: int32
+          minimum: 5
+          maximum: 1440
+          description: >
+            Add a waiting period in minutes to space out notifications. 
+            (The alert will still trigger but will not send out notifications during the waiting period.)
+          example: 60
+        type:
+          type: string
+          description: >
+            Selects the output format for the alert notification. 
+            If the alert has no aggregations/group by fields, `JSON` offers the option to send full sample logs without selecting specific fields.
+          enum:
+            - JSON
+            - TABLE
+    
+    AlertQuery:
+      type: object
+      description: >
+        Determines when the alert should trigger using any combination of a search query, filters, group by aggregations, accounts to search, and trigger conditions.
+      properties:
+        query:
+          type: string
+          description: >
+            Provide a Kibana search query written in Lucene syntax. The search query together with the filters select for the relevant logs.
+    
+            Cannot be null - send an asterisk wildcard `*` if not using a search query.
+          default: "*"
+          example: type:apache_access
+        filters:
+          $ref: '#/components/schemas/BoolFilter'
+        groupBy:
+          type: array
+          nullable: true
+          description: >
+            Specify 1-3 fields by which to group the results and count them. If you apply a group by operation, the alert returns a count of the results aggregated by unique values.
+          items:
+            type: string
+          maxItems: 3
+          minItems: 0
+        aggregation:
+          $ref: '#/components/schemas/Aggregation'
+        shouldQueryOnAllAccounts:
+          type: boolean
+          default: true
+          example: false
+          description: >
+            Only applicable when the alert is run from the main account. If `true`, the alert runs on the main account and all associated searchable sub accounts. If `false`, specify relevant account IDs for the alert to monitor using the `accountIdsToQueryOn` field.
+        accountIdsToQueryOn:
+          type: array
+          description: >
+            Specify Account IDs to select which accounts the alert should monitor. The alert will be checked only on these accounts.
+          items:
+            type: integer
+            format: int32
+            example: 2321
+      
+    BoolFilter:
+      type: object
+      description: >
+        Apply `must` and `must_not` filters to the monitoring alert. Filters are more efficient compared to a query, so it's recommended to opt for a filter over a query, where possible. See [Elasticsearch Bool-Query](https://www.elastic.co/guide/en/elasticsearch/reference/6.8/query-dsl-bool-query.html) for more detail.
+      properties:
+        bool:
+          $ref: '#/components/schemas/FilterLists'
+    
+    ColumnConfig:
+      type: object
+      description: >
+        Customize the alert output to be sent out in notifications when the alert triggers.
+      properties:
+        fieldName:
+          type: string
+          description: Specify the fields to be included in the notification.
+        regex:
+          type: string
+          description: >
+            Trims the data using regex filters. [Learn more](https://docs.logz.io/user-guide/alerts/regex-filters.html)
+        sort:
+          type: string
+          description: >
+            Specify a single field to sort by. The field cannot be an analyzed field (a field that supports free text search or searching by part of a message, such as the 'message' field).
+          enum:
+            - DESC
+            - ASC
+    
+    FilterLists:
+      type: object
+      description: >
+        Runs Elasticsearch [Bool Query](https://www.elastic.co/guide/en/elasticsearch/reference/6.8/query-dsl-bool-query.html) filters on the data (before the search query is applied). The most efficient way to grab the logs you are looking for.
+      properties:
+        must:
+          type: array
+          items:
+            type: object
+            properties:
+              match_phrase:
+                type: object
+                properties:
+                  Field:
+                    type: object
+                    properties:
+                      query:
+                        type: string
+                        example: value
+        must_not:
+          type: array
+          items:
+            type: object
+            properties:
+              match_phrase:
+                type: object
+                properties:
+                  Field:
+                    type: object
+                    properties:
+                      query:
+                        type: string
+                        example: value
+
+    Aggregation:
+      type: object
+      description: Specifies a trigger condition that acts as a threshold.
+      properties:
+        aggregationType:
+          type: string
+          description: >-
+            Specifies the aggregation operator.
+    
+            * If `COUNT`, `fieldToAggregateOn` must be null, and `groupBy` fields must not be empty.
+    
+            * If `NONE`, `fieldToAggregateOn` must be null, and `groupBy` field must not be empty (or null).
+    
+            * If `PERCENTAGE`, `valueToAggregateOn` must be specified.
+    
+            * If any other operator type (other than `NONE` or `COUNT`), `fieldToAggregateOn` must not be null.
+          enum:
+            - SUM
+            - MIN
+            - MAX
+            - AVG
+            - COUNT
+            - UNIQUE_COUNT
+            - NONE
+            - PERCENTAGE
+            - PERCENTILE
+        fieldToAggregateOn:
+          type: string
+          description: >-
+            Selects the field on which to run the aggregation for the trigger condition.
+    
+            * Cannot be a field already in use for `groupBy`.
+        valueToAggregateOn:
+          type: string
+          description: >-
+            Used by the `PERCENTAGE` aggregation to select the field’s value. This value is used to determine if its ratio out of the total amount of logs in the query satisfies the trigger condition.
+    
+            * Only relevant for the `PERCENTAGE` aggregation.
+
+    UnifiedAlertEventsSearchRequest:
+      type: object
+      properties:
+        filter:
+          $ref: '#/components/schemas/UnifiedAlertEventsFilter'
+        sort:
+          type: array
+          items:
+            $ref: '#/components/schemas/UnifiedAlertEventsSortBy'
+          description: Sort criteria for the search results. By field and sort direction.
+        pagination:
+          $ref: '#/components/schemas/Pagination'
+    
+    UnifiedAlertEventsFilter:
+      type: object
+      description: |
+        **How filters work:** Filters are optional. 
+        We match **all** selected categories (AND), but will include results for **any** value selected within a single category (OR).
+      properties:
+        alertIds:
+          type: array
+          uniqueItems: true
+          items:
+            type: string
+          description: Filter by alert IDs
+        searchTerm:
+          type: string
+          description: Searches term in alert name field
+        source:
+          type: string
+          enum:
+            - LOG_ALERT
+            - METRIC_ALERT
+          description: Filter by alert source type
+        states:
+          type: array
+          uniqueItems: true
+          items:
+            type: string
+            enum:
+              - TRIGGERED
+              - RESOLVED
+              - PENDING
+              - NO_DATA
+          description: Filter by alert event states
+        severities:
+          type: array
+          uniqueItems: true
+          items:
+            type: string
+            enum:
+              - INFO
+              - LOW
+              - MEDIUM
+              - HIGH
+              - SEVERE
+          description: Filter by alert severities
+        tags:
+          type: array
+          uniqueItems: true
+          items:
+            type: string
+          description: Filter by alert tags
+        timeframe:
+          description: Filter events within the timeframe, based on the event lastTriggeredAt.
+          $ref: '#/components/schemas/TimeframeFilter'
+        dashboardIds:
+          type: array
+          uniqueItems: true
+          items:
+            type: string
+          description: Filter by dashboard IDs
+        muted:
+          type: boolean
+          description: |-
+            Filter by muted/unmuted alert events. 
+            
+            An alert is marked as muted within the suppress notifications timeframe. 
+            
+            Notice: Muting is only applicable to log alerts. Metric alerts are alway muted: false.
+    
+    UnifiedAlertEventsSortBy:
+      type: object
+      properties:
+        field:
+          type: string
+          enum:
+            - name
+            - groups
+            - severity
+            - state
+            - tags
+            - lastTriggeredAt
+            - reason
+            - isMuted
+        direction:
+          type: string
+          enum:
+            - ASC
+            - DESC
+    
+    TimeframeFilter:
+      type: object
+      properties:
+        from:
+          type: integer
+          format: int64
+          description: Start time in seconds since Unix epoch.
+        to:
+          type: integer
+          format: int64
+          description: End time in seconds since Unix epoch.
+    
+    UnifiedAlertEvent:
+      type: object
+      properties:
+        alertEventId:
+          type: string
+          description: The unique identifier of the alert event.
+        sourceType:
+          type: string
+          enum:
+            - LOG_ALERT
+            - METRIC_ALERT
+          description: The type of the alert source, either a log-based or metric-based alert.
+        name:
+          type: string
+          description: The name of the alert event.
+        groups:
+          type: object
+          additionalProperties:
+            type: string
+          description: Key-value pairs representing the groups associated with the alert event.
+          example: {"host": "server1", "region": "us-west"}
+        severity:
+          type: string
+          enum:
+            - INFO
+            - LOW
+            - MEDIUM
+            - HIGH
+            - SEVERE
+          description: The severity level for this alert. This can be used to prioritize alerts and can be used in alert filtering.
+        state:
+          type: string
+          enum:
+            - TRIGGERED
+            - RESOLVED
+            - PENDING
+            - NO_DATA
+          description: The state of the alert event.
+        reason:
+          type: string
+          description: The reason or explanation for the alert event state.
+        tags:
+          type: array
+          items:
+            type: string
+          description: A list of tags associated with the alert event.
+        lastTriggeredAt:
+          type: integer
+          format: int64
+          description: The timestamp (in seconds since Unix epoch) when the alert was last triggered.
+        alertId:
+          type: string
+          description: The ID of the alert that generated this event.
+        linkedPanel:
+          type: object
+          description: |-
+            Represents the Unified Dashboards panel linked to this alert.
+            
+            This provides a direct reference to the visualization source of the alert, enabling navigation from alert → panel for context and troubleshooting.
+            
+            The panel is included in the notification for quick access and used by the AI Agent to run an RCA when enabled.
+          properties:
+            folderId:
+              type: string
+              description: The folder ID where the dashboard is located.
+            dashboardId:
+              type: string
+              description: The dashboard ID where he panel is located.
+            panelId:
+              type: string
+              description: The panel ID associated to this alert.
+        rca:
+          type: boolean
+          description: Indicates whether Root Cause Analysis (RCA) is enabled for the alert event.
+        runbook:
+          type: string
+          description: A link or reference to the runbook associated with the alert event.
+        rcaNotificationEndpointIds:
+          type: array
+          items:
+            type: integer
+            format: int32
+          description: A list of notification endpoint IDs for Root Cause Analysis (RCA).
+        muted:
+          type: boolean
+          description: |-
+            Specifies whether the alert event is muted within the suppress notifications timeframe. 
+            
+            Muting is only applicable to log alerts. Metric alerts are always muted: false.
+    
+    PagedSearchResponseUnifiedAlertEvent:
+      type: object
+      properties:
+        total:
+          type: integer
+          format: int32
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/UnifiedAlertEvent'
+        pagination:
+          $ref: '#/components/schemas/Pagination'

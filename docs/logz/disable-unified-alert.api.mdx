@@ -1,0 +1,46 @@
+---
+id: disable-unified-alert
+title: "Disable Unified Alert"
+description: "Disable a unified alert by its type and ID."
+sidebar_label: "Disable Unified Alert"
+hide_title: true
+hide_table_of_contents: true
+api: eJytVlFv2zYQ/isH7mFJIEtZ0Cc9FAuSFDCapsGcDBsSAzlTZ4kwRao8yq5n+L8PpKTETuMNa/eUyOR9/L6Px7vbiIJYOtV4ZY3IxaVinGkChNaouaICUJPzMFuD8gx+3RCgKWB8mYpEeCxZ5A/ivt97HvaymCaiQYc1eXJhfSMM1iRyEcJFIlQ4qUFfiUQ4+tIqR4XIvWspESwrqlHkm25zLtg7ZUqxTV4xvauoo2Pn4Cva55uCjfsY0FEOT9qW/JTAU03eKclPqdgmz6xU8X9yGl++zUhspwGZG2uYOICdnb4Lf/Yh7vdsL7rrKIBbKYl53mq9DuTFu7eCo/9wYz18sK0pUgiEuCG5izm+hMISg7Ee6KviQG2biJp8ZYtggmUvks6LXGTLs6wXMorxnG2CC9tso4pt1hMUiWByy+G6W6dFLirvG86zDBuValv+lSorXjt2P4ErZA9HN9b5ipyB35UrlVF4HK/oG6QRtgfBzlkh3GJQK+Fosi4MrQ/BSDwIc4EGC4SjCzLeoT6EQIeJXLXONgRHHxyaxbx1/hBGu/hXjGtrCmuOY/owydYpv44m/zE6vx2P7j5/vLoR+cN0d30SErZLsr1dzwmMjfpI6yHtK8KCnEiGB7Eb85rWn7YFiQZqNFgSrG3r4Px2DN4uyDDMna1j8j9cd7p2FqdHL9KbQXf2U1YgVzOLrsiYvFem5KxDH3VxwaljaLCk9NHsnIWOAKW0rfGjPsllCoHgSmkNhqgAb2FGoG1ZUgHKeBvJOdK0ROPh2pbwKZ5Vk/FgHUzGV58G1BC9VLSKMbsHM1up0FMBK+UrUD59NHf2gCdJOP6Ns4dDlOkiBsMajX5uXZ2A1EouYlBJ6MLG8L+3zcipsvJQk2mTWI6ZNEkPDycnd9Zqhve9qoHx+x0+Jyc/dBHpoxn7nxlU3VjnsXNpQdR0KvoDYyZSuuuaROfW0Di1VJpK4hBX44JAVmj675bJcVTUu8MJsAU1D+AwI61oGRrQCy5UyDAjMiBt3ThbK6YigYI0eQLlO38cNRpl+O5uDMGEa40Ag//KeCodxrbRlURl5jY+GuV1eBc7KR2aH7maP88n5JZK0s7DHgzFmW39qOUs7hzZ+ahlyr4tgXvNMypDre2Ko2ZvQTpCT0mfXp2g2hrlretKOgNKZ5mhbrVXjaaXXHK2aKXv3yUCK1NqilLdHGV4UCIRoW53XH5JT9NTkQhpjUfpg3iqUcWyRbr59aVY7deywkp+TqTQnrSSZJgCQF9UzhuUFcFZxH+JzrNstVqlGFdT68qsD+XsenxxdTO5Gp2lp2nlax3vJHSnGs0O8DCy7Pn42uVNlETG//cZp6uYnr76rNGoTJAX+W/6HvkglmdB016XFInI+3EnjwPG0CmniahCh80fxGYzQ6Z7p7fb8POXllwo7dNELNGpuDsU+mEIEPkcNdM/KDv6rZ9cjuEHx6MDuof2YULvWKJuw5dIxILWw3gXGt13Mz44PH0XH1WI7XR3tLn9PLkT2+3fNkfBXQ==
+sidebar_class_name: "post api-method"
+info_path: docs/logz/logz-io-api
+custom_edit_url: null
+hide_send_button: true
+---
+
+import ApiTabs from "@theme/ApiTabs";
+import DiscriminatorTabs from "@theme/DiscriminatorTabs";
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import SecuritySchemes from "@theme/ApiExplorer/SecuritySchemes";
+import MimeTabs from "@theme/MimeTabs";
+import ParamsItem from "@theme/ParamsItem";
+import ResponseSamples from "@theme/ResponseSamples";
+import SchemaItem from "@theme/SchemaItem";
+import SchemaTabs from "@theme/SchemaTabs";
+import Markdown from "@theme/Markdown";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+
+<h1 className={"openapi__heading"}>Disable Unified Alert</h1>
+
+<MethodEndpoint method={"post"} path={"/v2/unified-alerts/{type}/{id}/disable"}></MethodEndpoint>
+
+
+
+Disable a unified alert by its type and ID.
+
+## Request
+
+<details style={{"marginBottom":"1rem"}} className={"openapi-markdown__details"} data-collapsed={false} open={true}><summary style={{}}><h3 className={"openapi-markdown__details-summary-header-params"}>Path Parameters</h3></summary><div><ul><ParamsItem className={"paramsItem"} param={{"name":"type","in":"path","required":true,"schema":{"type":"string"},"description":"The type of the unified alert. options are: `logs`, `metrics`."}}></ParamsItem><ParamsItem className={"paramsItem"} param={{"name":"id","in":"path","required":true,"schema":{"type":"string"},"description":"The ID of the unified alert."}}></ParamsItem></ul></div></details><div><div><ApiTabs label={undefined} id={undefined}><TabItem label={"204"} value={"204"}><div>
+
+Unified alert disabled successfully.
+
+</div><div></div></TabItem><TabItem label={"404"} value={"404"}><div>
+
+Alert Not Found. The specified alert ID does not exist.
+
+</div><div></div></TabItem></ApiTabs></div></div>
