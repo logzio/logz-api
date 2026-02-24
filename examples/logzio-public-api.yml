@@ -12574,6 +12574,10 @@ definitions:
     type: object
     description: Selects the data output to be sent in the notification when the alert triggers. Not applicable, when grouping by fields or aggregating results, as the output is auto-selected.
     properties:
+      columns:
+        type: array
+        items:
+          $ref: '#/definitions/ColumnConfig'
       shouldUseAllFields:
         type: boolean
         description: If `true`, the notification output will include entire logs with all of their fields in the sample data.
@@ -13054,10 +13058,10 @@ definitions:
         type: array
         items:
           $ref: '#/definitions/ColumnConfig'
-      #shouldUseAllFields:
-      #  type: boolean
-      #  description: If `true`, the notification output will include entire logs with all of their fields in the sample data.
-      # default: true
+      shouldUseAllFields:
+       type: boolean
+       description: If `true`, the notification output will include entire logs with all of their fields in the sample data.
+      default: true
   RuleV2Request:
     type: object
     required:
