@@ -619,6 +619,9 @@ components:
                 MEDIUM: 10
                 HIGH: 50
             output:
+              columns:
+                - fieldName: "host"
+                  sort: DESC
               shouldUseAllFields: true
         correlations:
           correlationOperators:
@@ -862,8 +865,8 @@ components:
       type: string
       enum:
         - JSON
-        - TEXT
-      description: The output template type for the alert notification.
+        - TABLE
+      description: Selects the output format for the alert notification. If the alert has no aggregations/group by fields, `JSON` offers the option to send full sample logs without selecting specific fields..
 
     MetricQueryModel:
       type: object
@@ -996,6 +999,10 @@ components:
       type: object
       description: Selects the data output to be sent in the notification when the alert triggers. Not applicable, when grouping by fields or aggregating results, as the output is auto-selected.
       properties:
+        columns:
+          type: array
+          items:
+            $ref: '#/components/schemas/ColumnConfig'
         shouldUseAllFields:
           type: boolean
           description: If `true`, the notification output will include entire logs with all of their fields in the sample data.
