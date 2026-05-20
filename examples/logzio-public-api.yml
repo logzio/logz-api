@@ -12855,7 +12855,7 @@ definitions:
         $ref: '#/definitions/Pagination'
 
 
-  # ::::: SIEM RULES - duplicates of alert definitions. do not exist in the swagger
+  # ::::: SIEM RULES - except SecurityRuleRequest/Response - duplicates of alert definitions but with description for rules. do not exist in the swagger
 
   RuleOutput:
     type: object
@@ -13053,7 +13053,7 @@ definitions:
         description: If `true`, a single email will be sent to all email addresses.
       rca:
         type: boolean
-        description: Whether RCA (Root Cause Analysis) is enabled for the alert.
+        description: Whether RCA (Root Cause Analysis) is enabled for the rule.
       rcaNotificationEndpointIds:
         type: array
         items:
@@ -13061,10 +13061,10 @@ definitions:
         description: Notification endpoint IDs for RCA.
       useAlertNotificationEndpointsForRca:
         type: boolean
-        description: Whether to use alert notification endpoints for RCA.
+        description: Whether to use rule notification endpoints for RCA.
       runbook:
         type: string
-        description: The runbook for the alert.
+        description: The runbook for the rule.
       mitreTags:
         type: array
         items:
@@ -13242,7 +13242,7 @@ definitions:
         default: false
       rca:
         type: boolean
-        description: Whether RCA (Root Cause Analysis) is enabled for the alert.
+        description: Whether RCA (Root Cause Analysis) is enabled for the rule.
       rcaNotificationEndpointIds:
         type: array
         items:
@@ -13250,10 +13250,10 @@ definitions:
         description: Notification endpoint IDs for RCA.
       useAlertNotificationEndpointsForRca:
         type: boolean
-        description: Whether to use alert notification endpoints for RCA.
+        description: Whether to use rule notification endpoints for RCA.
       runbook:
         type: string
-        description: The runbook for the alert.
+        description: The runbook for the rule.
       mitreTags:
         type: array
         items:
