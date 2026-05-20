@@ -13225,6 +13225,8 @@ definitions:
 
           * `schedule`
 
+          * `sendToAll`
+
           * `rca`
 
           * `rcaNotificationEndpointIds`
