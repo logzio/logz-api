@@ -13053,18 +13053,18 @@ definitions:
         description: If `true`, a single email will be sent to all email addresses.
       rca:
         type: boolean
-        description: Whether RCA (Root Cause Analysis) is enabled for the rule.
+        description: Activate AI Agent analysis (OrionIQ) for the rule.
       rcaNotificationEndpointIds:
         type: array
         items:
           type: integer
-        description: Notification endpoint IDs for RCA.
+        description: Notification endpoint IDs for AI Agent analysis (OrionIQ).
       useAlertNotificationEndpointsForRca:
         type: boolean
-        description: Whether to use rule notification endpoints for RCA.
+        description: Whether to use rule notification endpoints for AI Agent analysis (OrionIQ).
       runbook:
         type: string
-        description: The runbook for the rule.
+        description: Runbook instructions to help the AI Agent analysis (OrionIQ) understand how to handle the rule better.
       mitreTags:
         type: array
         items:
@@ -13244,18 +13244,18 @@ definitions:
         default: false
       rca:
         type: boolean
-        description: Whether RCA (Root Cause Analysis) is enabled for the rule.
+        description: Activate AI Agent analysis (OrionIQ) for the rule.
       rcaNotificationEndpointIds:
         type: array
         items:
           type: integer
-        description: Notification endpoint IDs for RCA.
+        description: Notification endpoint IDs for AI Agent analysis (OrionIQ).
       useAlertNotificationEndpointsForRca:
         type: boolean
-        description: Whether to use rule notification endpoints for RCA.
+        description: Whether to use rule notification endpoints for AI Agent analysis (OrionIQ).
       runbook:
         type: string
-        description: The runbook for the rule.
+        description: Runbook instructions to help the AI Agent analysis (OrionIQ) understand how to handle the rule better.
       mitreTags:
         type: array
         items:
