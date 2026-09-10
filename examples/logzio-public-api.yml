@@ -5035,6 +5035,207 @@ paths:
                 items:
                   type: integer
 
+  /v1/account-management/metrics-accounts/{metricsAccountId}/soft-limit:
+    get:
+      summary: Get a metrics account soft limit
+      description: >-
+        Returns the current soft limit of a **Consumption** metrics account.
+
+
+        The soft limit caps the number of unique time series (UTS) the metrics account is allowed to ingest.
+
+
+        Available for **Consumption** accounts only. If the account is not a Consumption account, the request returns `400`.
+
+
+        Please ensure to change the region in the URL to match your account's region.
+      produces:
+        - application/json
+      tags:
+        - Manage metrics account
+      parameters:
+        - in: path
+          name: metricsAccountId
+          required: true
+          type: integer
+          description: ID of the metrics account.
+      responses:
+        200:
+          description: OK
+          schema:
+            type: object
+            properties:
+              metricsAccountId:
+                type: integer
+                description: ID of the metrics account.
+              softLimitUniqueMetrics:
+                type: integer
+                x-plan: Consumption
+                description: The account's soft limit, in unique time series (UTS). Null if no soft limit is set.
+        400:
+          description: The account is not a **Consumption** account.
+    put:
+      summary: Update a metrics account soft limit
+      description: >-
+        Sets the soft limit of a **Consumption** metrics account.
+
+
+        The soft limit caps the number of unique time series (UTS) the metrics account is allowed to ingest.
+
+
+        Available for **Consumption** accounts only. If the account is not a Consumption account, the request returns `400`.
+
+
+        Please ensure to change the region in the URL to match your account's region.
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      tags:
+        - Manage metrics account
+      parameters:
+        - in: path
+          name: metricsAccountId
+          required: true
+          type: integer
+          description: ID of the metrics account.
+        - in: body
+          name: UpdateMetricsAccountSoftLimitRequest
+          required: true
+          schema:
+            type: object
+            required:
+              - softLimitUniqueMetrics
+            properties:
+              softLimitUniqueMetrics:
+                type: integer
+                minimum: 0
+                x-plan: Consumption
+                description: The account's soft limit, in unique time series (UTS). Must not be negative.
+                example: 1000
+      responses:
+        200:
+          description: OK
+          schema:
+            type: object
+            properties:
+              metricsAccountId:
+                type: integer
+                description: ID of the metrics account.
+              softLimitUniqueMetrics:
+                type: integer
+                x-plan: Consumption
+                description: The account's soft limit, in unique time series (UTS).
+        400:
+          description: >-
+            The account is not a **Consumption** account, or `softLimitUniqueMetrics` is negative.
+
+  /v1/account-management/consumption/tracing-accounts/{id}/soft-limit:
+    get:
+      summary: Get a tracing account soft limit
+      description: >-
+        Returns the current soft limit of a **Consumption** tracing account.
+
+
+        The soft limit caps the daily volume, in GB, that the tracing account is allowed to index.
+
+
+        Available for **Consumption** accounts only. If the account is not a Consumption account, the request returns `400`.
+
+
+        Please ensure to change the region in the URL to match your account's region.
+      produces:
+        - application/json
+      tags:
+        - Manage consumption tracing accounts
+      parameters:
+        - in: path
+          name: id
+          required: true
+          type: integer
+          description: ID of the tracing account.
+      responses:
+        200:
+          description: OK
+          schema:
+            type: object
+            properties:
+              accountId:
+                type: integer
+                description: ID of the tracing account.
+              softLimitGB:
+                type: number
+                format: float
+                x-plan: Consumption
+                description: The account's soft limit, in GB. Null if no soft limit is set.
+        400:
+          description: The account is not a **Consumption** account.
+    put:
+      summary: Update a tracing account soft limit
+      description: >-
+        Sets the soft limit of a **Consumption** tracing account.
+
+
+        The soft limit caps the daily volume, in GB, that the tracing account is allowed to index.
+
+
+        `tracingAccountId` in the request body must match the `id` in the path, otherwise the request returns `400`.
+
+
+        Available for **Consumption** accounts only. If the account is not a Consumption account, the request returns `400`.
+
+
+        Please ensure to change the region in the URL to match your account's region.
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      tags:
+        - Manage consumption tracing accounts
+      parameters:
+        - in: path
+          name: id
+          required: true
+          type: integer
+          description: ID of the tracing account.
+        - in: body
+          name: UpdateTracingAccountSoftLimitRequest
+          required: true
+          schema:
+            type: object
+            required:
+              - tracingAccountId
+              - softLimitGB
+            properties:
+              tracingAccountId:
+                type: integer
+                description: ID of the tracing account. Must match the `id` in the path.
+                example: 12345
+              softLimitGB:
+                type: number
+                format: float
+                minimum: 0
+                x-plan: Consumption
+                description: The account's soft limit, in GB. Must not be negative.
+                example: 5.0
+      responses:
+        200:
+          description: OK
+          schema:
+            type: object
+            properties:
+              accountId:
+                type: integer
+                description: ID of the tracing account.
+              softLimitGB:
+                type: number
+                format: float
+                x-plan: Consumption
+                description: The account's soft limit, in GB.
+        400:
+          description: >-
+            The account is not a **Consumption** account, `tracingAccountId` does not match the path `id`, or `softLimitGB` is negative.
+
   /v1/associated-accounts:
     get:
       summary: Get a list of all accounts derived from the accountId
