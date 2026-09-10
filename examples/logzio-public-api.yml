@@ -9618,7 +9618,7 @@ definitions:
         $ref: '#/definitions/DocSizeSetting'
       utilizationSettings:
         $ref: '#/definitions/AccountUtilizationSettings'
-      snapsearchRetentionDays:
+      snapSearchRetentionDays:
         type: integer
         format: int32 
         description: Number of days to retain data in the warm tier. Minimum value is 1.
@@ -9680,7 +9680,7 @@ definitions:
         $ref: '#/definitions/DailyUsagesList'
       docSizeSetting:
         $ref: '#/definitions/DocSizeSetting'
-      snapsearchRetentionDays:
+      snapSearchRetentionDays:
         type: integer
         format: int32 
         description: Number of days to retain data in the warm tier. Minimum value is 1.
@@ -9871,7 +9871,7 @@ definitions:
         default: false
         description: If the account is an owner account, `true`. Otherwise, `false`. 
         example: false
-      snapsearchRetentionDays:
+      snapSearchRetentionDays:
         type: integer
         format: int32 
         description: Number of days to retain data in the warm tier. Minimum value is 1.
@@ -9996,7 +9996,7 @@ definitions:
     description: Adds a LogSize field to each log to record the size in bytes, to better manage the account utilization.
     default: false
     example: true
-  snapsearchRetentionDays:
+  snapSearchRetentionDays:
         type: integer
         format: int32 
         description: Number of days to retain data in the warm tier. Minimum value is 1.
