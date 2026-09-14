@@ -25,10 +25,16 @@ Every account has a root folder named `ROOT_FOLDER`, created automatically the f
 Create and update both take a complete Perses project document. The update replaces the stored document rather than merging into it, so send the full desired state. To change only the name, use **Rename dashboard folder**.
 
 
+### Deleting a folder
+
+
+Deleting a folder also deletes every dashboard inside it, and succeeds whether or not the folder is empty. The deletion is soft: the folder and its dashboards stop appearing in this API, and creating a folder with the same `metadata.name` restores a deleted one.
+
+
 ### Status codes
 
 
-Every successful call returns 200, including create and delete. Deleting a folder also deletes every dashboard inside it, and there is no "folder is not empty" check. Deletes are soft, and creating a folder with the same `metadata.name` restores a deleted one.
+Every successful call returns 200, including create and delete.
 
 
 
