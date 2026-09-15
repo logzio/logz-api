@@ -335,6 +335,9 @@ tags:
       Create and update both take a complete Perses project document. The update replaces the stored document rather than merging into it, so send the full desired state. To change only the name, use **Rename dashboard folder**.
 
 
+      A body that isn't a complete Perses project document is rejected with 400 before anything is written, and the message names the field that failed.
+
+
       ### Deleting a folder
 
 
@@ -1139,7 +1142,7 @@ paths:
       description: |
         Creates a folder from a Perses project document.
 
-        `kind`, `metadata` and `spec` are all required. `metadata.name` is the folder's identity and has to be unique in the account; `spec.display.name` is the name shown in the app.
+        `kind` must be `Project`, and both `metadata.name` and `spec.display.name` are required and must be non-empty. `metadata.name` is the folder's identity and has to be unique in the account; `spec.display.name` is the name shown in the app.
 
         If the account has a deleted folder with the same `metadata.name`, that folder is restored and returned with the document it had before, and the document you sent is ignored.
       tags:
@@ -1157,7 +1160,7 @@ paths:
             $ref: '#/definitions/UnifiedProject'
         '400':
           description: |
-            The body is empty (`Project cannot be empty`), isn't a Perses project document (`Project payload is incorrect`), or names a folder that already exists (`Folder with this name already exists`).
+            The body isn't a valid Perses project document, or it names a folder that already exists.
           schema:
             $ref: '#/definitions/UnifiedDashboardsError'
         '401':
@@ -1203,7 +1206,7 @@ paths:
 
         Send the complete document. The stored one is replaced rather than merged, so a property you leave out is cleared, and the folder's name is set from `spec.display.name`.
 
-        The body is not validated today. A document without `spec.display` returns a 500 and overwrites the stored document, so always send the full envelope.
+        The body is validated before anything is written. A document that isn't a complete Perses project document is rejected with 400, and the stored folder is left untouched.
       tags:
         - Dashboard Folders (Projects)
       parameters:
@@ -1222,16 +1225,16 @@ paths:
           description: The updated folder.
           schema:
             $ref: '#/definitions/UnifiedProject'
+        '400':
+          description: The body isn't a valid Perses project document. Nothing is written.
+          schema:
+            $ref: '#/definitions/UnifiedDashboardsError'
         '401':
           description: The API token is missing or invalid.
           schema:
             $ref: '#/definitions/UnifiedDashboardsError'
         '404':
           description: No such folder in this account.
-          schema:
-            $ref: '#/definitions/UnifiedDashboardsError'
-        '500':
-          description: The body isn't a complete Perses project document.
           schema:
             $ref: '#/definitions/UnifiedDashboardsError'
 
@@ -9482,17 +9485,20 @@ definitions:
         properties:
           name:
             type: 'string'
-            description: "The folder's identity. Has to be unique within the account."
+            description: "The folder's identity. Required, must be non-empty, and has to be unique within the account."
             example: 'team-dashboards'
       spec:
         type: 'object'
+        required: ['display']
         properties:
           display:
             type: 'object'
-            description: 'How the folder is labelled in the app. Required when updating a folder, because the folder name is taken from `display.name`.'
+            description: 'How the folder is labelled in the app. Required on both create and update.'
+            required: ['name']
             properties:
               name:
                 type: 'string'
+                description: "The name shown in the app. Required, and must be non-empty. On an update it also becomes the folder's `name`."
                 example: 'Team Dashboards'
               description:
                 type: 'string'

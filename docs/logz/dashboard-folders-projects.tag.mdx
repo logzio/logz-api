@@ -25,6 +25,9 @@ Every account has a root folder named `ROOT_FOLDER`, created automatically the f
 Create and update both take a complete Perses project document. The update replaces the stored document rather than merging into it, so send the full desired state. To change only the name, use **Rename dashboard folder**.
 
 
+A body that isn't a complete Perses project document is rejected with 400 before anything is written, and the message names the field that failed.
+
+
 ### Deleting a folder
 
 
