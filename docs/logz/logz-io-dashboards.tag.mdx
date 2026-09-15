@@ -1,0 +1,62 @@
+---
+id: logz-io-dashboards
+title: "Logz.io Dashboards"
+description: "Logz.io Dashboards"
+custom_edit_url: null
+---
+
+
+
+Logz.io Dashboards are *unified* dashboards: a single dashboard can query both metrics and logs datasources, so one view covers data that would otherwise need two, and alerts can be defined on the same queries. They're built on the [Perses](https://perses.dev) framework.
+
+
+A dashboard lives in a folder, and is addressed by the folder's `id` together with the dashboard's `uid`.
+
+
+### Identifiers
+
+
+A dashboard has two identifiers and they are not interchangeable:
+
+
+* `uid` is the stable identifier. It survives updates and moves, and every endpoint here addresses a dashboard by it. This is the one to store.
+
+* `id` identifies the version row holding the current revision, and a new value is issued every time the dashboard is updated.
+
+
+A dashboard that has never been updated has the same value for `id`, `uid` and `name`, so the difference only shows up after the first edit.
+
+
+### Versions
+
+
+Each update writes a new version of the dashboard and increments `version`. Earlier versions are retained but aren't readable through this API.
+
+
+### Private dashboards
+
+
+A dashboard that was made private in the Logz.io app is returned only to an API token with admin permissions. For any other token, it is left out of lists and searches, and a request for it returns 404. Privacy can't be set through this API.
+
+
+### Deleting a dashboard
+
+
+Deletes are soft: the dashboard stops appearing in this API, and the delete response carries the id of the deleted record.
+
+
+### Status codes
+
+
+Every successful call returns 200, including create and delete.
+
+
+
+
+```mdx-code-block
+import DocCardList from '@theme/DocCardList';
+import {useCurrentSidebarCategory} from '@docusaurus/theme-common';
+
+<DocCardList items={useCurrentSidebarCategory().items}/>
+```
+      

@@ -1,0 +1,51 @@
+---
+id: dashboard-folders-projects
+title: "Dashboard Folders (Projects)"
+description: "Dashboard Folders (Projects)"
+custom_edit_url: null
+---
+
+
+
+A dashboard folder is called a *project* in this API and in the underlying [Perses](https://perses.dev) document model. The Logz.io app calls the same object a folder.
+
+
+### Addressing
+
+
+Folders are addressed by `id`, the UUID returned by create, list and search. A folder's name is not an address: passing one as `projectId` returns 404.
+
+
+Every account has a root folder named `ROOT_FOLDER`, created automatically the first time you list folders or create a dashboard. Its `id` comes from **Get all dashboards folders**, like any other folder's.
+
+
+### Writing a folder
+
+
+Create and update both take a complete Perses project document. The update replaces the stored document rather than merging into it, so send the full desired state. To change only the name, use **Rename dashboard folder**.
+
+
+A body that isn't a complete Perses project document is rejected with 400 before anything is written, and the message names the field that failed.
+
+
+### Deleting a folder
+
+
+Deleting a folder also deletes every dashboard inside it, and succeeds whether or not the folder is empty. The deletion is soft: the folder and its dashboards stop appearing in this API, and creating a folder with the same `metadata.name` restores a deleted one.
+
+
+### Status codes
+
+
+Every successful call returns 200, including create and delete.
+
+
+
+
+```mdx-code-block
+import DocCardList from '@theme/DocCardList';
+import {useCurrentSidebarCategory} from '@docusaurus/theme-common';
+
+<DocCardList items={useCurrentSidebarCategory().items}/>
+```
+      

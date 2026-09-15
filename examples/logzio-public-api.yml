@@ -270,6 +270,85 @@ tags:
     description: >-
       Before you can use Authentication Groups API, Logz.io support will need to enable [SSO](https://docs.logz.io/user-guide/users/single-sign-on/) for your account. 
 
+  - name: Logz.io Dashboards
+    description: |
+      Logz.io Dashboards are *unified* dashboards: a single dashboard can query both metrics and logs datasources, so one view covers data that would otherwise need two, and alerts can be defined on the same queries. They're built on the [Perses](https://perses.dev) framework.
+
+
+      A dashboard lives in a folder, and is addressed by the folder's `id` together with the dashboard's `uid`.
+
+
+      ### Identifiers
+
+
+      A dashboard has two identifiers and they are not interchangeable:
+
+
+      * `uid` is the stable identifier. It survives updates and moves, and every endpoint here addresses a dashboard by it. This is the one to store.
+
+      * `id` identifies the version row holding the current revision, and a new value is issued every time the dashboard is updated.
+
+
+      A dashboard that has never been updated has the same value for `id`, `uid` and `name`, so the difference only shows up after the first edit.
+
+
+      ### Versions
+
+
+      Each update writes a new version of the dashboard and increments `version`. Earlier versions are retained but aren't readable through this API.
+
+
+      ### Private dashboards
+
+
+      A dashboard that was made private in the Logz.io app is returned only to an API token with admin permissions. For any other token, it is left out of lists and searches, and a request for it returns 404. Privacy can't be set through this API.
+
+
+      ### Deleting a dashboard
+
+
+      Deletes are soft: the dashboard stops appearing in this API, and the delete response carries the id of the deleted record.
+
+
+      ### Status codes
+
+
+      Every successful call returns 200, including create and delete.
+
+  - name: Dashboard Folders (Projects)
+    description: |
+      A dashboard folder is called a *project* in this API and in the underlying [Perses](https://perses.dev) document model. The Logz.io app calls the same object a folder.
+
+
+      ### Addressing
+
+
+      Folders are addressed by `id`, the UUID returned by create, list and search. A folder's name is not an address: passing one as `projectId` returns 404.
+
+
+      Every account has a root folder named `ROOT_FOLDER`, created automatically the first time you list folders or create a dashboard. Its `id` comes from **Get all dashboards folders**, like any other folder's.
+
+
+      ### Writing a folder
+
+
+      Create and update both take a complete Perses project document. The update replaces the stored document rather than merging into it, so send the full desired state. To change only the name, use **Rename dashboard folder**.
+
+
+      A body that isn't a complete Perses project document is rejected with 400 before anything is written, and the message names the field that failed.
+
+
+      ### Deleting a folder
+
+
+      Deleting a folder also deletes every dashboard inside it, and succeeds whether or not the folder is empty. The deletion is soft: the folder and its dashboards stop appearing in this API, and creating a folder with the same `metadata.name` restores a deleted one.
+
+
+      ### Status codes
+
+
+      Every successful call returns 200, including create and delete.
+
 
 x-tagGroups:
   - name: Log Monitoring
@@ -324,6 +403,11 @@ x-tagGroups:
       - Grafana snapshots
       - Grafana get all folders
     description: Metrics API Gateway to supported endpoints. 
+  - name: Dashboards
+    tags:
+      - Logz.io Dashboards
+      - Dashboard Folders (Projects)
+    description: Manage Logz.io Dashboards and the folders that hold them.
     
 paths:
 
@@ -730,524 +814,523 @@ paths:
   /perses-public/api/v1/dashboards:
     get:
       summary: Get all dashboards
+      operationId: getAllDashboards
       description: |
-        Retrieves a list of all dashboards.
+        Returns the latest version of every dashboard in the account, across all folders.
+
+        Dashboards that were made private in the Logz.io app are returned only to an API token with admin permissions. For any other token, they are left out of the response.
       tags:
-            - Dashboards get all
-      parameters:
-        - in: body
-          type: 'string'
-          required: false
+        - Logz.io Dashboards
       responses:
         '200':
-          description: List of dashboards
+          description: The account's dashboards.
           schema:
             type: array
             items:
-              type: object
-              properties:
-                uid:
-                  type: string
-                  example: dashboard-1
-              schema:
-              - name: title
-                type: string
-                example: CPU usage
-              - name: panels
-                type: string
-              - name: refresh
-                type: string
-                example: 5s
-              veersion:
-                type: string
-                example: 1.0.0
-              createdAt:
-                type: string
-                example: 2024-03-20T10:00:00Z
-    
-  /perses-public/api/v1/projects/{folderId}/dashboards/{uid}:
+              $ref: '#/definitions/UnifiedDashboard'
+        '401':
+          description: The API token is missing or invalid.
+          schema:
+            $ref: '#/definitions/UnifiedDashboardsError'
+
+  /perses-public/api/v1/projects/{projectId}/dashboards:
+    get:
+      summary: Get dashboards in a folder
+      operationId: getFolderDashboards
+      description: |
+        Returns the latest version of every dashboard in one folder.
+
+        A folder that doesn't exist or that belongs to another account returns an empty array rather than a 404. Use **Get dashboard folder by ID** when you need to tell an empty folder from a missing one.
+      tags:
+        - Logz.io Dashboards
+      parameters:
+        - in: path
+          name: projectId
+          type: string
+          required: true
+          description: The folder's `id`, as returned by **Get all dashboard folders**. This is a UUID, not the folder's name.
+      responses:
+        '200':
+          description: The folder's dashboards.
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/UnifiedDashboard'
+        '401':
+          description: The API token is missing or invalid.
+          schema:
+            $ref: '#/definitions/UnifiedDashboardsError'
+
+    post:
+      summary: Create a new dashboard
+      operationId: createANewDashboard
+      description: |
+        Creates a dashboard in the given folder.
+
+        The request body wraps a complete Perses dashboard document in a `doc` property. Only `doc.metadata.name` is validated, and it is required: it is the dashboard's identity and the value both search endpoints match on. The title shown in the app is `doc.spec.display.name`. The rest of `doc.spec` is stored as sent, so it has to be a valid Perses dashboard spec for the dashboard to render.
+
+        Pass the literal `ROOT_FOLDER` as `projectId` to create the dashboard in the account's root folder, creating that folder if the account doesn't have one yet. This sentinel is accepted on this endpoint only; every other endpoint takes the folder's `id`.
+
+        The server sets `doc.metadata.project` from the path, so any value you send for it is replaced.
+
+        The dashboard comes back with `version` 1 and the same value for `id`, `uid` and `name`. Those three diverge as soon as the dashboard is updated, so store the `uid`.
+      tags:
+        - Logz.io Dashboards
+      parameters:
+        - in: path
+          name: projectId
+          type: string
+          required: true
+          description: The `id` of the folder to create the dashboard in, or the literal `ROOT_FOLDER` for the account's root folder.
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/UnifiedDashboardRequest'
+      responses:
+        '200':
+          description: The dashboard that was created. This endpoint returns 200, not 201.
+          schema:
+            $ref: '#/definitions/UnifiedDashboard'
+        '400':
+          description: The request body is missing `doc.metadata.name`.
+          schema:
+            $ref: '#/definitions/UnifiedDashboardsError'
+        '401':
+          description: The API token is missing or invalid.
+          schema:
+            $ref: '#/definitions/UnifiedDashboardsError'
+        '404':
+          description: The folder doesn't exist in this account.
+          schema:
+            $ref: '#/definitions/UnifiedDashboardsError'
+
+  /perses-public/api/v1/projects/{projectId}/dashboards/{dashboardId}:
     get:
       summary: Get dashboard by ID
+      operationId: getDashboardById
       description: |
-        Retrieves a specific dashboard by its ID.
+        Returns the latest version of one dashboard.
+
+        `dashboardId` is the dashboard's `uid`. The `id` field is the identifier of the current version row and is not addressable: passing it here returns a 404.
+
+        A dashboard that was made private in the Logz.io app also returns 404 unless the API token has admin permissions.
       tags:
-            - Dashboards get by ID
+        - Logz.io Dashboards
       parameters:
+        - in: path
+          name: projectId
+          type: string
+          required: true
+          description: The `id` of the folder that contains the dashboard.
         - in: path
           name: dashboardId
           type: string
           required: true
-          description: The ID of the dashboard to retrieve.
+          description: The dashboard's `uid`.
       responses:
         '200':
-          description: Dashboard details
+          description: The dashboard.
           schema:
-            type: object
-            properties:
-              uid:
-                type: string
-                example: dashboard-1
-              title:
-                type: string
-                example: CPU usage
-              panels:
-                type: string
-              refresh:
-                type: string
-                example: 5s
-              version:
-                type: string
-                example: 1.0.0
-              createdAt:
-                type: string
-                example: 2024-03-20T10:00:00Z
+            $ref: '#/definitions/UnifiedDashboard'
+        '401':
+          description: The API token is missing or invalid.
+          schema:
+            $ref: '#/definitions/UnifiedDashboardsError'
+        '404':
+          description: No such dashboard in that folder, or the dashboard is private and the token can't see it.
+          schema:
+            $ref: '#/definitions/UnifiedDashboardsError'
 
-  /perses-public/api/v1/projects/{folderId}/dashboards:
-    post:
-      summary: Create a new dashboard
-      description: |
-        Creates a new dashboard in the specified folder.
-      tags:
-            - Dashboards create new
-      parameters:
-        - in: path
-          name: folderId
-          type: string
-          required: true
-          description: The ID of the folder where the dashboard will be created.
-        - in: body
-          name: body
-          required: true
-          schema:
-            type: object
-            properties:
-              title:
-                type: string
-                example: CPU usage
-              panels:
-                type: string
-              refresh:
-                type: string
-                example: 5s
-      responses:
-        '201':
-          description: Created dashboard details
-          schema:
-            type: object
-            properties:
-              uid:
-                type: string
-                example: dashboard-1
-    
-  /perses-public/api/v1/projects/{folderId}/dashboards/{uid}/:
     put:
       summary: Update an existing dashboard
+      operationId: updateAnExistingDashboard
       description: |
-        Updates an existing dashboard in the specified folder.
+        Replaces the contents of a dashboard, writing a new version.
+
+        Send the complete document you want stored: `doc.spec` replaces the stored spec in full, so anything you leave out is removed. From `doc.metadata`, only `name` and `tags` are taken; the rest of the stored metadata, including `project`, is preserved.
+
+        The response is the new version: `version` is incremented and `id` is a new value, while `uid` stays the same. `createdAt` is the creation time of the new version row, not of the original dashboard.
       tags:
-            - Dashboards update
+        - Logz.io Dashboards
       parameters:
         - in: path
-          name: folderId
+          name: projectId
           type: string
           required: true
-          description: The ID of the folder where the dashboard is located.
+          description: The `id` of the folder that contains the dashboard.
         - in: path
-          name: uid
+          name: dashboardId
           type: string
           required: true
-          description: The ID of the dashboard to update.
+          description: The dashboard's `uid`.
         - in: body
           name: body
           required: true
           schema:
-            type: object
-            properties:
-              title:
-                type: string
-                example: CPU usage updated
-              panels:
-                type: string
-              refresh:
-                type: string
-                example: 10s
+            $ref: '#/definitions/UnifiedDashboardRequest'
       responses:
         '200':
-          description: Updated dashboard details
+          description: The updated dashboard, as a new version.
           schema:
-            type: object
-            properties:
-              uid:
-                type: string
-                example: dashboard-1
-    
-  /perses-public/api/v1/projects/{folderId}/dashboards/{uid}/1:
+            $ref: '#/definitions/UnifiedDashboard'
+        '400':
+          description: The request body has no `doc`, or the document has no name.
+          schema:
+            $ref: '#/definitions/UnifiedDashboardsError'
+        '401':
+          description: The API token is missing or invalid.
+          schema:
+            $ref: '#/definitions/UnifiedDashboardsError'
+        '404':
+          description: No such dashboard in that folder.
+          schema:
+            $ref: '#/definitions/UnifiedDashboardsError'
+
     delete:
       summary: Delete a dashboard
+      operationId: deleteADashboard
       description: |
-        Deletes a specific dashboard by its ID.
+        Deletes a dashboard. The deletion is soft: the dashboard stops appearing in every endpoint of this API, and its stored versions are retained internally.
       tags:
-            - Dashboards delete
+        - Logz.io Dashboards
       parameters:
         - in: path
-          name: folderId
+          name: projectId
           type: string
           required: true
-          description: The ID of the folder where the dashboard is located.
+          description: The `id` of the folder that contains the dashboard.
         - in: path
-          name: uid
+          name: dashboardId
           type: string
           required: true
-          description: The ID of the dashboard to delete.
+          description: The dashboard's `uid`.
       responses:
-        '204':
-          description: Dashboard deleted successfully
+        '200':
+          description: |
+            The dashboard was deleted. This endpoint returns 200 with a body, not 204. The `id` is the deleted version row, not the dashboard's `uid`.
+          schema:
+            $ref: '#/definitions/UnifiedDashboardsIdResponse'
+        '401':
+          description: The API token is missing or invalid.
+          schema:
+            $ref: '#/definitions/UnifiedDashboardsError'
         '404':
-          description: Dashboard not found
-  
-  /perses-public/api/v1/dashboards/move:
+          description: No such dashboard in that folder.
+          schema:
+            $ref: '#/definitions/UnifiedDashboardsError'
+
+  /perses-public/api/v1/dashboards/search:
     post:
-      summary: Move a dashboard to a different folder
+      summary: Search dashboards
+      operationId: searchDashboards
       description: |
-        Moves a dashboard to a different folder.
+        Returns the dashboards whose name matches a search term, one page at a time.
+
+        `filter.searchTerm` is matched as a case-insensitive substring of each dashboard's `doc.metadata.name`. This is not a full-text search: display names, panel titles, queries and datasource references are not searched. An empty or omitted term matches every dashboard.
+
+        Results are sorted by name. `total` is the number of matches before pagination, so it can be larger than the number of results on the page.
+
+        `filter.createdBy` is accepted but not applied on this endpoint. To filter by creator, use **Search dashboard folders**.
       tags:
-            - Dashboards move
+        - Logz.io Dashboards
+      parameters:
+        - in: body
+          name: body
+          required: false
+          schema:
+            $ref: '#/definitions/UnifiedDashboardsSearchRequest'
+      responses:
+        '200':
+          description: One page of matching dashboards.
+          schema:
+            $ref: '#/definitions/UnifiedDashboardsSearchResponse'
+        '401':
+          description: The API token is missing or invalid.
+          schema:
+            $ref: '#/definitions/UnifiedDashboardsError'
+
+  /perses-public/api/v1/dashboards/move:
+    put:
+      summary: Move a dashboard to a different folder
+      operationId: moveADashboardToADifferentFolder
+      description: |
+        Moves a dashboard, and all of its stored versions, from one folder to another.
+
+        `dashboardId` is the dashboard's `uid`. All three properties are required.
+
+        The response acknowledges the move with the dashboard's current version row `id`. That value is not a new handle: keep addressing the dashboard by the `uid` you sent.
+      tags:
+        - Logz.io Dashboards
       parameters:
         - in: body
           name: body
           required: true
           schema:
-            type: object
-            properties:
-              uid:
-                type: string
-                example: dashboard-1
-              targetFolderId:
-                type: string
-                example: folder-2
+            $ref: '#/definitions/MoveUnifiedDashboardRequest'
       responses:
         '200':
-          description: Dashboard moved successfully
+          description: The dashboard was moved.
           schema:
-            type: object
-            properties:
-              uid:
-                type: string
-                example: dashboard-1
+            $ref: '#/definitions/UnifiedDashboardsIdResponse'
+        '401':
+          description: The API token is missing or invalid.
+          schema:
+            $ref: '#/definitions/UnifiedDashboardsError'
+        '404':
+          description: No such dashboard in `oldProjectId`.
+          schema:
+            $ref: '#/definitions/UnifiedDashboardsError'
 
   /perses-public/api/v1/dashboards/users:
     get:
-      summary: Get dashboard by user
+      summary: Get dashboard creators
+      operationId: getDashboardCreators
       description: |
-        Retrieves a list of dashboards created by a specific user.
+        Returns the account users who created at least one dashboard, for use as the `filter.createdBy` values of **Search dashboard folders**.
+
+        Only creators that still resolve to a user in the account are listed. Dashboards created with an API token record the token's id as their creator, so they don't contribute an entry here.
       tags:
-            - Dashboards get by user
-      parameters:
-        - in: query
-          name: userId
-          type: string
-          required: true
-          description: The ID of the user whose dashboards are to be retrieved.
+        - Logz.io Dashboards
       responses:
         '200':
-          description: List of dashboards by user
+          description: The users who created dashboards in this account.
           schema:
             type: array
             items:
-              type: object
-              properties:
-                uid:
-                  type: string
-                  example: dashboard-1
-                title:
-                  type: string
-                  example: CPU usage
-
-
-  /perses-public/api/v1/globaldatasources:
-    get:
-      summary: Get all global data sources
-      description: |
-        Retrieves a list of all global data sources.
-      tags:
-            - Dashboards get all global data sources
-      responses:
-        '200':
-          description: List of global data sources
+              $ref: '#/definitions/UnifiedDashboardCreator'
+        '401':
+          description: The API token is missing or invalid.
           schema:
-            type: array
-            items:
-              type: object
-              properties:
-                uid:
-                  type: string
-                  example: datasource-1
-                name:
-                  type: string
-                  example: Prometheus
-                type:
-                  type: string
-                  example: prometheus
+            $ref: '#/definitions/UnifiedDashboardsError'
 
   # ::::: Logz.io Dashboards - Folders
 
   /perses-public/api/v1/projects:
     get:
       summary: Get all dashboards folders
+      operationId: getAllDashboardsFolders
       description: |
-        Retrieves a list of all dashboard folders (projects).
+        Returns every folder in the account, sorted by name. Each entry pairs the folder with its dashboards.
+
+        The `dashboards` array is filled only when the `withDashboards` query parameter is present; otherwise it is always empty. The parameter works by presence, so `?withDashboards=false` fills it just as `?withDashboards` does.
+
+        Calling this endpoint creates the account's root folder if it doesn't exist yet.
       tags:
-            - Dashboards get all folders
+        - Dashboard Folders (Projects)
       parameters:
         - in: query
           name: withDashboards
           type: string
           required: false
-          description: Include dashboard information in the response
+          description: Include each folder's dashboards. Any value, including an empty one, turns this on.
       responses:
         '200':
-          description: List of dashboard folders
+          description: The account's folders.
           schema:
             type: array
             items:
-              type: object
-              properties:
-                id:
-                  type: string
-                  example: folder-1
-                name:
-                 type: string
-                 example: system-metrics
-                displayName:
-                 type: string
-                 example: System Metrics
-                description:
-                 type: string
-                 example: System monitoring dashboards
-                createdAt:
-                 type: string
-                 example: 2024-03-20T10:00:00Z
-    
-  /perses-public/api/v1/projects/:
+              $ref: '#/definitions/UnifiedFolderWithDashboards'
+        '401':
+          description: The API token is missing or invalid.
+          schema:
+            $ref: '#/definitions/UnifiedDashboardsError'
+
     post:
       summary: Create dashboards folder
+      operationId: createDashboardsFolder
       description: |
-        Creates a new folder (project) with the specified name.
-      tags:
-            - Dashboards create new folder
-      parameters: 
-        - in: body
-          name: body
-          required: true
-          schema:
-            type: object
-            properties:
-              name:
-                type: string
-                description: The name of the folder to create.
-                example: my-folder
-                required: true      
-      responses:
-        '201':
-          description: Folder created successfully
-          schema:
-            type: object
-            properties:
-              id:
-                type: string
-                example: folder-1
-    
-  /perses-public/api/v1/projects/{folderId}:
-    delete:
-      summary: Delete dashboard folder
-      description: |
-        Deletes a specific dashboard folder (project) by its ID.
-      tags:
-            - Dashboards delete folder
-      parameters: 
-        - in: path
-          name: folderId
-          type: string
-          required: true
-          description: The ID of the folder to delete.
-      responses:
-        '204':
-          description: Folder deleted successfully
-        '404':
-          description: Folder not found
-        '401':
-          description: Unauthorized access to delete folder
-        '400':
-          description: Bad request, invalid folder ID
-        '403':
-          description: Forbidden, insufficient permissions to delete folder
-        '409':
-          description: Conflict, folder is not empty or has dependencies
-        '500':
-          description: Internal server error, unable to delete folder
-    
-  /perses-public/api/v1/projects/{name}:
-    get:
-      summary: Get dashboard folder by name
-      description: |
-        Retrieves a specific dashboard folder (project) by its name.
-      tags:
-            - Dashboards get folder by name
-      parameters: 
-        - in: path
-          name: name
-          type: string
-          required: true
-          description: The name of the folder to retrieve.
-      responses:
-        '200':
-          description: Folder details
-          schema:
-            type: object
-            properties:
-              id:
-                type: string
-                example: folder-1
-              name:
-                type: string
-                example: my-folder
-              displayName:
-                type: string
-                example: My Folder
-              description:
-                type: string
-                example: This is my dashboard folder
-              createdAt:
-                type: string
-                example: 2024-03-20T10:00:00Z
-    
-  /perses-public/api/v1/projects/{folderId}/rename:
-    put:
-      summary: Rename dashboard folder
-      description: |
-        Renames an existing dashboard folder (project) with the specified name.
-      tags:
-            - Dashboards rename folder
-      parameters: 
-        - in: path
-          name: folderId
-          type: string
-          required: true
-          description: The ID of the folder to rename.
-        - in: body
-          name: body
-          required: true
-          schema:
-            type: object
-            properties:
-              newName:
-                type: string
-                description: The new name for the folder.
-                example: my-new-folder
-                required: true      
-      responses:
-        '200':
-          description: Folder renamed successfully
-          schema:
-            type: object
-            properties:
-              id:
-                type: string
-                example: folder-1
-              name:
-                type: string
-                example: my-new-folder
-    
-    
-  /perses-public/api/v1/projects/search:
-    get:
-      summary: Search dashboard folders
-      description: |
-        Searches for dashboard folders (projects) by name.
-      tags:
-        - Dashboards search folder
-      parameters:
-        - in: query
-          name: query
-          type: string
-          required: true
-          description: The search query to filter folders by name.
-        - in: query
-          name: limit
-          type: integer
-          required: false
-          description: Maximum number of folders to return (default is 1000)
-          example: 1000
-        - in: query
-          name: page
-          type: integer
-          required: false
-          description: Page number for fetching folders from other than the first one
-          example: 1
-        - in: query
-          name: sort
-          type: string
-          required: false
-          description: Sort criteria for the results (e.g., 'asc', 'desc')
-          example: asc
-      responses:
-        '200':
-          description: List of matching folders
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    id:
-                      type: string
-                      example: folder-1
-                    name:
-                      type: string
-                      example: my-folder
-    
+        Creates a folder from a Perses project document.
 
-  /perses-public/api/v1/projects/{name}1:
+        `kind` must be `Project`, and both `metadata.name` and `spec.display.name` are required and must be non-empty. `metadata.name` is the folder's identity and has to be unique in the account; `spec.display.name` is the name shown in the app.
+
+        If the account has a deleted folder with the same `metadata.name`, that folder is restored and returned with the document it had before, and the document you sent is ignored.
+      tags:
+        - Dashboard Folders (Projects)
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/PersesProject'
+      responses:
+        '200':
+          description: The folder that was created. This endpoint returns 200, not 201.
+          schema:
+            $ref: '#/definitions/UnifiedProject'
+        '400':
+          description: |
+            The body isn't a valid Perses project document, or it names a folder that already exists.
+          schema:
+            $ref: '#/definitions/UnifiedDashboardsError'
+        '401':
+          description: The API token is missing or invalid.
+          schema:
+            $ref: '#/definitions/UnifiedDashboardsError'
+
+  /perses-public/api/v1/projects/{projectId}:
+    get:
+      summary: Get dashboard folder by ID
+      operationId: getDashboardFolderById
+      description: |
+        Returns one folder.
+
+        Folders are addressed by `id`, the UUID returned by create, list and search. The folder's name is not an address: passing it here returns a 404.
+      tags:
+        - Dashboard Folders (Projects)
+      parameters:
+        - in: path
+          name: projectId
+          type: string
+          required: true
+          description: The folder's `id`.
+      responses:
+        '200':
+          description: The folder.
+          schema:
+            $ref: '#/definitions/UnifiedProject'
+        '401':
+          description: The API token is missing or invalid.
+          schema:
+            $ref: '#/definitions/UnifiedDashboardsError'
+        '404':
+          description: No such folder in this account.
+          schema:
+            $ref: '#/definitions/UnifiedDashboardsError'
+
     put:
       summary: Update dashboard folder
+      operationId: updateDashboardFolder
       description: |
-        Updates an existing dashboard folder (project) with the specified name.
+        Replaces the folder's Perses project document with the body you send.
+
+        Send the complete document. The stored one is replaced rather than merged, so a property you leave out is cleared, and the folder's name is set from `spec.display.name`.
+
+        The body is validated before anything is written. A document that isn't a complete Perses project document is rejected with 400, and the stored folder is left untouched.
       tags:
-            - Dashboards update folder
-      parameters: 
+        - Dashboard Folders (Projects)
+      parameters:
         - in: path
-          name: name
+          name: projectId
           type: string
           required: true
-          description: The name of the folder to update.
+          description: The folder's `id`.
         - in: body
           name: body
           required: true
           schema:
-            type: object
-            properties:
-              displayName:
-                type: string
-                description: The new display name for the folder.
-                example: My Updated Folder
-              description:
-                type: string
-                description: The new description for the folder.
-                example: This is my updated dashboard folder      
+            $ref: '#/definitions/PersesProject'
       responses:
         '200':
-          description: Folder updated successfully
+          description: The updated folder.
           schema:
-            type: object
-            properties:
-              id:
-                type: string
-                example: folder-1
-              name:
-                type: string
-                example: my-folder
+            $ref: '#/definitions/UnifiedProject'
+        '400':
+          description: The body isn't a valid Perses project document. Nothing is written.
+          schema:
+            $ref: '#/definitions/UnifiedDashboardsError'
+        '401':
+          description: The API token is missing or invalid.
+          schema:
+            $ref: '#/definitions/UnifiedDashboardsError'
+        '404':
+          description: No such folder in this account.
+          schema:
+            $ref: '#/definitions/UnifiedDashboardsError'
 
+    delete:
+      summary: Delete dashboard folder
+      operationId: deleteDashboardFolder
+      description: |
+        Deletes a folder and every dashboard inside it. Deleting a folder that still has dashboards in it also succeeds - there is no "folder is not empty" guard.
+
+        The deletion is soft: the folder and its dashboards stop appearing in every endpoint of this API. Creating a folder with the same `metadata.name` later restores this one.
+      tags:
+        - Dashboard Folders (Projects)
+      parameters:
+        - in: path
+          name: projectId
+          type: string
+          required: true
+          description: The folder's `id`.
+      responses:
+        '200':
+          description: The folder was deleted. This endpoint returns 200 with a body, not 204.
+          schema:
+            $ref: '#/definitions/UnifiedDashboardsIdResponse'
+        '401':
+          description: The API token is missing or invalid.
+          schema:
+            $ref: '#/definitions/UnifiedDashboardsError'
+        '404':
+          description: No such folder in this account.
+          schema:
+            $ref: '#/definitions/UnifiedDashboardsError'
+
+  /perses-public/api/v1/projects/{projectId}/rename:
+    put:
+      summary: Rename dashboard folder
+      operationId: renameDashboardFolder
+      description: |
+        Renames a folder, leaving the rest of its document alone.
+
+        The new name goes in `newProjectName`. The body is not validated, so a request that uses any other property name returns 200 and renames nothing.
+      tags:
+        - Dashboard Folders (Projects)
+      parameters:
+        - in: path
+          name: projectId
+          type: string
+          required: true
+          description: The folder's `id`.
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/RenameDashboardFolderRequest'
+      responses:
+        '200':
+          description: The renamed folder.
+          schema:
+            $ref: '#/definitions/UnifiedProject'
+        '401':
+          description: The API token is missing or invalid.
+          schema:
+            $ref: '#/definitions/UnifiedDashboardsError'
+        '404':
+          description: No such folder in this account.
+          schema:
+            $ref: '#/definitions/UnifiedDashboardsError'
+
+  /perses-public/api/v1/projects/search:
+    post:
+      summary: Search dashboard folders
+      operationId: searchDashboardFolders
+      description: |
+        Searches dashboards and returns them grouped by folder.
+
+        The search term applies to dashboards, not to folders: `results` lists **every** folder in the account whatever the term is, and only the nested `dashboards` arrays are filtered and paginated. `total` counts the matching dashboards, not the folders.
+
+        `filter.searchTerm` is matched as a case-insensitive substring of each dashboard's `doc.metadata.name`. `filter.createdBy` narrows the results to dashboards created by the given users; get those ids from **Get dashboard creators**.
+
+        For a flat list of dashboards without the folder grouping, use **Search dashboards**.
+      tags:
+        - Dashboard Folders (Projects)
+      parameters:
+        - in: body
+          name: body
+          required: false
+          schema:
+            $ref: '#/definitions/UnifiedDashboardsSearchRequest'
+      responses:
+        '200':
+          description: Every folder, carrying one page of matching dashboards.
+          schema:
+            $ref: '#/definitions/UnifiedFolderSearchResponse'
+        '401':
+          description: The API token is missing or invalid.
+          schema:
+            $ref: '#/definitions/UnifiedDashboardsError'
 
 
   # ::::: GRAFANA
@@ -9195,6 +9278,371 @@ paths:
             
 
 definitions:
+
+  UnifiedDashboard:
+    type: 'object'
+    description: >-
+      A Logz.io dashboard. Carries the Perses dashboard document in `doc`, wrapped in the fields Logz.io stores alongside it.
+    properties:
+      uid:
+        type: 'string'
+        description: >-
+          The dashboard's stable identifier. It survives updates and moves, and every endpoint addresses a dashboard by this value. This is the one to store.
+        example: '3fa2c4b1-6d5e-4a90-8b21-7c4e5f6a8b90'
+      id:
+        type: 'string'
+        description: >-
+          Identifier of the version row holding the current revision. A new value is issued on every update, and it can't be used to address the dashboard. A dashboard that has never been updated has the same value here as in `uid`, which makes the two easy to confuse.
+        example: '7d1e5a90-2b44-4c18-9f03-5a6b7c8d9e01'
+      name:
+        type: 'string'
+        description: >-
+          Internal marker for the dashboard, equal to `uid` for dashboards created through this API. The name shown in the app is `doc.spec.display.name`, and the name that search matches is `doc.metadata.name`.
+        example: '3fa2c4b1-6d5e-4a90-8b21-7c4e5f6a8b90'
+      projectId:
+        type: 'string'
+        description: "The `id` of the folder holding the dashboard."
+        example: '0b9f6e2a-3c1d-4e8f-9a7b-1c2d3e4f5a6b'
+      doc:
+        $ref: '#/definitions/PersesDashboard'
+      version:
+        type: 'integer'
+        description: 'Revision number. Starts at 1 and increments on every update.'
+        example: 2
+      createdBy:
+        type: 'integer'
+        description: >-
+          Numeric id of the principal that created the dashboard. For a dashboard created through this API this is the id of the API token, not of a user.
+        example: 22222
+      updatedBy:
+        type: 'integer'
+        description: 'Numeric id of the principal that last updated the dashboard.'
+        example: 22222
+      createdAt:
+        type: 'string'
+        format: 'date-time'
+        description: 'When this version was written. An update stamps a new value, so this is not the creation time of the original dashboard.'
+        example: '2026-08-14T09:12:31.000Z'
+      updatedAt:
+        type: 'string'
+        format: 'date-time'
+        example: '2026-08-15T10:03:02.000Z'
+      isPrivate:
+        type: 'boolean'
+        description: >-
+          Whether the dashboard was made private in the Logz.io app. Privacy can't be changed through this API, and dashboards created through it are never private.
+        example: false
+      isDeleted:
+        type: 'boolean'
+        example: false
+      deletedAt:
+        type: 'string'
+        format: 'date-time'
+        description: 'Null unless the dashboard was deleted.'
+      deletedBy:
+        type: 'integer'
+        description: 'Null unless the dashboard was deleted.'
+
+  UnifiedProject:
+    type: 'object'
+    description: >-
+      A dashboard folder. Carries the Perses project document in `doc`, wrapped in the fields Logz.io stores alongside it.
+    properties:
+      id:
+        type: 'string'
+        description: "The folder's identifier, and the only way to address it."
+        example: '0b9f6e2a-3c1d-4e8f-9a7b-1c2d3e4f5a6b'
+      name:
+        type: 'string'
+        description: >-
+          The folder's name. Set from `metadata.name` when the folder is created, and replaced by `spec.display.name` on an update or by `newProjectName` on a rename.
+        example: 'team-dashboards'
+      doc:
+        $ref: '#/definitions/PersesProject'
+      entityId:
+        type: 'integer'
+        description: 'Internal handle for the account that owns the folder.'
+        example: 11111
+      createdBy:
+        type: 'integer'
+        description: >-
+          Numeric id of the principal that created the folder. For a folder created through this API this is the id of the API token, not of a user.
+        example: 22222
+      updatedBy:
+        type: 'integer'
+        example: 22222
+      createdAt:
+        type: 'string'
+        format: 'date-time'
+        example: '2026-08-14T09:12:31.000Z'
+      updatedAt:
+        type: 'string'
+        format: 'date-time'
+        example: '2026-08-14T09:12:31.000Z'
+      isDeleted:
+        type: 'boolean'
+        description: >-
+          Returned as `true` or `false` by create, update and rename, and as `1` or `0` by the list, get and search endpoints.
+        example: false
+      deletedAt:
+        type: 'string'
+        format: 'date-time'
+        description: 'Null unless the folder was deleted.'
+      deletedBy:
+        type: 'integer'
+        description: 'Null unless the folder was deleted.'
+
+  UnifiedFolderWithDashboards:
+    type: 'object'
+    description: 'A folder paired with its dashboards.'
+    properties:
+      project:
+        $ref: '#/definitions/UnifiedProject'
+      dashboards:
+        type: 'array'
+        description: >-
+          The folder's dashboards. Empty in **Get all dashboard folders** unless `withDashboards` is present, and limited to the matching dashboards in **Search dashboard folders**.
+        items:
+          $ref: '#/definitions/UnifiedDashboard'
+
+  PersesDashboard:
+    type: 'object'
+    description: >-
+      A Perses dashboard document. Only `metadata.name` is validated by Logz.io; `spec` is stored as sent and has to be a valid Perses dashboard spec for the dashboard to render in the app.
+    required: ['kind', 'metadata', 'spec']
+    properties:
+      kind:
+        type: 'string'
+        enum: ['Dashboard']
+        example: 'Dashboard'
+      metadata:
+        type: 'object'
+        required: ['name']
+        properties:
+          name:
+            type: 'string'
+            description: >-
+              The dashboard's identity, and the only field both search endpoints match on. Required on create and update.
+            example: 'cpu-usage'
+          project:
+            type: 'string'
+            description: 'Set by the server from the folder in the request path. Any value sent here is replaced.'
+          tags:
+            type: 'array'
+            items:
+              type: 'string'
+            example: ['infra']
+      spec:
+        type: 'object'
+        description: >-
+          Extra properties are allowed. The Perses dashboard spec. See the [Perses dashboard specification](https://perses.dev/perses/docs/api/dashboard/) for the panel, layout and query plugin shapes.
+        properties:
+          display:
+            type: 'object'
+            description: 'How the dashboard is labelled in the app.'
+            properties:
+              name:
+                type: 'string'
+                example: 'CPU usage'
+              description:
+                type: 'string'
+          duration:
+            type: 'string'
+            description: 'Default time range, as a duration string.'
+            example: '1h'
+          refreshInterval:
+            type: 'string'
+            description: 'Auto-refresh interval, as a duration string.'
+            example: '30s'
+          variables:
+            type: 'array'
+            items:
+              type: 'object'
+          panels:
+            type: 'object'
+            description: 'Panel definitions, keyed by panel name.'
+          layouts:
+            type: 'array'
+            description: 'Grid layouts placing the panels.'
+            items:
+              type: 'object'
+          datasources:
+            type: 'object'
+            description: 'Datasources scoped to this dashboard, keyed by name.'
+
+  PersesProject:
+    type: 'object'
+    description: 'A Perses project document. This is the request body for creating and updating a dashboard folder.'
+    required: ['kind', 'metadata', 'spec']
+    properties:
+      kind:
+        type: 'string'
+        enum: ['Project']
+        example: 'Project'
+      metadata:
+        type: 'object'
+        required: ['name']
+        properties:
+          name:
+            type: 'string'
+            description: "The folder's identity. Required, must be non-empty, and has to be unique within the account."
+            example: 'team-dashboards'
+      spec:
+        type: 'object'
+        required: ['display']
+        properties:
+          display:
+            type: 'object'
+            description: 'How the folder is labelled in the app. Required on both create and update.'
+            required: ['name']
+            properties:
+              name:
+                type: 'string'
+                description: "The name shown in the app. Required, and must be non-empty. On an update it also becomes the folder's `name`."
+                example: 'Team Dashboards'
+              description:
+                type: 'string'
+                example: 'Dashboards owned by the platform team'
+
+  UnifiedDashboardRequest:
+    type: 'object'
+    description: 'Request body for creating and updating a dashboard.'
+    required: ['doc']
+    properties:
+      doc:
+        $ref: '#/definitions/PersesDashboard'
+
+  MoveUnifiedDashboardRequest:
+    type: 'object'
+    required: ['dashboardId', 'oldProjectId', 'newProjectId']
+    properties:
+      dashboardId:
+        type: 'string'
+        description: "The dashboard's `uid`. The version row `id` is not accepted."
+        example: '3fa2c4b1-6d5e-4a90-8b21-7c4e5f6a8b90'
+      oldProjectId:
+        type: 'string'
+        description: '`id` of the folder the dashboard is in now.'
+        example: '0b9f6e2a-3c1d-4e8f-9a7b-1c2d3e4f5a6b'
+      newProjectId:
+        type: 'string'
+        description: '`id` of the folder to move it to.'
+        example: '5c8d1f34-9e02-4b77-a1c6-3d4e5f607182'
+
+  RenameDashboardFolderRequest:
+    type: 'object'
+    required: ['newProjectName']
+    properties:
+      newProjectName:
+        type: 'string'
+        description: >-
+          The folder's new name. This exact property name is required: the request body is not validated, so any other name returns 200 without renaming anything.
+        example: 'Platform Dashboards'
+
+  UnifiedDashboardsSearchRequest:
+    type: 'object'
+    description: 'Search body shared by **Search dashboards** and **Search dashboard folders**. Every property is optional.'
+    properties:
+      filter:
+        type: 'object'
+        properties:
+          searchTerm:
+            type: 'string'
+            description: >-
+              Case-insensitive substring matched against each dashboard's `doc.metadata.name`. An empty or omitted term matches every dashboard.
+            example: 'cpu'
+          createdBy:
+            type: 'array'
+            description: >-
+              Numeric user ids from **Get dashboard creators**. Applied by **Search dashboard folders**; ignored by **Search dashboards**.
+            items:
+              type: 'integer'
+            example: [22222]
+      pagination:
+        $ref: '#/definitions/UnifiedDashboardsPagination'
+
+  UnifiedDashboardsPagination:
+    type: 'object'
+    properties:
+      pageNumber:
+        type: 'integer'
+        description: '1-based page number. Defaults to 1.'
+        example: 1
+      pageSize:
+        type: 'integer'
+        description: 'Number of dashboards per page. Defaults to 20.'
+        example: 20
+
+  UnifiedDashboardsSearchResponse:
+    type: 'object'
+    description: 'One page of dashboards.'
+    properties:
+      results:
+        type: 'array'
+        items:
+          $ref: '#/definitions/UnifiedDashboard'
+      total:
+        type: 'integer'
+        description: 'Number of matching dashboards before pagination.'
+        example: 42
+      pagination:
+        $ref: '#/definitions/UnifiedDashboardsPagination'
+
+  UnifiedFolderSearchResponse:
+    type: 'object'
+    description: >-
+      Every folder in the account, each carrying the dashboards from this page that belong to it.
+    properties:
+      results:
+        type: 'array'
+        items:
+          $ref: '#/definitions/UnifiedFolderWithDashboards'
+      total:
+        type: 'integer'
+        description: 'Number of matching dashboards before pagination. This counts dashboards, not folders.'
+        example: 7
+      pagination:
+        $ref: '#/definitions/UnifiedDashboardsPagination'
+
+  UnifiedDashboardCreator:
+    type: 'object'
+    properties:
+      id:
+        type: 'integer'
+        description: 'Numeric user id, for use in `filter.createdBy`.'
+        example: 22222
+      fullName:
+        type: 'string'
+        example: 'Test User'
+
+  UnifiedDashboardsIdResponse:
+    type: 'object'
+    description: 'Acknowledgement carrying the id of the affected record.'
+    properties:
+      id:
+        type: 'string'
+        example: '7d1e5a90-2b44-4c18-9f03-5a6b7c8d9e01'
+
+  UnifiedDashboardsError:
+    type: 'object'
+    description: >-
+      Error returned by the dashboards service. A request that doesn't reach the service at all, such as a call to an endpoint that doesn't exist, is answered by the API gateway with `{"errorCode": "API/NOT_FOUND", "message": "HTTP 404 Not Found", "requestId": "..."}` instead.
+    properties:
+      statusCode:
+        type: 'integer'
+        example: 400
+      message:
+        type: 'string'
+        example: 'Dashboard name is required'
+      requestId:
+        type: 'string'
+        description: 'Quote this when contacting support about a failed request.'
+      errorCode:
+        type: 'string'
+        description: 'Null for most dashboard errors.'
+      parameters:
+        type: 'object'
+        description: 'Extra context for the error, when there is any.'
 
 
   QueryResult:
