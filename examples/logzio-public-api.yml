@@ -5213,6 +5213,345 @@ paths:
           description: >-
             The account is not a **Consumption** account, or `softLimitUniqueMetrics` is negative.
 
+  /v1/account-management/consumption/tracing-accounts:
+    post:
+      summary: Create a tracing account
+      description: >-
+        Creates a tracing sub-account under a **Consumption** owner account.
+
+
+        `maxDailyGB` is the account's soft limit, and is required.
+
+        Available for **Consumption** accounts only, and only once the Consumption tracing accounts API is enabled for your account. Otherwise the request returns `400`.
+
+
+        Please ensure to change the region in the URL to match your account's region.
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      tags:
+        - Manage consumption tracing accounts
+      parameters:
+        - in: body
+          name: CreateTracingConsumptionAccountRequest
+          required: true
+          schema:
+            type: object
+            required:
+              - email
+              - accountName
+              - authorizedAccountIds
+              - maxDailyGB
+            properties:
+              email:
+                type: string
+                description: Email address of an active user of the owner account.
+                example: user@example.com
+              accountName:
+                type: string
+                description: Name of the tracing account.
+                example: my-tracing-account
+              authorizedAccountIds:
+                type: array
+                description: IDs of accounts that can access the tracing account's data. Can be empty.
+                items:
+                  type: integer
+              maxDailyGB:
+                type: number
+                format: float
+                minimum: 0
+                x-plan: Consumption
+                description: The maximum volume of data, in GB, that the tracing account can index per calendar day. This is the account's soft limit. The account is suspended once its daily usage exceeds this value, so `0` suspends it as soon as it receives any data.
+                example: 5.0
+      responses:
+        200:
+          description: OK
+          schema:
+            type: object
+            properties:
+              accountId:
+                type: integer
+                description: ID of the tracing account.
+              accountName:
+                type: string
+                description: Name of the tracing account.
+              maxDailyGB:
+                type: number
+                format: float
+                x-plan: Consumption
+                description: The maximum volume of data, in GB, that the tracing account can index per calendar day. This is the account's soft limit - the same value the soft limit endpoints read and write. Null if not set.
+              retention:
+                type: integer
+                description: Number of days that trace data is retained.
+              createdAt:
+                type: number
+                description: Account creation time, in epoch seconds.
+              authorizedAccounts:
+                type: array
+                description: Accounts that can access the tracing account's data.
+                items:
+                  type: object
+                  properties:
+                    accountId:
+                      type: integer
+                    accountName:
+                      type: string
+              suspensionState:
+                type: string
+                enum: [MONTHLY_SPANS_QUOTA_EXCEEDED, DAILY_INDEXING_THRESHOLD_EXCEEDED, DAILY_CONSUMPTION_USAGE_EXCEEDED, NOT_SUSPENDED]
+                description: Whether the account is suspended, and why.
+        400:
+          description: >-
+            The account is not a **Consumption** account, the API is not enabled for the account, `email` does not belong to an active user of the account, or the request exceeds the account's tracing budget or number of tracing accounts.
+        403:
+          description: Only the owner account can manage tracing accounts.
+    get:
+      summary: Get a list of all tracing accounts
+      description: >-
+        Returns all tracing accounts of a **Consumption** owner account.
+
+        Available for **Consumption** accounts only, and only once the Consumption tracing accounts API is enabled for your account. Otherwise the request returns `400`.
+
+
+        Please ensure to change the region in the URL to match your account's region.
+      produces:
+        - application/json
+      tags:
+        - Manage consumption tracing accounts
+      responses:
+        200:
+          description: OK
+          schema:
+            type: array
+            items:
+              type: object
+              properties:
+                accountId:
+                  type: integer
+                  description: ID of the tracing account.
+                accountName:
+                  type: string
+                  description: Name of the tracing account.
+                maxDailyGB:
+                  type: number
+                  format: float
+                  x-plan: Consumption
+                  description: The maximum volume of data, in GB, that the tracing account can index per calendar day. This is the account's soft limit - the same value the soft limit endpoints read and write. Null if not set.
+                retention:
+                  type: integer
+                  description: Number of days that trace data is retained.
+                createdAt:
+                  type: number
+                  description: Account creation time, in epoch seconds.
+                authorizedAccounts:
+                  type: array
+                  description: Accounts that can access the tracing account's data.
+                  items:
+                    type: object
+                    properties:
+                      accountId:
+                        type: integer
+                      accountName:
+                        type: string
+                suspensionState:
+                  type: string
+                  enum: [MONTHLY_SPANS_QUOTA_EXCEEDED, DAILY_INDEXING_THRESHOLD_EXCEEDED, DAILY_CONSUMPTION_USAGE_EXCEEDED, NOT_SUSPENDED]
+                  description: Whether the account is suspended, and why.
+        400:
+          description: The account is not a **Consumption** account, or the API is not enabled for the account.
+        403:
+          description: Only the owner account can manage tracing accounts.
+
+  /v1/account-management/consumption/tracing-accounts/{id}:
+    get:
+      summary: Get a specific tracing account
+      description: >-
+        Returns a tracing account of a **Consumption** owner account.
+
+        Available for **Consumption** accounts only, and only once the Consumption tracing accounts API is enabled for your account. Otherwise the request returns `400`.
+
+
+        Please ensure to change the region in the URL to match your account's region.
+      produces:
+        - application/json
+      tags:
+        - Manage consumption tracing accounts
+      parameters:
+        - in: path
+          name: id
+          required: true
+          type: integer
+          description: ID of the tracing account.
+      responses:
+        200:
+          description: OK
+          schema:
+            type: object
+            properties:
+              accountId:
+                type: integer
+                description: ID of the tracing account.
+              accountName:
+                type: string
+                description: Name of the tracing account.
+              maxDailyGB:
+                type: number
+                format: float
+                x-plan: Consumption
+                description: The maximum volume of data, in GB, that the tracing account can index per calendar day. This is the account's soft limit - the same value the soft limit endpoints read and write. Null if not set.
+              retention:
+                type: integer
+                description: Number of days that trace data is retained.
+              createdAt:
+                type: number
+                description: Account creation time, in epoch seconds.
+              authorizedAccounts:
+                type: array
+                description: Accounts that can access the tracing account's data.
+                items:
+                  type: object
+                  properties:
+                    accountId:
+                      type: integer
+                    accountName:
+                      type: string
+              suspensionState:
+                type: string
+                enum: [MONTHLY_SPANS_QUOTA_EXCEEDED, DAILY_INDEXING_THRESHOLD_EXCEEDED, DAILY_CONSUMPTION_USAGE_EXCEEDED, NOT_SUSPENDED]
+                description: Whether the account is suspended, and why.
+        400:
+          description: The account is not a **Consumption** account, the API is not enabled for the account, or `id` is not a tracing account.
+        403:
+          description: Only the owner account can manage tracing accounts.
+        404:
+          description: Tracing account not found.
+    put:
+      summary: Update a tracing account
+      description: >-
+        Updates a tracing account of a **Consumption** owner account.
+
+
+        This replaces the account's settings, so send every field - including `maxDailyGB`, which is the account's soft limit.
+
+        Available for **Consumption** accounts only, and only once the Consumption tracing accounts API is enabled for your account. Otherwise the request returns `400`.
+
+
+        Please ensure to change the region in the URL to match your account's region.
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      tags:
+        - Manage consumption tracing accounts
+      parameters:
+        - in: path
+          name: id
+          required: true
+          type: integer
+          description: ID of the tracing account.
+        - in: body
+          name: UpdateTracingConsumptionAccountRequest
+          required: true
+          schema:
+            type: object
+            required:
+              - email
+              - accountName
+              - authorizedAccountIds
+              - maxDailyGB
+            properties:
+              email:
+                type: string
+                description: Email address of an active user of the owner account.
+                example: user@example.com
+              accountName:
+                type: string
+                description: Name of the tracing account.
+                example: my-tracing-account
+              authorizedAccountIds:
+                type: array
+                description: IDs of accounts that can access the tracing account's data. Can be empty.
+                items:
+                  type: integer
+              maxDailyGB:
+                type: number
+                format: float
+                minimum: 0
+                x-plan: Consumption
+                description: The maximum volume of data, in GB, that the tracing account can index per calendar day. This is the account's soft limit. The account is suspended once its daily usage exceeds this value, so `0` suspends it as soon as it receives any data.
+                example: 5.0
+      responses:
+        200:
+          description: OK
+          schema:
+            type: object
+            properties:
+              accountId:
+                type: integer
+                description: ID of the tracing account.
+              accountName:
+                type: string
+                description: Name of the tracing account.
+              maxDailyGB:
+                type: number
+                format: float
+                x-plan: Consumption
+                description: The maximum volume of data, in GB, that the tracing account can index per calendar day. This is the account's soft limit - the same value the soft limit endpoints read and write. Null if not set.
+              retention:
+                type: integer
+                description: Number of days that trace data is retained.
+              createdAt:
+                type: number
+                description: Account creation time, in epoch seconds.
+              authorizedAccounts:
+                type: array
+                description: Accounts that can access the tracing account's data.
+                items:
+                  type: object
+                  properties:
+                    accountId:
+                      type: integer
+                    accountName:
+                      type: string
+              suspensionState:
+                type: string
+                enum: [MONTHLY_SPANS_QUOTA_EXCEEDED, DAILY_INDEXING_THRESHOLD_EXCEEDED, DAILY_CONSUMPTION_USAGE_EXCEEDED, NOT_SUSPENDED]
+                description: Whether the account is suspended, and why.
+        400:
+          description: >-
+            The account is not a **Consumption** account, the API is not enabled for the account, `id` is not a tracing account, or the request is invalid or exceeds the account's tracing budget.
+        403:
+          description: Only the owner account can manage tracing accounts.
+        404:
+          description: Tracing account not found.
+    delete:
+      summary: Delete a tracing account
+      description: >-
+        Deletes a tracing account of a **Consumption** owner account.
+
+        Available for **Consumption** accounts only, and only once the Consumption tracing accounts API is enabled for your account. Otherwise the request returns `400`.
+
+
+        Please ensure to change the region in the URL to match your account's region.
+      tags:
+        - Manage consumption tracing accounts
+      parameters:
+        - in: path
+          name: id
+          required: true
+          type: integer
+          description: ID of the tracing account.
+      responses:
+        200:
+          description: OK
+        400:
+          description: The account is not a **Consumption** account, or the API is not enabled for the account.
+        403:
+          description: Only the owner account can manage tracing accounts.
+        404:
+          description: Tracing account not found.
+
   /v1/account-management/consumption/tracing-accounts/{id}/soft-limit:
     get:
       summary: Get a tracing account soft limit
