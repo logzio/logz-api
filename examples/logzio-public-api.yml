@@ -5125,7 +5125,7 @@ paths:
         Returns the current soft limit of a **Consumption** metrics account.
 
 
-        The soft limit caps the number of unique time series (UTS) the metrics account is allowed to ingest.
+        The soft limit caps the number of unique time series (UTS) the metrics account is allowed to ingest. It takes effect only when it is greater than the account's plan UTS: a lower or equal value, including `0`, is stored but ignored, and the account is then limited by its plan instead.
 
 
         Available for **Consumption** accounts only. If the account is not a Consumption account, the request returns `400`.
@@ -5163,7 +5163,13 @@ paths:
         Sets the soft limit of a **Consumption** metrics account.
 
 
-        The soft limit caps the number of unique time series (UTS) the metrics account is allowed to ingest.
+        The soft limit caps the number of unique time series (UTS) the metrics account is allowed to ingest. It takes effect only when it is greater than the account's plan UTS: a lower or equal value, including `0`, is stored but ignored, and the account is then limited by its plan instead.
+
+
+        A soft limit cannot be removed once set - there is no way to set it back to null.
+
+
+        The soft limits of all metrics accounts of the owner account together must not exceed the owner account's metrics budget, otherwise the request returns `400`.
 
 
         Available for **Consumption** accounts only. If the account is not a Consumption account, the request returns `400`.
@@ -5211,7 +5217,7 @@ paths:
                 description: The account's soft limit, in unique time series (UTS).
         400:
           description: >-
-            The account is not a **Consumption** account, or `softLimitUniqueMetrics` is negative.
+            The account is not a **Consumption** account, `softLimitUniqueMetrics` is negative, or the soft limits of all the owner account's metrics accounts together would exceed its metrics budget.
 
   /v1/account-management/consumption/tracing-accounts:
     post:
@@ -5222,7 +5228,7 @@ paths:
 
         `maxDailyGB` is the account's soft limit, and is required.
 
-        Available for **Consumption** accounts only, and only once the Consumption tracing accounts API is enabled for your account. Otherwise the request returns `400`.
+        Available for **Consumption** accounts only. If the account is not a Consumption account, the request returns `400`.
 
 
         Please ensure to change the region in the URL to match your account's region.
@@ -5303,7 +5309,7 @@ paths:
                 description: Whether the account is suspended, and why.
         400:
           description: >-
-            The account is not a **Consumption** account, the API is not enabled for the account, `email` does not belong to an active user of the account, or the request exceeds the account's tracing budget or number of tracing accounts.
+            The account is not a **Consumption** account, `email` does not belong to an active user of the account, or the request exceeds the account's tracing budget or number of tracing accounts.
         403:
           description: Only the owner account can manage tracing accounts.
     get:
@@ -5311,7 +5317,7 @@ paths:
       description: >-
         Returns all tracing accounts of a **Consumption** owner account.
 
-        Available for **Consumption** accounts only, and only once the Consumption tracing accounts API is enabled for your account. Otherwise the request returns `400`.
+        Available for **Consumption** accounts only. If the account is not a Consumption account, the request returns `400`.
 
 
         Please ensure to change the region in the URL to match your account's region.
@@ -5359,7 +5365,7 @@ paths:
                   enum: [MONTHLY_SPANS_QUOTA_EXCEEDED, DAILY_INDEXING_THRESHOLD_EXCEEDED, DAILY_CONSUMPTION_USAGE_EXCEEDED, NOT_SUSPENDED]
                   description: Whether the account is suspended, and why.
         400:
-          description: The account is not a **Consumption** account, or the API is not enabled for the account.
+          description: The account is not a **Consumption** account.
         403:
           description: Only the owner account can manage tracing accounts.
 
@@ -5369,7 +5375,7 @@ paths:
       description: >-
         Returns a tracing account of a **Consumption** owner account.
 
-        Available for **Consumption** accounts only, and only once the Consumption tracing accounts API is enabled for your account. Otherwise the request returns `400`.
+        Available for **Consumption** accounts only. If the account is not a Consumption account, the request returns `400`.
 
 
         Please ensure to change the region in the URL to match your account's region.
@@ -5421,7 +5427,7 @@ paths:
                 enum: [MONTHLY_SPANS_QUOTA_EXCEEDED, DAILY_INDEXING_THRESHOLD_EXCEEDED, DAILY_CONSUMPTION_USAGE_EXCEEDED, NOT_SUSPENDED]
                 description: Whether the account is suspended, and why.
         400:
-          description: The account is not a **Consumption** account, the API is not enabled for the account, or `id` is not a tracing account.
+          description: The account is not a **Consumption** account, or `id` is not a tracing account.
         403:
           description: Only the owner account can manage tracing accounts.
         404:
@@ -5434,7 +5440,7 @@ paths:
 
         This replaces the account's settings, so send every field - including `maxDailyGB`, which is the account's soft limit.
 
-        Available for **Consumption** accounts only, and only once the Consumption tracing accounts API is enabled for your account. Otherwise the request returns `400`.
+        Available for **Consumption** accounts only. If the account is not a Consumption account, the request returns `400`.
 
 
         Please ensure to change the region in the URL to match your account's region.
@@ -5520,7 +5526,7 @@ paths:
                 description: Whether the account is suspended, and why.
         400:
           description: >-
-            The account is not a **Consumption** account, the API is not enabled for the account, `id` is not a tracing account, or the request is invalid or exceeds the account's tracing budget.
+            The account is not a **Consumption** account, `id` is not a tracing account, or the request is invalid or exceeds the account's tracing budget.
         403:
           description: Only the owner account can manage tracing accounts.
         404:
@@ -5530,7 +5536,7 @@ paths:
       description: >-
         Deletes a tracing account of a **Consumption** owner account.
 
-        Available for **Consumption** accounts only, and only once the Consumption tracing accounts API is enabled for your account. Otherwise the request returns `400`.
+        Available for **Consumption** accounts only. If the account is not a Consumption account, the request returns `400`.
 
 
         Please ensure to change the region in the URL to match your account's region.
@@ -5546,7 +5552,7 @@ paths:
         200:
           description: OK
         400:
-          description: The account is not a **Consumption** account, or the API is not enabled for the account.
+          description: The account is not a **Consumption** account.
         403:
           description: Only the owner account can manage tracing accounts.
         404:
@@ -5559,7 +5565,7 @@ paths:
         Returns the current soft limit of a **Consumption** tracing account.
 
 
-        The soft limit caps the daily volume, in GB, that the tracing account is allowed to index.
+        The soft limit caps the daily volume, in GB, that the tracing account is allowed to index. It is the same value as the account's `maxDailyGB`: these endpoints read and write that value.
 
 
         Available for **Consumption** accounts only. If the account is not a Consumption account, the request returns `400`.
@@ -5598,7 +5604,13 @@ paths:
         Sets the soft limit of a **Consumption** tracing account.
 
 
-        The soft limit caps the daily volume, in GB, that the tracing account is allowed to index.
+        The soft limit caps the daily volume, in GB, that the tracing account is allowed to index. It is the same value as the account's `maxDailyGB`: these endpoints read and write that value.
+
+
+        The account is suspended once its daily volume exceeds the soft limit, so `0` suspends it as soon as it receives any data. Setting a new soft limit releases the account if it is currently suspended.
+
+
+        The soft limits of all tracing accounts of the owner account together must not exceed the owner account's tracing budget, otherwise the request returns `400`.
 
 
         `tracingAccountId` in the request body must match the `id` in the path, otherwise the request returns `400`.
@@ -5656,7 +5668,7 @@ paths:
                 description: The account's soft limit, in GB.
         400:
           description: >-
-            The account is not a **Consumption** account, `tracingAccountId` does not match the path `id`, or `softLimitGB` is negative.
+            The account is not a **Consumption** account, `tracingAccountId` does not match the path `id`, `softLimitGB` is negative, or the soft limits of all the owner account's tracing accounts together would exceed its tracing budget.
 
   /v1/associated-accounts:
     get:
