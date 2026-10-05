@@ -1,0 +1,58 @@
+---
+id: get-label-names-for-metrics-account
+title: "Returns the label names of a metrics account by ID"
+description: "Runs against the metrics account given by `accountId` instead of the API token's own account, so it can be called with the API token of a logs account. The token's account must be one of the metrics account's authorized accounts, otherwise the request returns `401`. To list the metrics accounts and their `authorizedAccountsIds`, use [Get a list of all metrics accounts](https://api-docs.logz.io/docs/logz/get-a-list-of-all-metrics-accounts)."
+sidebar_label: "Returns the label names of a metrics account by ID"
+hide_title: true
+hide_table_of_contents: true
+api: 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
+sidebar_class_name: "get api-method"
+info_path: docs/logz/logz-io-api
+custom_edit_url: null
+hide_send_button: true
+---
+
+import ApiTabs from "@theme/ApiTabs";
+import DiscriminatorTabs from "@theme/DiscriminatorTabs";
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import SecuritySchemes from "@theme/ApiExplorer/SecuritySchemes";
+import MimeTabs from "@theme/MimeTabs";
+import ParamsItem from "@theme/ParamsItem";
+import ResponseSamples from "@theme/ResponseSamples";
+import SchemaItem from "@theme/SchemaItem";
+import SchemaTabs from "@theme/SchemaTabs";
+import Markdown from "@theme/Markdown";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+
+<h1 className={"openapi__heading"}>Returns the label names of a metrics account by ID</h1>
+
+<MethodEndpoint method={"get"} path={"/v1/metrics/prometheus/{accountId}/api/v1/labels"}></MethodEndpoint>
+
+
+
+Runs against the metrics account given by `accountId` instead of the API token's own account, so it can be called with the API token of a logs account. The token's account must be one of the metrics account's authorized accounts, otherwise the request returns `401`. To list the metrics accounts and their `authorizedAccountsIds`, use [Get a list of all metrics accounts](https://api-docs.logz.io/docs/logz/get-a-list-of-all-metrics-accounts).
+
+Retrieve a list of all label names optionally filtered by a time range and series selectors. 
+Please ensure to change the region in the URL to match your account's region.
+
+
+## Request
+
+<details style={{"marginBottom":"1rem"}} className={"openapi-markdown__details"} data-collapsed={false} open={true}><summary style={{}}><h3 className={"openapi-markdown__details-summary-header-params"}>Path Parameters</h3></summary><div><ul><ParamsItem className={"paramsItem"} param={{"in":"path","name":"accountId","required":true,"description":"ID of the metrics account to query.","schema":{"type":"integer"}}}></ParamsItem></ul></div></details><details style={{"marginBottom":"1rem"}} className={"openapi-markdown__details"} data-collapsed={false} open={true}><summary style={{}}><h3 className={"openapi-markdown__details-summary-header-params"}>Query Parameters</h3></summary><div><ul><ParamsItem className={"paramsItem"} param={{"in":"query","name":"start","required":false,"description":"Start timestamp, inclusive, as an RFC3339 or Unix timestamp. Optional.","schema":{"type":"string"}}}></ParamsItem><ParamsItem className={"paramsItem"} param={{"in":"query","name":"end","required":false,"description":"End timestamp, inclusive, as an RFC3339 or Unix timestamp. Optional.","schema":{"type":"string"}}}></ParamsItem><ParamsItem className={"paramsItem"} param={{"in":"query","name":"match[]","required":false,"description":"Series selector to narrow down the series from which to read the label names. Optional.","explode":true,"schema":{"type":"array","items":{"type":"string"}}}}></ParamsItem><ParamsItem className={"paramsItem"} param={{"in":"query","name":"limit","required":false,"description":"Maximum number of label names to return. Optional.","schema":{"type":"integer"}}}></ParamsItem></ul></div></details><div><div><ApiTabs label={undefined} id={undefined}><TabItem label={"200"} value={"200"}><div>
+
+List of label names.
+
+</div><div><MimeTabs className={"openapi-tabs__mime"} schemaType={"response"}><TabItem label={"application/json"} value={"application/json"}><SchemaTabs className={"openapi-tabs__schema"}><TabItem label={"Schema"} value={"Schema"}><details style={{}} className={"openapi-markdown__details response"} data-collapsed={false} open={true}><summary style={{}} className={"openapi-markdown__details-summary-response"}><strong>Schema</strong></summary><div style={{"textAlign":"left","marginLeft":"1rem"}}></div><ul style={{"marginLeft":"1rem"}}><SchemaItem collapsible={false} name={"status"} required={false} schemaName={"string"} qualifierMessage={undefined} schema={{"type":"string","description":"Status of the request (e.g., success, fail)."}}></SchemaItem><SchemaItem collapsible={false} name={"data"} required={false} schemaName={"string[]"} qualifierMessage={undefined} schema={{"type":"array","items":{"type":"string","description":"A list of label names returned by the API."}}}></SchemaItem></ul></details></TabItem><TabItem label={"Example (from schema)"} value={"Example (from schema)"}><ResponseSamples responseExample={"{\n  \"status\": \"string\",\n  \"data\": [\n    \"string\"\n  ]\n}"} language={"json"}></ResponseSamples></TabItem></SchemaTabs></TabItem></MimeTabs></div></TabItem><TabItem label={"400"} value={"400"}><div>
+
+Invalid request parameters.
+
+</div><div></div></TabItem><TabItem label={"401"} value={"401"}><div>
+
+The API token's account is not an authorized account of the metrics account `accountId`.
+
+</div><div></div></TabItem><TabItem label={"500"} value={"500"}><div>
+
+Internal server error.
+
+</div><div></div></TabItem></ApiTabs></div></div>

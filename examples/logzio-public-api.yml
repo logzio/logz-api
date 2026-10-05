@@ -809,6 +809,508 @@ paths:
         500:
           description: 'Internal server error.'
 
+  /v1/metrics/prometheus/{accountId}/api/v1/query:
+    get:
+      operationId: 'GetInstantQueryForMetricsAccount'
+      summary: 'Evaluates an instant query in a metrics account by ID'
+      description: |
+        Runs against the metrics account given by `accountId` instead of the API token's own account, so it can be called with the API token of a logs account. The token's account must be one of the metrics account's authorized accounts, otherwise the request returns `401`. To list the metrics accounts and their `authorizedAccountsIds`, use [Get a list of all metrics accounts](https://api-docs.logz.io/docs/logz/get-a-list-of-all-metrics-accounts).
+
+        Retrieve data by submitting a GET request with query parameters.
+        Please ensure to change the region in the URL to match your account's region.
+      tags:
+        - Query
+      parameters:
+        - in: path
+          name: accountId
+          type: integer
+          required: true
+          description: 'ID of the metrics account to query.'
+        - in: query
+          name: query
+          type: string
+          required: true
+          description: 'Prometheus expression query string.'
+        - in: query
+          name: time
+          type: string
+          required: false
+          description: 'Evaluation timestamp as an RFC3339 or Unix timestamp. Optional.'
+        - in: query
+          name: timeout
+          type: string
+          required: false
+          description: 'Evaluation timeout. Defaults to the value of the -query.timeout flag.'
+      responses:
+        200:
+          description: 'Query results in a defined format.'
+          schema:
+            $ref: '#/definitions/QueryResult'
+        400:
+          description: 'Invalid request parameters.'
+        401:
+          description: "The API token's account is not an authorized account of the metrics account `accountId`."
+        500:
+          description: 'Internal server error.'
+
+    post:
+      operationId: 'PostInstantQueryForMetricsAccount'
+      summary: 'Evaluates an instant query in a metrics account by ID using POST'
+      description: |
+        Runs against the metrics account given by `accountId` instead of the API token's own account, so it can be called with the API token of a logs account. The token's account must be one of the metrics account's authorized accounts, otherwise the request returns `401`. To list the metrics accounts and their `authorizedAccountsIds`, use [Get a list of all metrics accounts](https://api-docs.logz.io/docs/logz/get-a-list-of-all-metrics-accounts).
+
+        Submit query data in the request body using URL-encoded form parameters. 
+        Please ensure to change the region in the URL to match your account's region.
+      tags:
+        - Query
+      consumes:
+        - application/x-www-form-urlencoded
+      parameters:
+        - in: path
+          name: accountId
+          type: integer
+          required: true
+          description: 'ID of the metrics account to query.'
+        - in: formData
+          name: query
+          type: string
+          required: true
+          description: 'Prometheus expression query string.'
+        - in: formData
+          name: time
+          type: string
+          required: false
+          description: 'Evaluation timestamp as an RFC3339 or Unix timestamp. Optional.'
+        - in: formData
+          name: timeout
+          type: string
+          required: false
+          description: 'Evaluation timeout. Defaults to the value of the -query.timeout flag.'
+      responses:
+        200:
+          description: 'Successful query evaluation.'
+          schema:
+            $ref: '#/definitions/QueryResult'
+        400:
+          description: 'Invalid request parameters.'
+        401:
+          description: "The API token's account is not an authorized account of the metrics account `accountId`."
+        500:
+          description: 'Internal server error.'
+
+  /v1/metrics/prometheus/{accountId}/api/v1/query_range:
+    get:
+      operationId: 'GetRangeQueryForMetricsAccount'
+      summary: 'Evaluates a range query in a metrics account by ID'
+      description: |
+        Runs against the metrics account given by `accountId` instead of the API token's own account, so it can be called with the API token of a logs account. The token's account must be one of the metrics account's authorized accounts, otherwise the request returns `401`. To list the metrics accounts and their `authorizedAccountsIds`, use [Get a list of all metrics accounts](https://api-docs.logz.io/docs/logz/get-a-list-of-all-metrics-accounts).
+
+        Retrieve data over a specified time range by submitting a GET request with query parameters. 
+        Please ensure to change the region in the URL to match your account's region.
+      tags:
+        - Range Query
+      parameters:
+        - in: path
+          name: accountId
+          type: integer
+          required: true
+          description: 'ID of the metrics account to query.'
+        - in: query
+          name: query
+          type: string
+          required: true
+          description: 'Prometheus expression query string.'
+        - in: query
+          name: start
+          type: string
+          required: true
+          description: 'Start timestamp, inclusive, as an RFC3339 or Unix timestamp.'
+        - in: query
+          name: end
+          type: string
+          required: true
+          description: 'End timestamp, inclusive, as an RFC3339 or Unix timestamp.'
+        - in: query
+          name: step
+          type: string
+          required: true
+          description: 'Query resolution step width in seconds.'
+        - in: query
+          name: timeout
+          type: string
+          required: false
+          description: 'Evaluation timeout. Optional, defaults to the value of the -query.timeout flag.'
+      responses:
+        200:
+          description: 'Range query results in a defined format.'
+          schema:
+            $ref: '#/definitions/RangeQueryResult'
+        400:
+          description: 'Invalid request parameters.'
+        401:
+          description: "The API token's account is not an authorized account of the metrics account `accountId`."
+        500:
+          description: 'Internal server error.'
+
+    post:
+      operationId: 'PostRangeQueryForMetricsAccount'
+      summary: 'Evaluates a range query in a metrics account by ID using POST'
+      description: |
+        Runs against the metrics account given by `accountId` instead of the API token's own account, so it can be called with the API token of a logs account. The token's account must be one of the metrics account's authorized accounts, otherwise the request returns `401`. To list the metrics accounts and their `authorizedAccountsIds`, use [Get a list of all metrics accounts](https://api-docs.logz.io/docs/logz/get-a-list-of-all-metrics-accounts).
+
+        Submit query data in the request body using URL-encoded form parameters. 
+        Please ensure to change the region in the URL to match your account's region.
+      tags:
+        - Range Query
+      consumes:
+        - application/x-www-form-urlencoded
+      parameters:
+        - in: path
+          name: accountId
+          type: integer
+          required: true
+          description: 'ID of the metrics account to query.'
+        - in: formData
+          name: query
+          type: string
+          required: true
+          description: 'Prometheus expression query string.'
+        - in: formData
+          name: start
+          type: string
+          required: true
+          description: 'Start timestamp, inclusive, as an RFC3339 or Unix timestamp.'
+        - in: formData
+          name: end
+          type: string
+          required: true
+          description: 'End timestamp, inclusive, as an RFC3339 or Unix timestamp.'
+        - in: formData
+          name: step
+          type: string
+          required: true
+          description: 'Query resolution step width in seconds.'
+        - in: formData
+          name: timeout
+          type: string
+          required: false
+          description: 'Evaluation timeout. Optional, defaults to the value of the -query.timeout flag.'
+      responses:
+        200:
+          description: 'Successful range query evaluation.'
+          schema:
+            $ref: '#/definitions/RangeQueryResult'
+        400:
+          description: 'Invalid request parameters.'
+        401:
+          description: "The API token's account is not an authorized account of the metrics account `accountId`."
+        500:
+          description: 'Internal server error.'
+
+  /v1/metrics/prometheus/{accountId}/api/v1/series:
+    get:
+      operationId: 'GetSeriesByLabelsForMetricsAccount'
+      summary: 'Returns the time series that match a label set in a metrics account by ID'
+      description: |
+        Runs against the metrics account given by `accountId` instead of the API token's own account, so it can be called with the API token of a logs account. The token's account must be one of the metrics account's authorized accounts, otherwise the request returns `401`. To list the metrics accounts and their `authorizedAccountsIds`, use [Get a list of all metrics accounts](https://api-docs.logz.io/docs/logz/get-a-list-of-all-metrics-accounts).
+
+        Retrieve time series data by submitting a GET request with label matchers and time range parameters. 
+        Please ensure to change the region in the URL to match your account's region.
+      tags:
+        - Time Series
+      parameters:
+        - in: path
+          name: accountId
+          type: integer
+          required: true
+          description: 'ID of the metrics account to query.'
+        - in: query
+          name: 'match[]'
+          type: 'array'
+          required: true
+          items:
+            type: 'string'
+          collectionFormat: multi
+          description: 'Series selector that selects the series to return. At least one must be provided.'
+        - in: query
+          name: start
+          type: 'string'
+          required: true
+          description: 'Start timestamp, inclusive, as an RFC3339 or Unix timestamp.'
+        - in: query
+          name: end
+          type: 'string'
+          required: true
+          description: 'End timestamp, inclusive, as an RFC3339 or Unix timestamp.'
+        - in: query
+          name: limit
+          type: 'integer'
+          required: false
+          description: 'Maximum number of returned series. Optional.'
+      responses:
+        200:
+          description: 'List of matching time series.'
+          schema:
+            $ref: '#/definitions/SeriesResult'
+        400:
+          description: 'Invalid request parameters.'
+        401:
+          description: "The API token's account is not an authorized account of the metrics account `accountId`."
+        500:
+          description: 'Internal server error.'
+
+    post:
+      operationId: 'PostSeriesByLabelsForMetricsAccount'
+      summary: 'Returns the time series that match a label set in a metrics account by ID using POST'
+      description: |
+        Runs against the metrics account given by `accountId` instead of the API token's own account, so it can be called with the API token of a logs account. The token's account must be one of the metrics account's authorized accounts, otherwise the request returns `401`. To list the metrics accounts and their `authorizedAccountsIds`, use [Get a list of all metrics accounts](https://api-docs.logz.io/docs/logz/get-a-list-of-all-metrics-accounts).
+
+        Submit label matchers and time range data in the request body using URL-encoded form parameters. 
+        Please ensure to change the region in the URL to match your account's region.
+      tags:
+        - Time Series
+      consumes:
+        - application/x-www-form-urlencoded
+      parameters:
+        - in: path
+          name: accountId
+          type: integer
+          required: true
+          description: 'ID of the metrics account to query.'
+        - in: formData
+          name: 'match[]'
+          type: 'array'
+          required: true
+          items:
+            type: 'string'
+          collectionFormat: multi
+          description: 'Series selector that selects the series to return. At least one must be provided.'
+        - in: formData
+          name: start
+          type: 'string'
+          required: true
+          description: 'Start timestamp, inclusive, as an RFC3339 or Unix timestamp.'
+        - in: formData
+          name: end
+          type: 'string'
+          required: true
+          description: 'End timestamp, inclusive, as an RFC3339 or Unix timestamp.'
+        - in: formData
+          name: limit
+          type: 'integer'
+          required: false
+          description: 'Maximum number of returned series. Optional.'
+      responses:
+        200:
+          description: 'Successful retrieval of matching time series.'
+          schema:
+            $ref: '#/definitions/SeriesResult'
+        400:
+          description: 'Invalid request parameters.'
+        401:
+          description: "The API token's account is not an authorized account of the metrics account `accountId`."
+        500:
+          description: 'Internal server error.'
+
+  /v1/metrics/prometheus/{accountId}/api/v1/labels:
+    get:
+      operationId: 'GetLabelNamesForMetricsAccount'
+      summary: 'Returns the label names of a metrics account by ID'
+      description: |
+        Runs against the metrics account given by `accountId` instead of the API token's own account, so it can be called with the API token of a logs account. The token's account must be one of the metrics account's authorized accounts, otherwise the request returns `401`. To list the metrics accounts and their `authorizedAccountsIds`, use [Get a list of all metrics accounts](https://api-docs.logz.io/docs/logz/get-a-list-of-all-metrics-accounts).
+
+        Retrieve a list of all label names optionally filtered by a time range and series selectors. 
+        Please ensure to change the region in the URL to match your account's region.
+      tags:
+        - Labels
+      parameters:
+        - in: path
+          name: accountId
+          type: integer
+          required: true
+          description: 'ID of the metrics account to query.'
+        - in: query
+          name: start
+          type: 'string'
+          required: false
+          description: 'Start timestamp, inclusive, as an RFC3339 or Unix timestamp. Optional.'
+        - in: query
+          name: end
+          type: 'string'
+          required: false
+          description: 'End timestamp, inclusive, as an RFC3339 or Unix timestamp. Optional.'
+        - in: query
+          name: 'match[]'
+          type: 'array'
+          required: false
+          items:
+            type: 'string'
+          collectionFormat: multi
+          description: 'Series selector to narrow down the series from which to read the label names. Optional.'
+        - in: query
+          name: limit
+          type: 'integer'
+          required: false
+          description: 'Maximum number of label names to return. Optional.'
+      responses:
+        200:
+          description: 'List of label names.'
+          schema:
+            $ref: '#/definitions/LabelNamesResult'
+        400:
+          description: 'Invalid request parameters.'
+        401:
+          description: "The API token's account is not an authorized account of the metrics account `accountId`."
+        500:
+          description: 'Internal server error.'
+
+    post:
+      operationId: 'PostLabelNamesForMetricsAccount'
+      summary: 'Returns the label names of a metrics account by ID using POST'
+      description: |
+        Runs against the metrics account given by `accountId` instead of the API token's own account, so it can be called with the API token of a logs account. The token's account must be one of the metrics account's authorized accounts, otherwise the request returns `401`. To list the metrics accounts and their `authorizedAccountsIds`, use [Get a list of all metrics accounts](https://api-docs.logz.io/docs/logz/get-a-list-of-all-metrics-accounts).
+
+        Pass the parameters in the query string. Parameters in the request body are ignored.
+        Please ensure to change the region in the URL to match your account's region.
+      tags:
+        - Labels
+      parameters:
+        - in: path
+          name: accountId
+          type: integer
+          required: true
+          description: 'ID of the metrics account to query.'
+        - in: query
+          name: start
+          type: 'string'
+          required: false
+          description: 'Start timestamp, inclusive, as an RFC3339 or Unix timestamp. Optional.'
+        - in: query
+          name: end
+          type: 'string'
+          required: false
+          description: 'End timestamp, inclusive, as an RFC3339 or Unix timestamp. Optional.'
+        - in: query
+          name: 'match[]'
+          type: 'array'
+          required: false
+          items:
+            type: 'string'
+          collectionFormat: multi
+          description: 'Series selector to narrow down the series from which to read the label names. Optional.'
+        - in: query
+          name: limit
+          type: 'integer'
+          required: false
+          description: 'Maximum number of label names to return. Optional.'
+      responses:
+        200:
+          description: 'Successful retrieval of label names.'
+          schema:
+            $ref: '#/definitions/LabelNamesResult'
+        400:
+          description: 'Invalid request parameters.'
+        401:
+          description: "The API token's account is not an authorized account of the metrics account `accountId`."
+        500:
+          description: 'Internal server error.'
+
+  /v1/metrics/prometheus/{accountId}/api/v1/label/{label_name}/values:
+    get:
+      operationId: 'GetLabelValuesForMetricsAccount'
+      summary: 'Returns the values of a label in a metrics account by ID'
+      description: |
+        Runs against the metrics account given by `accountId` instead of the API token's own account, so it can be called with the API token of a logs account. The token's account must be one of the metrics account's authorized accounts, otherwise the request returns `401`. To list the metrics accounts and their `authorizedAccountsIds`, use [Get a list of all metrics accounts](https://api-docs.logz.io/docs/logz/get-a-list-of-all-metrics-accounts).
+
+        Retrieves a list of all values associated with a specific label name, optionally filtered by time range and series selectors.
+        Please ensure to change the region in the URL to match your account's region.
+      tags:
+        - Label Values
+      parameters:
+        - in: path
+          name: accountId
+          type: integer
+          required: true
+          description: 'ID of the metrics account to query.'
+        - in: path
+          name: label_name
+          type: 'string'
+          required: true
+          description: 'The name of the label to retrieve values for.'
+        - in: query
+          name: start
+          type: 'string'
+          required: false
+          description: 'Start timestamp, inclusive, as an RFC3339 or Unix timestamp. Optional.'
+        - in: query
+          name: end
+          type: 'string'
+          required: false
+          description: 'End timestamp, inclusive, as an RFC3339 or Unix timestamp. Optional.'
+        - in: query
+          name: 'match[]'
+          type: 'array'
+          required: false
+          items:
+            type: 'string'
+          collectionFormat: multi
+          description: 'Series selector to narrow down the series from which to read the label values. Optional.'
+        - in: query
+          name: limit
+          type: 'integer'
+          required: false
+          description: 'Maximum number of label values to return. Optional.'
+      responses:
+        200:
+          description: 'List of label values.'
+          schema:
+            $ref: '#/definitions/LabelValuesResult'
+        400:
+          description: 'Invalid request parameters.'
+        401:
+          description: "The API token's account is not an authorized account of the metrics account `accountId`."
+        500:
+          description: 'Internal server error.'
+
+  /v1/metrics/prometheus/{accountId}/api/v1/metadata:
+    get:
+      operationId: 'GetMetricMetadataForMetricsAccount'
+      summary: 'Returns the metric metadata of a metrics account by ID'
+      description: |
+        Runs against the metrics account given by `accountId` instead of the API token's own account, so it can be called with the API token of a logs account. The token's account must be one of the metrics account's authorized accounts, otherwise the request returns `401`. To list the metrics accounts and their `authorizedAccountsIds`, use [Get a list of all metrics accounts](https://api-docs.logz.io/docs/logz/get-a-list-of-all-metrics-accounts).
+
+        Returns the type, help text and unit of the metrics, keyed by metric name.
+        Please ensure to change the region in the URL to match your account's region.
+      tags:
+        - Metric Metadata
+      parameters:
+        - in: path
+          name: accountId
+          type: integer
+          required: true
+          description: 'ID of the metrics account to query.'
+        - in: query
+          name: metric
+          type: 'string'
+          required: false
+          description: 'Metric name to retrieve metadata for. Optional; metadata of all metrics is returned when omitted.'
+        - in: query
+          name: limit
+          type: 'integer'
+          required: false
+          description: 'Maximum number of metrics to return. Optional.'
+      responses:
+        200:
+          description: 'Metadata of the metrics.'
+          schema:
+            $ref: '#/definitions/MetricMetadataResult'
+        400:
+          description: 'Invalid request parameters.'
+        401:
+          description: "The API token's account is not an authorized account of the metrics account `accountId`."
+        500:
+          description: 'Internal server error.'
+
   # ::::: Logz.io Dashboards - Dashboards
 
   /perses-public/api/v1/dashboards:
@@ -10303,6 +10805,30 @@ definitions:
         items:
           type: 'string'
           description: 'A list of label names returned by the API.'
+
+  MetricMetadataResult:
+    type: 'object'
+    properties:
+      status:
+        type: 'string'
+        description: 'Status of the request (e.g., success, fail).'
+      data:
+        type: 'object'
+        description: 'Metadata entries keyed by metric name.'
+        additionalProperties:
+          type: 'array'
+          items:
+            type: 'object'
+            properties:
+              type:
+                type: 'string'
+                description: 'Metric type, such as counter, gauge, histogram or summary.'
+              help:
+                type: 'string'
+                description: 'Help text of the metric.'
+              unit:
+                type: 'string'
+                description: 'Unit of the metric.'
 
   # ::::: SIEM LOOKUPS
   PagedSearchResponseLookupListElement:

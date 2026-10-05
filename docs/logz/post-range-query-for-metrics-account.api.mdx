@@ -1,0 +1,62 @@
+---
+id: post-range-query-for-metrics-account
+title: "Evaluates a range query in a metrics account by ID using POST"
+description: "Runs against the metrics account given by `accountId` instead of the API token's own account, so it can be called with the API token of a logs account. The token's account must be one of the metrics account's authorized accounts, otherwise the request returns `401`. To list the metrics accounts and their `authorizedAccountsIds`, use [Get a list of all metrics accounts](https://api-docs.logz.io/docs/logz/get-a-list-of-all-metrics-accounts)."
+sidebar_label: "Evaluates a range query in a metrics account by ID using POST"
+hide_title: true
+hide_table_of_contents: true
+api: eJztWN1v20YS/1cGm4fYBik5ae/hhDY4n+PcCXVin+UUV8jGZUSOyK2Xu+zuUrJi6H8/zC4pUZaMFOjdW/1ikZydr/3N55MwNVn00uhxLkbi2jh/g7qgfzVkVx+M/UjeysydZZlptBeJyMllVtZ8QozETaMdYIFSOw++JKgiPWA8AIVckIbZCr60b8b5F2BqwhzMPJw5ux6DNw+kXzswS92dTcAZkB4y1DAjyFApymEpfbl7itkgKFNspA7gtqQNy06VqnGeGRlNneRn2jJx40tj5VfKu5cuAeNLskvpKByy9FtDzoMl31jt4Mv3p2++DODWgJKHveAAdc4fpIUvWwmtU904d18SaBzB9B/k2Rbmw1Yptcfq/qj0vnaj4RBrmeYmcwNliq8DaYb8MOSHYUE+xZTZpGaeolJpyybt2BwP7vSdnjSzSnr4jS8bcvQIUu/YODP5ChondQGfby5T0pnJKYe5sRXUaLEiT9YN4E5fK0JHQNo1ln0PWck4arkV0uiO9+ebS/5eoc9KWJnG9twfKQd3WiTCY+HEaCoCHiEAUtwnYitWjKZPQjIMa/SlSITGisRIbJAmEsGGSEu5GHnb0HP4jt+/gARWMHhlIBLhspIqFKMn4Vc1C5DaU0FWrNf3UQI5/3eTr5gkM9qT9vwT61rJLATX8DFdLpcp+y1trGr9yER7zM3sV8o40mrLseklOf4atOEfuxZcW1ORL6lxQI+1JefY0/FCnbdSF2xByzq+EOtEOI/W73Ob8GvwsiLnsaoTkDpTjZMLSgAZxXDz4fy77777KxgLn7V83NIeFEM63xdywbHwPxPhPNX7MgJawJIzquFXwGSwlLkvGYaOMqNzd5AhizPNAedcLFA14TahpRnAVfiIKoGc5tgo7xg5DCgm3uSZNGKpPQZzhYeuZd2H67S98e6uojNbe+/Xu8SM7fDC1Ua7CJi3p6cHLrjJMnJu3iiwIawiUmhjGqv1AoR/dczi9yPWefSN69G1dj4Pwkmg61wVFTqiQTFIwEV1E5ijVMcDvh7OUt+Wbck1yt8Gmn35pJuKPVyht/KRk8quRnyu0ydyCqLjzx5DtBb5hqSnyh1Sqn+dMcOIRARkuJDKdnRuCQ6wwTyXEWfXOyf2sLtrxiXOSDmQOWkv5ytO4ttUFyxqVfm2RS+934qupB7Hj28TUeFj97Cn1dmmvE17WSBocg81Suvayko59w0bTAzEevuXiO8PwXusF6hkvilfvRIlwpk3+2dun3UgXQWQDrTxnJD2e4KXqkavyQkC/3JYSU9WowJHdkEWyFpjByH8OZUb7sNq4wKoua6NxHDxZtiKGtabhD982khbczPAVMFT/wmhzbkiCIh1srFKjESvd+jahr14/DyBC3Qejj4Zy42Php+lLaSWeCzWyQFOKTYvMjtzEuEaMzmXGRxNVrmm1UtsMnyRzTlqzBGOzkl7i+olDvSyIhcNhw4cfbCoH+aN9S/xaB6+yePS6NzoY8Hl31HWWOlXwcn/Ts+ux+nt1U8Xn8Roet//PuGsGWNth+o5On4xTeh4K9RYUOyPNvB0MLemCtCbXkYlex/7rWG96QpfDXN05cygzYeOvJe6cMPIPY3n2OxjqLGg0BT2pKGlDtupqync4gBYxaVUCjRRzvVuRtx+F5SD1G35s6RogdrDpSngY5BWEQeOhcn44mO/z1pIWu529A7QOZNJ9F3DL31Q7da84JeEFTggfRPMOp7onFYr9NyMJZApmT2EQwWh7XpUb+rUyqL0UJFuktC/O1KUeZienNwaoxy8a+3qdH7X0+fk5A9dRjB2zA2xrGpjPUZPPRDV0Y5WZAAXDfqey9DaFdRWLqSiglxstR+o7cfDc+PIxplkO+PwrDVn5jAjJWlBnPm2M1aJDmZEGjJTcQqSjnJuehR5AumjhyzVCjN+jreGoPlqA4PuBkLvHCfOfv+FtfyJQoXhICgJc7Lbjr4fMZwnpZ6b/dB5BWPtrcmbjF/c6dtSumCCdJCbrGEAUt6OM3zLJydXNQW8vx2cnpxAB/HYCYUhsiOY9D/BXCpirqicgSkuUCqcKeK5CHKz1MpgvgVAIX3ZzAaZqcJ0Jk34l3LKnikzG1boPNkhPWJVK3ItUVo3MyUzJhusKnUMd/oVnDXeVBjN6zIFxncElYl1tQ0N11rKj9Nbshbj2GbNQuZkt/rtDJH9+xn67tQwQvIVtDNrN9LxrbN7Pt9chuicS53vzHQtYQJOFnECNJsg5MPKmAdAvxkM2/jDPOdZBmZoQ76xnZQARKZwWBH4pUkVeU8WeKACX6IPGHZEB1jBsqQAw9e2l7GCZR+MhcpYPsX2BvuTwGa6a/ILbuOQSotG5jTsYqr7kbZDbekrtXFj40vuyjLsoErQT+iMrQ2qvIFrG911wb1DbXkVUSvU4JoZR8AsDOEdIArSvNOhcKIN0V6G6CJxU0FaPf94xnoFNyxWyUoyXSwlvLdps0OcToB1i7UlUMYa8ub0FDKjs8ZarhN8su3iHNRke6sdAwuycr6KVtiNRMfFpev8etkukLG3EqjjkoIHHMz8LlCjTZaZMGx+QMgUOvfjXRj3bWaqVGGjs/JOQGlp/uOdqFAqb0Ylqfpvrb/uxLvzxnlTkYV22IJbwuqHIb4bsIfOOX/GMf1O9x74yl1Tc7bnPjP4KzNVRbpduIRtUOdQF/xAOuAj63Fhwui7dhRMOACCRXOjlFlyRuicFNPsiK8OAOCf4RE+YUUjDnSqfXrBm4pwlzs0P3O7PuKhV6GnBIqvsr7bN2hye3P16R+Xv8DNxfnVx48Xn95fvA8qvp4Q2qx8HQx9PcmsUep1SFoJ5A21Q7S0UBseRSUqtQKFtqAtjJz8SrGESK+4SvQCiN+SrdzVfEJ2ITPqNXkdsnFmGp82IctVjhdljaNhO/9iFgY94isOBWl7xSJ51jXuJAJu+5XMSLswerYF7KzGrCQuMzunR8PhcrkcYPg6MLYYtkfd8HJ8fvFpcpG+HZyGzBHGNbIuljp+4hmhQt2T0m4oOLh2xnupAfdmldkKxu/bEnF9Nbl93u32Vll/rnn/XPP+/9a8sQH09OiHtUKpGdshRJ7a+XcqFm9E0u5HXNz1tDOwSMSov+7FWvKGhcn7o/B9IkqeqEdT8fQ0Q0efrVqv+XW7Vp3e8zLESs6nYZLLpePfuRjNUbnni+N+bBzdtEueY/h96+SDBndtsF51GyKO8kQ80Gpno72+Xydde8x6xu/nUZs0LLy257+9gOYROLKI+f6Fw2H1x9PsZkHRZoxZu/WuTM5nepyT/gPPwuv1fwFgXks8
+sidebar_class_name: "post api-method"
+info_path: docs/logz/logz-io-api
+custom_edit_url: null
+hide_send_button: true
+---
+
+import ApiTabs from "@theme/ApiTabs";
+import DiscriminatorTabs from "@theme/DiscriminatorTabs";
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import SecuritySchemes from "@theme/ApiExplorer/SecuritySchemes";
+import MimeTabs from "@theme/MimeTabs";
+import ParamsItem from "@theme/ParamsItem";
+import ResponseSamples from "@theme/ResponseSamples";
+import SchemaItem from "@theme/SchemaItem";
+import SchemaTabs from "@theme/SchemaTabs";
+import Markdown from "@theme/Markdown";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+
+<h1 className={"openapi__heading"}>Evaluates a range query in a metrics account by ID using POST</h1>
+
+<MethodEndpoint method={"post"} path={"/v1/metrics/prometheus/{accountId}/api/v1/query_range"}></MethodEndpoint>
+
+
+
+Runs against the metrics account given by `accountId` instead of the API token's own account, so it can be called with the API token of a logs account. The token's account must be one of the metrics account's authorized accounts, otherwise the request returns `401`. To list the metrics accounts and their `authorizedAccountsIds`, use [Get a list of all metrics accounts](https://api-docs.logz.io/docs/logz/get-a-list-of-all-metrics-accounts).
+
+Submit query data in the request body using URL-encoded form parameters. 
+Please ensure to change the region in the URL to match your account's region.
+
+
+## Request
+
+<details style={{"marginBottom":"1rem"}} className={"openapi-markdown__details"} data-collapsed={false} open={true}><summary style={{}}><h3 className={"openapi-markdown__details-summary-header-params"}>Path Parameters</h3></summary><div><ul><ParamsItem className={"paramsItem"} param={{"in":"path","name":"accountId","required":true,"description":"ID of the metrics account to query.","schema":{"type":"integer"}}}></ParamsItem></ul></div></details><MimeTabs className={"openapi-tabs__mime"}><TabItem label={"application/x-www-form-urlencoded"} value={"application/x-www-form-urlencoded-schema"}><details style={{}} className={"openapi-markdown__details mime"} data-collapsed={false} open={true}><summary style={{}} className={"openapi-markdown__details-summary-mime"}><h3 className={"openapi-markdown__details-summary-header-body"}>Body</h3><strong className={"openapi-schema__required"}>required</strong></summary><div style={{"textAlign":"left","marginLeft":"1rem"}}></div><ul style={{"marginLeft":"1rem"}}><SchemaItem collapsible={false} name={"query"} required={true} schemaName={"string"} qualifierMessage={undefined} schema={{"description":"Prometheus expression query string.","type":"string"}}></SchemaItem><SchemaItem collapsible={false} name={"start"} required={true} schemaName={"string"} qualifierMessage={undefined} schema={{"description":"Start timestamp, inclusive, as an RFC3339 or Unix timestamp.","type":"string"}}></SchemaItem><SchemaItem collapsible={false} name={"end"} required={true} schemaName={"string"} qualifierMessage={undefined} schema={{"description":"End timestamp, inclusive, as an RFC3339 or Unix timestamp.","type":"string"}}></SchemaItem><SchemaItem collapsible={false} name={"step"} required={true} schemaName={"string"} qualifierMessage={undefined} schema={{"description":"Query resolution step width in seconds.","type":"string"}}></SchemaItem><SchemaItem collapsible={false} name={"timeout"} required={false} schemaName={"string"} qualifierMessage={undefined} schema={{"description":"Evaluation timeout. Optional, defaults to the value of the -query.timeout flag.","type":"string"}}></SchemaItem></ul></details></TabItem></MimeTabs><div><div><ApiTabs label={undefined} id={undefined}><TabItem label={"200"} value={"200"}><div>
+
+Successful range query evaluation.
+
+</div><div><MimeTabs className={"openapi-tabs__mime"} schemaType={"response"}><TabItem label={"application/json"} value={"application/json"}><SchemaTabs className={"openapi-tabs__schema"}><TabItem label={"Schema"} value={"Schema"}><details style={{}} className={"openapi-markdown__details response"} data-collapsed={false} open={true}><summary style={{}} className={"openapi-markdown__details-summary-response"}><strong>Schema</strong></summary><div style={{"textAlign":"left","marginLeft":"1rem"}}></div><ul style={{"marginLeft":"1rem"}}><SchemaItem collapsible={false} name={"status"} required={false} schemaName={"string"} qualifierMessage={undefined} schema={{"type":"string","description":"Status of the query (e.g., success, fail)."}}></SchemaItem><SchemaItem collapsible={true} className={"schemaItem"}><details style={{}} className={"openapi-markdown__details"}><summary style={{}}><span className={"openapi-schema__container"}><strong className={"openapi-schema__property"}>data</strong><span className={"openapi-schema__name"}> object</span></span></summary><div style={{"marginLeft":"1rem"}}><SchemaItem collapsible={false} name={"resultType"} required={false} schemaName={"string"} qualifierMessage={"**Possible values:** [`matrix`]"} schema={{"type":"string","enum":["matrix"],"description":"Type of the result."}}></SchemaItem><SchemaItem collapsible={true} className={"schemaItem"}><details style={{}} className={"openapi-markdown__details"}><summary style={{}}><span className={"openapi-schema__container"}><strong className={"openapi-schema__property"}>result</strong><span className={"openapi-schema__name"}> object[]</span></span></summary><div style={{"marginLeft":"1rem"}}><li><div style={{"fontSize":"var(--ifm-code-font-size)","opacity":"0.6","marginLeft":"-.5rem","paddingBottom":".5rem"}}>Array [</div></li><SchemaItem collapsible={true} className={"schemaItem"}><details style={{}} className={"openapi-markdown__details"}><summary style={{}}><span className={"openapi-schema__container"}><strong className={"openapi-schema__property"}>metric</strong><span className={"openapi-schema__name"}> object</span><span className={"openapi-schema__divider"}></span><span className={"openapi-schema__required"}>required</span></span></summary><div style={{"marginLeft":"1rem"}}><div style={{"marginTop":".5rem","marginBottom":".5rem"}}>
+
+Labels identifying the metric.
+
+</div><SchemaItem name={"property name*"} required={false} schemaName={"string"} qualifierMessage={undefined} schema={{"type":"string"}} collapsible={false} discriminator={false}></SchemaItem></div></details></SchemaItem><SchemaItem collapsible={false} name={"values"} required={true} schemaName={"array[]"} qualifierMessage={"**Possible values:** `>= 2`, `<= 2`"} schema={{"type":"array","items":{"type":"array","items":{"type":"string"},"minItems":2,"maxItems":2},"description":"A list of [timestamp, value] pairs returned by the query."}}></SchemaItem><li><div style={{"fontSize":"var(--ifm-code-font-size)","opacity":"0.6","marginLeft":"-.5rem"}}>]</div></li></div></details></SchemaItem></div></details></SchemaItem></ul></details></TabItem><TabItem label={"Example (from schema)"} value={"Example (from schema)"}><ResponseSamples responseExample={"{\n  \"status\": \"string\",\n  \"data\": {\n    \"resultType\": \"matrix\",\n    \"result\": [\n      {\n        \"metric\": {},\n        \"values\": [\n          [\n            \"string\"\n          ]\n        ]\n      }\n    ]\n  }\n}"} language={"json"}></ResponseSamples></TabItem></SchemaTabs></TabItem></MimeTabs></div></TabItem><TabItem label={"400"} value={"400"}><div>
+
+Invalid request parameters.
+
+</div><div></div></TabItem><TabItem label={"401"} value={"401"}><div>
+
+The API token's account is not an authorized account of the metrics account `accountId`.
+
+</div><div></div></TabItem><TabItem label={"500"} value={"500"}><div>
+
+Internal server error.
+
+</div><div></div></TabItem></ApiTabs></div></div>
