@@ -6427,6 +6427,70 @@ paths:
       responses:
         204:
           description: successful operation
+  /v1/account-management/time-based-accounts/{accountId}/retention-details:
+    put:
+      summary: Update warm tier retention
+      description: >-
+        Sets the warm tier retention, in days, of one account: the main account of the API token, or one of its sub accounts. Only the warm tier retention changes; all other account settings stay as they are.
+
+
+        * The API token must be an admin API token of the main account. A sub account's token returns `403`.
+
+        * The main account must already have the warm tier enabled, and keeps at least `1` day. Turning the warm tier of the main account on or off is done by Logz.io support.
+
+        * A sub account can be set from `0` (no warm tier) up to the main account's warm tier retention.
+
+        * Lowering the warm tier retention deletes the warm tier data older than the new retention.
+
+        * To lower the main account below a sub account's warm tier retention, lower the sub account first.
+
+
+        Returns the hot and warm tier retention of the main account and all its sub accounts after the update.
+
+
+        Please ensure to change the region in the URL to match your account's region.
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      tags:
+        - Manage time-based log accounts
+      operationId: updateWarmTierRetention
+      parameters:
+        - in: path
+          name: accountId
+          required: true
+          type: integer
+          format: int32
+          description: ID of the main account of the API token, or of one of its sub accounts.
+          x-example: 99999
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/UpdateWarmRetentionRequest'
+      responses:
+        200:
+          description: successful operation
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/AccountRetentionDetails'
+        400:
+          description: >-
+            The update was rejected. The `errorCode` is one of:
+
+            * `TimeBasedAccount/INVALID_WARM_RETENTION` - `snapSearchRetentionDays` is missing, below `1` for the main account, or not between `0` and the main account's warm tier retention for a sub account.
+
+            * `TimeBasedAccount/ACCOUNT_HAS_WARM_TIER_DISABLED` - the main account doesn't have the warm tier enabled.
+
+            * `TimeBasedAccount/INVALID_PLAN` - the account's plan doesn't allow the value, for example lowering the main account below a sub account's warm tier retention.
+
+            * `TimeBasedAccount/ACCOUNT_HAS_NO_PLAN` - the account has no plan.
+        403:
+          description: The API token doesn't belong to a main account (`TimeBasedAccount/NOT_OWNER_ACCOUNT`), or isn't an admin API token.
+        404:
+          description: The account isn't the main account of the API token or one of its sub accounts (`TimeBasedAccount/ACCOUNT_NOT_FOUND`).
   /v1/account-management/time-based-accounts/detailed:
     get:
       summary: Retrieve detailed information for all accounts
@@ -11144,10 +11208,10 @@ definitions:
         $ref: '#/definitions/DocSizeSetting'
       utilizationSettings:
         $ref: '#/definitions/AccountUtilizationSettings'
-      snapsearchRetentionDays:
+      snapSearchRetentionDays:
         type: integer
         format: int32 
-        description: Number of days to retain data in the warm tier. Minimum value is 1.
+        description: Number of days to retain data in the warm tier, from 1 up to the main account's warm tier retention. This endpoint replaces the whole account, so if the field is left out, the warm tier of the account is turned off. To change only the warm tier retention, use [Update warm tier retention](https://api-docs.logz.io/docs/logz/update-warm-tier-retention).
         example: 7
       reservedDailyGB:
         type: number
@@ -11206,11 +11270,39 @@ definitions:
         $ref: '#/definitions/DailyUsagesList'
       docSizeSetting:
         $ref: '#/definitions/DocSizeSetting'
-      snapsearchRetentionDays:
+      snapSearchRetentionDays:
         type: integer
         format: int32 
-        description: Number of days to retain data in the warm tier. Minimum value is 1.
+        description: Number of days that data is retained in the warm tier. `0` or `null` means the account has no warm tier.
         example: 7
+  UpdateWarmRetentionRequest:
+    type: object
+    required:
+      - snapSearchRetentionDays
+    properties:
+      snapSearchRetentionDays:
+        type: integer
+        format: int32
+        description: Number of days to retain data in the warm tier. For the main account, at least `1`. For a sub account, from `0` (no warm tier) up to the main account's warm tier retention.
+        example: 7
+  AccountRetentionDetails:
+    type: object
+    properties:
+      accountId:
+        type: integer
+        format: int32
+        description: ID of the account.
+        example: 99999
+      retentionDays:
+        type: integer
+        format: int32
+        description: Number of days that data is retained in the hot tier.
+        example: 7
+      snapSearchRetentionDays:
+        type: integer
+        format: int32
+        description: Number of days that data is retained in the warm tier. `0` or `null` means the account has no warm tier.
+        example: 14
   LHDailyCount:
     type: object
     properties:
@@ -11397,10 +11489,10 @@ definitions:
         default: false
         description: If the account is an owner account, `true`. Otherwise, `false`. 
         example: false
-      snapsearchRetentionDays:
+      snapSearchRetentionDays:
         type: integer
         format: int32 
-        description: Number of days to retain data in the warm tier. Minimum value is 1.
+        description: Number of days that data is retained in the warm tier. `0` or `null` means the account has no warm tier.
         example: 7
       isFlexible:
         type: boolean
@@ -11522,7 +11614,7 @@ definitions:
     description: Adds a LogSize field to each log to record the size in bytes, to better manage the account utilization.
     default: false
     example: true
-  snapsearchRetentionDays:
+  snapSearchRetentionDays:
         type: integer
         format: int32 
         description: Number of days to retain data in the warm tier. Minimum value is 1.
