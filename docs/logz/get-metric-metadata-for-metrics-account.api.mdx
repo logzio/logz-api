@@ -1,0 +1,62 @@
+---
+id: get-metric-metadata-for-metrics-account
+title: "Returns the metric metadata of a metrics account by ID"
+description: "Runs against the metrics account given by `accountId` instead of the API token's own account, so it can be called with the API token of a logs account. The token's account must be one of the metrics account's authorized accounts, otherwise the request returns `401`. To list the metrics accounts and their `authorizedAccountsIds`, use [Get a list of all metrics accounts](https://api-docs.logz.io/docs/logz/get-a-list-of-all-metrics-accounts)."
+sidebar_label: "Returns the metric metadata of a metrics account by ID"
+hide_title: true
+hide_table_of_contents: true
+api: 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
+sidebar_class_name: "get api-method"
+info_path: docs/logz/logz-io-api
+custom_edit_url: null
+hide_send_button: true
+---
+
+import ApiTabs from "@theme/ApiTabs";
+import DiscriminatorTabs from "@theme/DiscriminatorTabs";
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import SecuritySchemes from "@theme/ApiExplorer/SecuritySchemes";
+import MimeTabs from "@theme/MimeTabs";
+import ParamsItem from "@theme/ParamsItem";
+import ResponseSamples from "@theme/ResponseSamples";
+import SchemaItem from "@theme/SchemaItem";
+import SchemaTabs from "@theme/SchemaTabs";
+import Markdown from "@theme/Markdown";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+
+<h1 className={"openapi__heading"}>Returns the metric metadata of a metrics account by ID</h1>
+
+<MethodEndpoint method={"get"} path={"/v1/metrics/prometheus/{accountId}/api/v1/metadata"}></MethodEndpoint>
+
+
+
+Runs against the metrics account given by `accountId` instead of the API token's own account, so it can be called with the API token of a logs account. The token's account must be one of the metrics account's authorized accounts, otherwise the request returns `401`. To list the metrics accounts and their `authorizedAccountsIds`, use [Get a list of all metrics accounts](https://api-docs.logz.io/docs/logz/get-a-list-of-all-metrics-accounts).
+
+Returns the type, help text and unit of the metrics, keyed by metric name.
+Please ensure to change the region in the URL to match your account's region.
+
+
+## Request
+
+<details style={{"marginBottom":"1rem"}} className={"openapi-markdown__details"} data-collapsed={false} open={true}><summary style={{}}><h3 className={"openapi-markdown__details-summary-header-params"}>Path Parameters</h3></summary><div><ul><ParamsItem className={"paramsItem"} param={{"in":"path","name":"accountId","required":true,"description":"ID of the metrics account to query.","schema":{"type":"integer"}}}></ParamsItem></ul></div></details><details style={{"marginBottom":"1rem"}} className={"openapi-markdown__details"} data-collapsed={false} open={true}><summary style={{}}><h3 className={"openapi-markdown__details-summary-header-params"}>Query Parameters</h3></summary><div><ul><ParamsItem className={"paramsItem"} param={{"in":"query","name":"metric","required":false,"description":"Metric name to retrieve metadata for. Optional; metadata of all metrics is returned when omitted.","schema":{"type":"string"}}}></ParamsItem><ParamsItem className={"paramsItem"} param={{"in":"query","name":"limit","required":false,"description":"Maximum number of metrics to return. Optional.","schema":{"type":"integer"}}}></ParamsItem></ul></div></details><div><div><ApiTabs label={undefined} id={undefined}><TabItem label={"200"} value={"200"}><div>
+
+Metadata of the metrics.
+
+</div><div><MimeTabs className={"openapi-tabs__mime"} schemaType={"response"}><TabItem label={"application/json"} value={"application/json"}><SchemaTabs className={"openapi-tabs__schema"}><TabItem label={"Schema"} value={"Schema"}><details style={{}} className={"openapi-markdown__details response"} data-collapsed={false} open={true}><summary style={{}} className={"openapi-markdown__details-summary-response"}><strong>Schema</strong></summary><div style={{"textAlign":"left","marginLeft":"1rem"}}></div><ul style={{"marginLeft":"1rem"}}><SchemaItem collapsible={false} name={"status"} required={false} schemaName={"string"} qualifierMessage={undefined} schema={{"type":"string","description":"Status of the request (e.g., success, fail)."}}></SchemaItem><SchemaItem collapsible={true} className={"schemaItem"}><details style={{}} className={"openapi-markdown__details"}><summary style={{}}><span className={"openapi-schema__container"}><strong className={"openapi-schema__property"}>data</strong><span className={"openapi-schema__name"}> object</span></span></summary><div style={{"marginLeft":"1rem"}}><div style={{"marginTop":".5rem","marginBottom":".5rem"}}>
+
+Metadata entries keyed by metric name.
+
+</div><SchemaItem collapsible={true} className={"schemaItem"}><details style={{}} className={"openapi-markdown__details"}><summary style={{}}><span className={"openapi-schema__container"}><strong className={"openapi-schema__property"}>property name*</strong><span className={"openapi-schema__name"}> object[]</span></span></summary><div style={{"marginLeft":"1rem"}}><li><div style={{"fontSize":"var(--ifm-code-font-size)","opacity":"0.6","marginLeft":"-.5rem","paddingBottom":".5rem"}}>Array [</div></li><SchemaItem collapsible={false} name={"type"} required={false} schemaName={"string"} qualifierMessage={undefined} schema={{"type":"string","description":"Metric type, such as counter, gauge, histogram or summary."}}></SchemaItem><SchemaItem collapsible={false} name={"help"} required={false} schemaName={"string"} qualifierMessage={undefined} schema={{"type":"string","description":"Help text of the metric."}}></SchemaItem><SchemaItem collapsible={false} name={"unit"} required={false} schemaName={"string"} qualifierMessage={undefined} schema={{"type":"string","description":"Unit of the metric."}}></SchemaItem><li><div style={{"fontSize":"var(--ifm-code-font-size)","opacity":"0.6","marginLeft":"-.5rem"}}>]</div></li></div></details></SchemaItem></div></details></SchemaItem></ul></details></TabItem><TabItem label={"Example (from schema)"} value={"Example (from schema)"}><ResponseSamples responseExample={"{\n  \"status\": \"string\",\n  \"data\": {}\n}"} language={"json"}></ResponseSamples></TabItem></SchemaTabs></TabItem></MimeTabs></div></TabItem><TabItem label={"400"} value={"400"}><div>
+
+Invalid request parameters.
+
+</div><div></div></TabItem><TabItem label={"401"} value={"401"}><div>
+
+The API token's account is not an authorized account of the metrics account `accountId`.
+
+</div><div></div></TabItem><TabItem label={"500"} value={"500"}><div>
+
+Internal server error.
+
+</div><div></div></TabItem></ApiTabs></div></div>

@@ -1,0 +1,58 @@
+---
+id: get-series-by-labels-for-metrics-account
+title: "Returns the time series that match a label set in a metrics account by ID"
+description: "Runs against the metrics account given by `accountId` instead of the API token's own account, so it can be called with the API token of a logs account. The token's account must be one of the metrics account's authorized accounts, otherwise the request returns `401`. To list the metrics accounts and their `authorizedAccountsIds`, use [Get a list of all metrics accounts](https://api-docs.logz.io/docs/logz/get-a-list-of-all-metrics-accounts)."
+sidebar_label: "Returns the time series that match a label set in a metrics account by ID"
+hide_title: true
+hide_table_of_contents: true
+api: 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
+sidebar_class_name: "get api-method"
+info_path: docs/logz/logz-io-api
+custom_edit_url: null
+hide_send_button: true
+---
+
+import ApiTabs from "@theme/ApiTabs";
+import DiscriminatorTabs from "@theme/DiscriminatorTabs";
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import SecuritySchemes from "@theme/ApiExplorer/SecuritySchemes";
+import MimeTabs from "@theme/MimeTabs";
+import ParamsItem from "@theme/ParamsItem";
+import ResponseSamples from "@theme/ResponseSamples";
+import SchemaItem from "@theme/SchemaItem";
+import SchemaTabs from "@theme/SchemaTabs";
+import Markdown from "@theme/Markdown";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+
+<h1 className={"openapi__heading"}>Returns the time series that match a label set in a metrics account by ID</h1>
+
+<MethodEndpoint method={"get"} path={"/v1/metrics/prometheus/{accountId}/api/v1/series"}></MethodEndpoint>
+
+
+
+Runs against the metrics account given by `accountId` instead of the API token's own account, so it can be called with the API token of a logs account. The token's account must be one of the metrics account's authorized accounts, otherwise the request returns `401`. To list the metrics accounts and their `authorizedAccountsIds`, use [Get a list of all metrics accounts](https://api-docs.logz.io/docs/logz/get-a-list-of-all-metrics-accounts).
+
+Retrieve time series data by submitting a GET request with label matchers and time range parameters. 
+Please ensure to change the region in the URL to match your account's region.
+
+
+## Request
+
+<details style={{"marginBottom":"1rem"}} className={"openapi-markdown__details"} data-collapsed={false} open={true}><summary style={{}}><h3 className={"openapi-markdown__details-summary-header-params"}>Path Parameters</h3></summary><div><ul><ParamsItem className={"paramsItem"} param={{"in":"path","name":"accountId","required":true,"description":"ID of the metrics account to query.","schema":{"type":"integer"}}}></ParamsItem></ul></div></details><details style={{"marginBottom":"1rem"}} className={"openapi-markdown__details"} data-collapsed={false} open={true}><summary style={{}}><h3 className={"openapi-markdown__details-summary-header-params"}>Query Parameters</h3></summary><div><ul><ParamsItem className={"paramsItem"} param={{"in":"query","name":"match[]","required":true,"description":"Series selector that selects the series to return. At least one must be provided.","explode":true,"schema":{"type":"array","items":{"type":"string"}}}}></ParamsItem><ParamsItem className={"paramsItem"} param={{"in":"query","name":"start","required":true,"description":"Start timestamp, inclusive, as an RFC3339 or Unix timestamp.","schema":{"type":"string"}}}></ParamsItem><ParamsItem className={"paramsItem"} param={{"in":"query","name":"end","required":true,"description":"End timestamp, inclusive, as an RFC3339 or Unix timestamp.","schema":{"type":"string"}}}></ParamsItem><ParamsItem className={"paramsItem"} param={{"in":"query","name":"limit","required":false,"description":"Maximum number of returned series. Optional.","schema":{"type":"integer"}}}></ParamsItem></ul></div></details><div><div><ApiTabs label={undefined} id={undefined}><TabItem label={"200"} value={"200"}><div>
+
+List of matching time series.
+
+</div><div><MimeTabs className={"openapi-tabs__mime"} schemaType={"response"}><TabItem label={"application/json"} value={"application/json"}><SchemaTabs className={"openapi-tabs__schema"}><TabItem label={"Schema"} value={"Schema"}><details style={{}} className={"openapi-markdown__details response"} data-collapsed={false} open={true}><summary style={{}} className={"openapi-markdown__details-summary-response"}><strong>Schema</strong></summary><div style={{"textAlign":"left","marginLeft":"1rem"}}></div><ul style={{"marginLeft":"1rem"}}><SchemaItem collapsible={false} name={"status"} required={false} schemaName={"string"} qualifierMessage={undefined} schema={{"type":"string","description":"Status of the request (e.g., success, fail)."}}></SchemaItem><SchemaItem collapsible={false} name={"data"} required={false} schemaName={"object[]"} qualifierMessage={undefined} schema={{"type":"array","items":{"type":"object","additionalProperties":{"type":"string"},"description":"An array of objects containing the label name/value pairs which identify each series."}}}></SchemaItem></ul></details></TabItem><TabItem label={"Example (from schema)"} value={"Example (from schema)"}><ResponseSamples responseExample={"{\n  \"status\": \"string\",\n  \"data\": [\n    {}\n  ]\n}"} language={"json"}></ResponseSamples></TabItem></SchemaTabs></TabItem></MimeTabs></div></TabItem><TabItem label={"400"} value={"400"}><div>
+
+Invalid request parameters.
+
+</div><div></div></TabItem><TabItem label={"401"} value={"401"}><div>
+
+The API token's account is not an authorized account of the metrics account `accountId`.
+
+</div><div></div></TabItem><TabItem label={"500"} value={"500"}><div>
+
+Internal server error.
+
+</div><div></div></TabItem></ApiTabs></div></div>
