@@ -196,7 +196,7 @@ tags:
       **Note:** Shared token endpoints require permissions that must be set by our Support team. Please email help@logz.io for assistance.
   - name: Manage API tokens
     description: >-
-      You can manage API tokens for sub accounts.
+      You can create API tokens for sub accounts, and list and delete the API tokens of your account.
   - name: Logz.io snapshots
   - name: Manage users
   - name: Alerts
@@ -9069,7 +9069,101 @@ paths:
                 type: string
                 example: Not Found. Could not find the sub account associated with this request.
                 description: Not Found. Could not find the sub account associated with this request or the relevant owner account for the sub account.  
-      
+
+  /v1/api-tokens:
+    get:
+      operationId: ListApiTokens
+      summary: List the API tokens of an account.
+      description: >-
+        Returns all the API tokens of the account that owns the API token in the request.
+
+
+        Must be run with an API token that has the **Admin** role. API tokens created before token roles were introduced have the same permissions as Admin.
+
+
+        Please ensure to change the region in the URL to match your account's region.
+      tags:
+        - Manage API tokens
+      responses:
+        200:
+          description: successful operation
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/ApiToken'
+        403:
+          description: Forbidden
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: Insufficient privileges
+                description: Forbidden. The API token in the request does not have the Admin role.
+
+  /v1/api-tokens/{id}:
+    delete:
+      operationId: DeleteApiToken
+      summary: Delete an API token.
+      description: >-
+        Deletes an API token of the account that owns the API token in the request, and returns the deleted token.
+
+
+        Must be run with an API token that has the **Admin** role. API tokens created before token roles were introduced have the same permissions as Admin.
+
+
+        An API token can't delete itself. To delete the token you're calling with, use a different Admin API token.
+
+
+        Deleting a token affects any integrations that use that token. Make sure you update integrations that use a token you deleted.
+
+
+        Please ensure to change the region in the URL to match your account's region.
+      tags:
+        - Manage API tokens
+      parameters:
+        - in: path
+          name: id
+          required: true
+          type: integer
+          format: int32
+          description: The ID of the API token to delete. Get it from [List the API tokens of an account](https://api-docs.logz.io/docs/logz/list-api-tokens).
+      responses:
+        200:
+          description: successful operation. Returns the deleted token.
+          schema:
+            $ref: '#/definitions/ApiToken'
+        400:
+          description: Bad Request
+          schema:
+            type: object
+            properties:
+              errorCode:
+                type: string
+                example: api-tokens/CANNOT_DELETE_CALLING_TOKEN
+              message:
+                type: string
+                example: API token 2050070 cannot delete itself. Use another API token to delete it
+                description: The API token in the request tried to delete itself.
+        403:
+          description: Forbidden
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: Insufficient privileges
+                description: Forbidden. The API token in the request does not have the Admin role.
+        404:
+          description: Not Found
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: API token with id 2050070 not found for account 12345
+                description: Not Found. No API token with this ID exists in the account.
+
 
   # ::::: SNAPSHOTS
   /v1/snapshotter:
@@ -13324,6 +13418,35 @@ definitions:
         format: int64
         description: The time at which the new sub account API token was created 
         example: 1621858311.000000000
+  ApiToken:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int32
+        description: ID of the API token. Use it to delete the token.
+        example: 2050070
+      name:
+        type: string
+        description: The name of the API token
+        example: ci-pipeline
+      token:
+        type: string
+        description: The API token
+        example: c498fbc3-a3ac-4676-ad09-689854b5cbbd
+      createdAt:
+        type: number
+        description: The time at which the API token was created, in epoch seconds
+        example: 1621858311.000000000
+      lastUsed:
+        type: number
+        description: The time at which the API token was last used, in epoch seconds, or null if it was never used
+        example: 1729850405.000000000
+      role:
+        type: string
+        description: The role of the API token. REGULAR is shown as User in the app.
+        enum: [ADMIN, REGULAR, READ_ONLY, CUSTOM]
+        example: ADMIN
   CreateApiTokenRequest:
     type: object
     properties:
