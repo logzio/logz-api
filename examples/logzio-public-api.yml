@@ -196,7 +196,7 @@ tags:
       **Note:** Shared token endpoints require permissions that must be set by our Support team. Please email help@logz.io for assistance.
   - name: Manage API tokens
     description: >-
-      You can create API tokens for sub accounts, and list and delete the API tokens of your account.
+      You can create API tokens for sub accounts, and list and delete the API tokens of your account and its sub accounts.
   - name: Logz.io snapshots
   - name: Manage users
   - name: Alerts
@@ -9075,7 +9075,11 @@ paths:
       operationId: ListApiTokens
       summary: List the API tokens of an account.
       description: >-
-        Returns all the API tokens of the account that owns the API token in the request.
+        Returns the API tokens of the account that owns the API token in the request, or of one of its sub accounts.
+        To list the API tokens of a sub account, pass its ID in the `accountId` query parameter.
+
+
+        The response does not include the token values.
 
 
         Must be run with an API token that has the **Admin** role. API tokens created before token roles were introduced have the same permissions as Admin.
@@ -9084,29 +9088,48 @@ paths:
         Please ensure to change the region in the URL to match your account's region.
       tags:
         - Manage API tokens
+      parameters:
+        - in: query
+          name: accountId
+          required: false
+          type: integer
+          format: int32
+          description: >-
+            The ID of the account whose API tokens to list. It must be the account that owns the API token in the
+            request or one of its sub accounts. Defaults to the account that owns the API token in the request.
       responses:
         200:
-          description: successful operation
+          description: successful operation. The token values are not returned.
           schema:
             type: array
             items:
-              $ref: '#/definitions/ApiToken'
+              $ref: '#/definitions/ApiTokenWithoutValue'
         403:
           description: Forbidden
           schema:
             type: object
             properties:
+              errorCode:
+                type: string
+                example: api-tokens/ACCOUNT_NOT_ACCESSIBLE
+                description: >-
+                  Returned when `accountId` is not the account that owns the API token in the request or one of
+                  its sub accounts. Not returned when the API token does not have the Admin role.
               message:
                 type: string
-                example: Insufficient privileges
-                description: Forbidden. The API token in the request does not have the Admin role.
+                example: Account 12345 is not this account or one of its sub accounts
+                description: >-
+                  Forbidden. Either the API token in the request does not have the Admin role
+                  ("Insufficient privileges"), or `accountId` is not the account that owns the API token in the
+                  request or one of its sub accounts.
 
   /v1/api-tokens/{id}:
     delete:
       operationId: DeleteApiToken
       summary: Delete an API token.
       description: >-
-        Deletes an API token of the account that owns the API token in the request, and returns the deleted token.
+        Deletes an API token of the account that owns the API token in the request or of one of its sub accounts,
+        and returns the deleted token.
 
 
         Must be run with an API token that has the **Admin** role. API tokens created before token roles were introduced have the same permissions as Admin.
@@ -9162,7 +9185,9 @@ paths:
               message:
                 type: string
                 example: API token with id 2050070 not found for account 12345
-                description: Not Found. No API token with this ID exists in the account.
+                description: >-
+                  Not Found. No API token with this ID exists in the account that owns the API token in the request
+                  or in any of its sub accounts.
 
 
   # ::::: SNAPSHOTS
@@ -13434,6 +13459,31 @@ definitions:
         type: string
         description: The API token
         example: c498fbc3-a3ac-4676-ad09-689854b5cbbd
+      createdAt:
+        type: number
+        description: The time at which the API token was created, in epoch seconds
+        example: 1621858311.000000000
+      lastUsed:
+        type: number
+        description: The time at which the API token was last used, in epoch seconds, or null if it was never used
+        example: 1729850405.000000000
+      role:
+        type: string
+        description: The role of the API token. REGULAR is shown as User in the app.
+        enum: [ADMIN, REGULAR, READ_ONLY, CUSTOM]
+        example: ADMIN
+  ApiTokenWithoutValue:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int32
+        description: ID of the API token. Use it to delete the token.
+        example: 2050070
+      name:
+        type: string
+        description: The name of the API token
+        example: ci-pipeline
       createdAt:
         type: number
         description: The time at which the API token was created, in epoch seconds
