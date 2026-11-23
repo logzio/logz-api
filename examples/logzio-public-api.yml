@@ -9263,7 +9263,7 @@ paths:
         403:
           description: >-
             Forbidden. The API token in the request does not have the Admin role ("Insufficient privileges"), or the
-            timeless account belongs to another account.
+            timeless account doesn't exist or belongs to another account (`Timeless account N does not belong to this account`).
           schema:
             $ref: '#/definitions/TimelessAccountError'
     put:
@@ -9313,7 +9313,7 @@ paths:
         403:
           description: >-
             Forbidden. The API token in the request does not have the Admin role ("Insufficient privileges"), or the
-            timeless account belongs to another account.
+            timeless account doesn't exist or belongs to another account (`Timeless account N does not belong to this account`).
           schema:
             $ref: '#/definitions/TimelessAccountError'
     delete:
@@ -9367,7 +9367,7 @@ paths:
         403:
           description: >-
             Forbidden. The API token in the request does not have the Admin role ("Insufficient privileges"), the
-            timeless account belongs to another account, or optimizers still write into it.
+            timeless account doesn't exist or belongs to another account (`Timeless account N does not belong to this account`), or optimizers still write into it.
           schema:
             type: object
             properties:
@@ -9427,7 +9427,7 @@ paths:
         403:
           description: >-
             Forbidden. The API token in the request does not have the Admin role ("Insufficient privileges"), or the
-            timeless account belongs to another account.
+            timeless account doesn't exist or belongs to another account (`Timeless account N does not belong to this account`).
           schema:
             $ref: '#/definitions/TimelessAccountError'
 
@@ -9506,7 +9506,7 @@ paths:
         403:
           description: >-
             Forbidden. The API token in the request does not have the Admin role ("Insufficient privileges"), or the
-            timeless account belongs to another account.
+            timeless account doesn't exist or belongs to another account (`Timeless account N does not belong to this account`).
           schema:
             $ref: '#/definitions/TimelessAccountError'
 
