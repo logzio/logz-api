@@ -9209,7 +9209,7 @@ paths:
   /v1/timeless-indices:
     get:
       operationId: ListTimelessAccounts
-      summary: List the timeless accounts of an account.
+      summary: List the timeless accounts of an account
       description: >-
         Returns the timeless accounts of the account that owns the API token in the request, with the account's
         timeless plan limits.
@@ -9237,7 +9237,7 @@ paths:
   /v1/timeless-indices/{id}:
     get:
       operationId: GetTimelessAccount
-      summary: Get a timeless account.
+      summary: Get a timeless account
       description: >-
         Returns one timeless account of the account that owns the API token in the request.
 
@@ -9268,7 +9268,7 @@ paths:
             $ref: '#/definitions/TimelessAccountError'
     put:
       operationId: UpdateTimelessAccount
-      summary: Update a timeless account.
+      summary: Update a timeless account
       description: >-
         Updates the name, volume and authorized accounts of a timeless account, and returns the updated timeless
         account. Send all three fields: the request replaces the current values.
@@ -9318,7 +9318,7 @@ paths:
             $ref: '#/definitions/TimelessAccountError'
     delete:
       operationId: DeleteTimelessAccount
-      summary: Delete a timeless account.
+      summary: Delete a timeless account
       description: >-
         Deletes a timeless account and returns the deleted timeless account.
 
@@ -9386,7 +9386,7 @@ paths:
   /v1/timeless-indices/{id}/query-hits:
     post:
       operationId: PreviewTimelessAccountDataDeletion
-      summary: Preview a data deletion from a timeless account.
+      summary: Preview a data deletion from a timeless account
       description: >-
         Returns the number of documents that [Delete data from a timeless
         account](https://api-docs.logz.io/docs/logz/delete-timeless-account-data) would delete for the same request.
@@ -9434,7 +9434,7 @@ paths:
   /v1/timeless-indices/{id}/delete-data:
     post:
       operationId: DeleteTimelessAccountData
-      summary: Delete data from a timeless account.
+      summary: Delete data from a timeless account
       description: >-
         Deletes the documents of a timeless account that match a time range and the optimizers that wrote them, and
         returns the number of documents to be deleted. Deleted data can't be restored.
@@ -9514,7 +9514,7 @@ paths:
   /v1/triggers:
     get:
       operationId: ListOptimizers
-      summary: List the optimizers of an account.
+      summary: List the optimizers of an account
       description: >-
         Returns the optimizers of the account that owns the API token in the request.
 
@@ -9534,7 +9534,7 @@ paths:
               $ref: '#/definitions/Optimizer'
     post:
       operationId: CreateOptimizer
-      summary: Create an optimizer.
+      summary: Create an optimizer
       description: >-
         Creates an optimizer, which runs a search on a schedule and writes the results into a timeless account.
         Returns the created optimizer.
@@ -9576,7 +9576,7 @@ paths:
   /v1/triggers/{id}:
     get:
       operationId: GetOptimizer
-      summary: Get an optimizer.
+      summary: Get an optimizer
       description: >-
         Returns one optimizer of the account that owns the API token in the request.
 
@@ -9599,13 +9599,22 @@ paths:
           description: successful operation
           schema:
             $ref: '#/definitions/Optimizer'
+        403:
+          description: Forbidden. The optimizer belongs to another account.
+          schema:
+            $ref: '#/definitions/TimelessAccountError'
+        404:
+          description: Not Found. No optimizer with this ID exists.
+          schema:
+            $ref: '#/definitions/TimelessAccountError'
     put:
       operationId: UpdateOptimizer
-      summary: Update an optimizer.
+      summary: Update an optimizer
       description: >-
-        Replaces an optimizer with the one in the request and returns the updated optimizer. Send the full optimizer,
-        with `id` set to the ID in the URL: start from [Get an
-        optimizer](https://api-docs.logz.io/docs/logz/get-optimizer) and change the fields you need.
+        Replaces the optimizer with the ID in the URL by the one in the request and returns the updated optimizer.
+        Send the full optimizer: start from [Get an optimizer](https://api-docs.logz.io/docs/logz/get-optimizer) and
+        change the fields you need. The `id` in the body can be left out; if you send it, it must match the ID in the
+        URL.
 
 
         Must be run with an API token that has the **User** or **Admin** role. API tokens created before token roles were introduced have the same permissions as Admin.
@@ -9632,16 +9641,24 @@ paths:
           schema:
             $ref: '#/definitions/Optimizer'
         400:
-          description: Bad Request
+          description: >-
+            Bad Request. Examples: the optimizer is invalid, or the `id` in the body doesn't match the ID in the URL
+            (`The optimizer id in the body (1002) doesn't match the id in the URL (1001)`).
           schema:
             $ref: '#/definitions/OptimizerError'
         403:
-          description: Forbidden. The API token in the request has the Read only role.
+          description: >-
+            Forbidden. The API token in the request has the Read only role, or the optimizer belongs to another
+            account.
+          schema:
+            $ref: '#/definitions/TimelessAccountError'
+        404:
+          description: Not Found. No optimizer with this ID exists.
           schema:
             $ref: '#/definitions/TimelessAccountError'
     delete:
       operationId: DeleteOptimizer
-      summary: Delete an optimizer.
+      summary: Delete an optimizer
       description: >-
         Deletes an optimizer and returns it. The data it already wrote stays in the timeless account: to remove it,
         run [Delete data from a timeless account](https://api-docs.logz.io/docs/logz/delete-timeless-account-data)
@@ -9667,14 +9684,20 @@ paths:
           schema:
             $ref: '#/definitions/Optimizer'
         403:
-          description: Forbidden. The API token in the request has the Read only role.
+          description: >-
+            Forbidden. The API token in the request has the Read only role, or the optimizer belongs to another
+            account.
+          schema:
+            $ref: '#/definitions/TimelessAccountError'
+        404:
+          description: Not Found. No optimizer with this ID exists.
           schema:
             $ref: '#/definitions/TimelessAccountError'
 
   /v1/triggers/target/{timelessIndexId}:
     get:
       operationId: ListOptimizersOfTimelessAccount
-      summary: List the optimizers that write into a timeless account.
+      summary: List the optimizers that write into a timeless account
       description: >-
         Returns the optimizers that write into a timeless account. Delete them before you delete the timeless
         account.
@@ -14224,8 +14247,8 @@ definitions:
         type: integer
         format: int32
         description: >-
-          The ID of the optimizer. Leave it out when you create an optimizer. When you update one, it must match the
-          ID in the URL.
+          The ID of the optimizer. Leave it out when you create an optimizer. When you update one, leave it out or
+          set it to the ID in the URL.
         example: 1001
       name:
         type: string
