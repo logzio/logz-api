@@ -123,6 +123,19 @@ tags:
       * If `isFlexible` is true, flexible storage is enabled and every account has reserved capacity set by the parameter `reservedDailyGB`.
       
       * If false, flexible storage is disabled and the parameter `reservedDailyGB` is null.
+  - name: Manage timeless accounts
+    description: >-
+      Use these API requests to manage timeless accounts, which keep data for as long as you need it. Optimizers
+      write data into them.
+
+
+      Timeless accounts are created in the Logz.io app. For the whole flow, from writing data into a timeless
+      account to cleaning it, see [Manage timeless accounts with the
+      API](https://docs.logz.io/docs/user-guide/integrations/api-cookbook/manage-timeless-accounts-with-the-api).
+  - name: Optimizers
+    description: >-
+      Use these API requests to manage optimizers. An optimizer runs a search on a schedule and writes the results
+      into a timeless account.
   - name: Search logs
     description: >-
       Use the Elasticsearch Search API DSL query language to search your Logz.io data.
@@ -372,6 +385,8 @@ x-tagGroups:
       - Authentication groups
       - Who am I
       - Manage time-based log accounts
+      - Manage timeless accounts
+      - Optimizers
       - Manage shared tokens
       - Manage API tokens
       - Manage notification endpoints
@@ -9190,6 +9205,532 @@ paths:
                   or in any of its sub accounts.
 
 
+  # ::::: TIMELESS ACCOUNTS
+  /v1/timeless-indices:
+    get:
+      operationId: ListTimelessAccounts
+      summary: List the timeless accounts of an account
+      description: >-
+        Returns the timeless accounts of the account that owns the API token in the request, with the account's
+        timeless plan limits.
+
+
+        Must be run with an API token that has the **Admin** role. API tokens created before token roles were introduced have the same permissions as Admin.
+
+
+        Timeless accounts are created in the Logz.io app, on the [Manage accounts page](https://app.logz.io/#/dashboard/settings/manage-accounts). They can't be created through the API.
+
+
+        Please ensure to change the region in the URL to match your account's region.
+      tags:
+        - Manage timeless accounts
+      responses:
+        200:
+          description: successful operation
+          schema:
+            $ref: '#/definitions/TimelessAccountsList'
+        403:
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/TimelessAccountError'
+
+  /v1/timeless-indices/{id}:
+    get:
+      operationId: GetTimelessAccount
+      summary: Get a timeless account
+      description: >-
+        Returns one timeless account of the account that owns the API token in the request.
+
+
+        Must be run with an API token that has the **Admin** role. API tokens created before token roles were introduced have the same permissions as Admin.
+
+
+        Please ensure to change the region in the URL to match your account's region.
+      tags:
+        - Manage timeless accounts
+      parameters:
+        - in: path
+          name: id
+          required: true
+          type: integer
+          format: int32
+          description: The `id` of the timeless account. Get it from [List the timeless accounts of an account](https://api-docs.logz.io/docs/logz/list-timeless-accounts).
+      responses:
+        200:
+          description: successful operation
+          schema:
+            $ref: '#/definitions/TimelessAccount'
+        403:
+          description: >-
+            Forbidden. The API token in the request does not have the Admin role ("Insufficient privileges"), or the
+            timeless account doesn't exist or belongs to another account (`Timeless account N does not belong to this account`).
+          schema:
+            $ref: '#/definitions/TimelessAccountError'
+    put:
+      operationId: UpdateTimelessAccount
+      summary: Update a timeless account
+      description: >-
+        Updates the name, volume and authorized accounts of a timeless account, and returns the updated timeless
+        account. Send all three fields: the request replaces the current values.
+
+
+        Renaming a timeless account also renames its log type. Optimizers keep writing with the log type they were
+        created with, and [data deletion](https://api-docs.logz.io/docs/logz/delete-timeless-account-data) only
+        matches documents with the current log type, so update the `logType` of every optimizer that writes into the
+        account after a rename.
+
+
+        Must be run with an API token that has the **Admin** role. API tokens created before token roles were introduced have the same permissions as Admin.
+
+
+        Please ensure to change the region in the URL to match your account's region.
+      tags:
+        - Manage timeless accounts
+      parameters:
+        - in: path
+          name: id
+          required: true
+          type: integer
+          format: int32
+          description: The `id` of the timeless account. Get it from [List the timeless accounts of an account](https://api-docs.logz.io/docs/logz/list-timeless-accounts).
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/UpdateTimelessAccountRequest'
+      responses:
+        200:
+          description: successful operation. Returns the updated timeless account.
+          schema:
+            $ref: '#/definitions/TimelessAccount'
+        400:
+          description: >-
+            Bad Request. Examples: the name is empty or used by another account, the volume isn't positive, is lower
+            than the data already stored, or exceeds the total timeless volume of your plan, or an authorized account
+            isn't the account that owns the API token or one of its sub accounts.
+          schema:
+            $ref: '#/definitions/TimelessAccountError'
+        403:
+          description: >-
+            Forbidden. The API token in the request does not have the Admin role ("Insufficient privileges"), or the
+            timeless account doesn't exist or belongs to another account (`Timeless account N does not belong to this account`).
+          schema:
+            $ref: '#/definitions/TimelessAccountError'
+    delete:
+      operationId: DeleteTimelessAccount
+      summary: Delete a timeless account
+      description: >-
+        Deletes a timeless account and returns the deleted timeless account.
+
+
+        A timeless account can't be deleted while optimizers write into it. Delete those optimizers first: [List the
+        optimizers that write into a timeless account](https://api-docs.logz.io/docs/logz/list-optimizers-of-timeless-account)
+        returns them.
+
+
+        An account can't delete its last timeless account: the request returns 400 while it's the only one.
+
+
+        Must be run with an API token that has the **Admin** role. API tokens created before token roles were introduced have the same permissions as Admin.
+
+
+        Please ensure to change the region in the URL to match your account's region.
+      tags:
+        - Manage timeless accounts
+      parameters:
+        - in: path
+          name: id
+          required: true
+          type: integer
+          format: int32
+          description: The `id` of the timeless account. Get it from [List the timeless accounts of an account](https://api-docs.logz.io/docs/logz/list-timeless-accounts).
+      responses:
+        200:
+          description: successful operation. Returns the deleted timeless account.
+          schema:
+            $ref: '#/definitions/TimelessAccount'
+        400:
+          description: Bad Request
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                example: 400
+              message:
+                type: string
+                example: Deleting the last timeless index is not allowed
+                description: This is the last timeless account of the account.
+              requestId:
+                type: string
+                example: 0e1f7a3b-2b6c-4a63-9b4e-6d1c2f0a9e11
+        403:
+          description: >-
+            Forbidden. The API token in the request does not have the Admin role ("Insufficient privileges"), the
+            timeless account doesn't exist or belongs to another account (`Timeless account N does not belong to this account`), or optimizers still write into it.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                example: 403
+              message:
+                type: string
+                example: >-
+                  This timeless account can't be deleted while optimizers write into it. Delete these optimizers
+                  first: 1001 (Checkout errors), 1002 (Payment errors)
+              requestId:
+                type: string
+                example: 0e1f7a3b-2b6c-4a63-9b4e-6d1c2f0a9e11
+
+  /v1/timeless-indices/{id}/query-hits:
+    post:
+      operationId: PreviewTimelessAccountDataDeletion
+      summary: Preview a data deletion from a timeless account
+      description: >-
+        Returns the number of documents that [Delete data from a timeless
+        account](https://api-docs.logz.io/docs/logz/delete-timeless-account-data) would delete for the same request.
+        Nothing is deleted.
+
+
+        Must be run with an API token that has the **Admin** role. API tokens created before token roles were introduced have the same permissions as Admin.
+
+
+        Please ensure to change the region in the URL to match your account's region.
+      tags:
+        - Manage timeless accounts
+      parameters:
+        - in: path
+          name: id
+          required: true
+          type: integer
+          format: int32
+          description: The `id` of the timeless account. Get it from [List the timeless accounts of an account](https://api-docs.logz.io/docs/logz/list-timeless-accounts).
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/TimelessAccountDataRequest'
+      responses:
+        200:
+          description: successful operation. Returns the number of matching documents.
+          schema:
+            type: integer
+            format: int64
+            example: 128450
+        400:
+          description: >-
+            Bad Request. `optimizerIds` is missing, only one of `timeFrameFrom` and `timeFrameTo` is set, or
+            `timeFrameFrom` is after `timeFrameTo`.
+          schema:
+            $ref: '#/definitions/TimelessAccountError'
+        403:
+          description: >-
+            Forbidden. The API token in the request does not have the Admin role ("Insufficient privileges"), or the
+            timeless account doesn't exist or belongs to another account (`Timeless account N does not belong to this account`).
+          schema:
+            $ref: '#/definitions/TimelessAccountError'
+
+  /v1/timeless-indices/{id}/delete-data:
+    post:
+      operationId: DeleteTimelessAccountData
+      summary: Delete data from a timeless account
+      description: >-
+        Deletes the documents of a timeless account that match a time range and the optimizers that wrote them, and
+        returns the number of documents to be deleted. Deleted data can't be restored.
+
+
+        * `optimizerIds` is required. Send the IDs of the optimizers whose data to delete, or an empty list to
+        delete the data of every optimizer.
+
+        * Send both `timeFrameFrom` and `timeFrameTo` to delete within a time range, or leave both out to delete
+        regardless of time. The range is inclusive and matches the `@timestamp` of each document.
+
+
+        Run [Preview a data deletion from a timeless
+        account](https://api-docs.logz.io/docs/logz/preview-timeless-account-data-deletion) with the same request
+        first to see how many documents it matches.
+
+
+        Only documents whose log type is the timeless account's current `logType` are deleted. This is the log
+        type an optimizer writes with when its `output.target.timelessIndex.logType` is the timeless account's
+        `logType`, as [Create an optimizer](https://api-docs.logz.io/docs/logz/create-optimizer) requires.
+
+
+        The deletion runs in the background, so the documents disappear over the next minutes, and the account's
+        used storage goes down after that.
+
+
+        Must be run with an API token that has the **Admin** role. API tokens created before token roles were introduced have the same permissions as Admin.
+
+
+        Please ensure to change the region in the URL to match your account's region.
+      tags:
+        - Manage timeless accounts
+      parameters:
+        - in: path
+          name: id
+          required: true
+          type: integer
+          format: int32
+          description: The `id` of the timeless account. Get it from [List the timeless accounts of an account](https://api-docs.logz.io/docs/logz/list-timeless-accounts).
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/TimelessAccountDataRequest'
+      responses:
+        200:
+          description: successful operation. Returns the number of documents to be deleted.
+          schema:
+            type: integer
+            format: int64
+            example: 128450
+        400:
+          description: >-
+            Bad Request. `optimizerIds` is missing, only one of `timeFrameFrom` and `timeFrameTo` is set, or
+            `timeFrameFrom` is after `timeFrameTo`.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                example: 400
+              message:
+                type: string
+                example: >-
+                  timeFrameFrom and timeFrameTo must be sent together, or both left out to match any time
+              requestId:
+                type: string
+                example: 0e1f7a3b-2b6c-4a63-9b4e-6d1c2f0a9e11
+        403:
+          description: >-
+            Forbidden. The API token in the request does not have the Admin role ("Insufficient privileges"), or the
+            timeless account doesn't exist or belongs to another account (`Timeless account N does not belong to this account`).
+          schema:
+            $ref: '#/definitions/TimelessAccountError'
+
+  # ::::: OPTIMIZERS
+  /v1/triggers:
+    get:
+      operationId: ListOptimizers
+      summary: List the optimizers of an account
+      description: >-
+        Returns the optimizers of the account that owns the API token in the request.
+
+
+        Can be run with an API token of any role.
+
+
+        Please ensure to change the region in the URL to match your account's region.
+      tags:
+        - Optimizers
+      responses:
+        200:
+          description: successful operation
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Optimizer'
+    post:
+      operationId: CreateOptimizer
+      summary: Create an optimizer
+      description: >-
+        Creates an optimizer, which runs a search on a schedule and writes the results into a timeless account.
+        Returns the created optimizer.
+
+
+        To write into a timeless account, set `output.target.timelessIndex.id` to the timeless account's `id` and
+        `output.target.timelessIndex.logType` to its `logType`, both from [List the timeless accounts of an
+        account](https://api-docs.logz.io/docs/logz/list-timeless-accounts). Documents an optimizer writes with any
+        other log type can't be removed with [Delete data from a timeless
+        account](https://api-docs.logz.io/docs/logz/delete-timeless-account-data).
+
+
+        Must be run with an API token that has the **User** or **Admin** role. API tokens created before token roles were introduced have the same permissions as Admin.
+
+
+        Please ensure to change the region in the URL to match your account's region.
+      tags:
+        - Optimizers
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/Optimizer'
+      responses:
+        200:
+          description: successful operation. Returns the created optimizer.
+          schema:
+            $ref: '#/definitions/Optimizer'
+        400:
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/OptimizerError'
+        403:
+          description: Forbidden. The API token in the request has the Read only role.
+          schema:
+            $ref: '#/definitions/TimelessAccountError'
+
+  /v1/triggers/{id}:
+    get:
+      operationId: GetOptimizer
+      summary: Get an optimizer
+      description: >-
+        Returns one optimizer of the account that owns the API token in the request.
+
+
+        Can be run with an API token of any role.
+
+
+        Please ensure to change the region in the URL to match your account's region.
+      tags:
+        - Optimizers
+      parameters:
+        - in: path
+          name: id
+          required: true
+          type: integer
+          format: int32
+          description: The `id` of the optimizer. Get it from [List the optimizers of an account](https://api-docs.logz.io/docs/logz/list-optimizers).
+      responses:
+        200:
+          description: successful operation
+          schema:
+            $ref: '#/definitions/Optimizer'
+        403:
+          description: Forbidden. The optimizer belongs to another account.
+          schema:
+            $ref: '#/definitions/TimelessAccountError'
+        404:
+          description: Not Found. No optimizer with this ID exists.
+          schema:
+            $ref: '#/definitions/TimelessAccountError'
+    put:
+      operationId: UpdateOptimizer
+      summary: Update an optimizer
+      description: >-
+        Replaces the optimizer with the ID in the URL by the one in the request and returns the updated optimizer.
+        Send the full optimizer: start from [Get an optimizer](https://api-docs.logz.io/docs/logz/get-optimizer) and
+        change the fields you need. The `id` in the body can be left out; if you send it, it must match the ID in the
+        URL.
+
+
+        Must be run with an API token that has the **User** or **Admin** role. API tokens created before token roles were introduced have the same permissions as Admin.
+
+
+        Please ensure to change the region in the URL to match your account's region.
+      tags:
+        - Optimizers
+      parameters:
+        - in: path
+          name: id
+          required: true
+          type: integer
+          format: int32
+          description: The `id` of the optimizer. Get it from [List the optimizers of an account](https://api-docs.logz.io/docs/logz/list-optimizers).
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/Optimizer'
+      responses:
+        200:
+          description: successful operation. Returns the updated optimizer.
+          schema:
+            $ref: '#/definitions/Optimizer'
+        400:
+          description: >-
+            Bad Request. Examples: the optimizer is invalid, or the `id` in the body doesn't match the ID in the URL
+            (`The optimizer id in the body (1002) doesn't match the id in the URL (1001)`).
+          schema:
+            $ref: '#/definitions/OptimizerError'
+        403:
+          description: >-
+            Forbidden. The API token in the request has the Read only role, or the optimizer belongs to another
+            account.
+          schema:
+            $ref: '#/definitions/TimelessAccountError'
+        404:
+          description: Not Found. No optimizer with this ID exists.
+          schema:
+            $ref: '#/definitions/TimelessAccountError'
+    delete:
+      operationId: DeleteOptimizer
+      summary: Delete an optimizer
+      description: >-
+        Deletes an optimizer and returns it. The data it already wrote stays in the timeless account: to remove it,
+        run [Delete data from a timeless account](https://api-docs.logz.io/docs/logz/delete-timeless-account-data)
+        with the optimizer's ID first.
+
+
+        Must be run with an API token that has the **User** or **Admin** role. API tokens created before token roles were introduced have the same permissions as Admin.
+
+
+        Please ensure to change the region in the URL to match your account's region.
+      tags:
+        - Optimizers
+      parameters:
+        - in: path
+          name: id
+          required: true
+          type: integer
+          format: int32
+          description: The `id` of the optimizer. Get it from [List the optimizers of an account](https://api-docs.logz.io/docs/logz/list-optimizers).
+      responses:
+        200:
+          description: successful operation. Returns the deleted optimizer.
+          schema:
+            $ref: '#/definitions/Optimizer'
+        403:
+          description: >-
+            Forbidden. The API token in the request has the Read only role, or the optimizer belongs to another
+            account.
+          schema:
+            $ref: '#/definitions/TimelessAccountError'
+        404:
+          description: Not Found. No optimizer with this ID exists.
+          schema:
+            $ref: '#/definitions/TimelessAccountError'
+
+  /v1/triggers/target/{timelessIndexId}:
+    get:
+      operationId: ListOptimizersOfTimelessAccount
+      summary: List the optimizers that write into a timeless account
+      description: >-
+        Returns the optimizers that write into a timeless account. Delete them before you delete the timeless
+        account.
+
+
+        Must be run with an API token that has the **Admin** role. API tokens created before token roles were introduced have the same permissions as Admin.
+
+
+        Please ensure to change the region in the URL to match your account's region.
+      tags:
+        - Optimizers
+      parameters:
+        - in: path
+          name: timelessIndexId
+          required: true
+          type: integer
+          format: int32
+          description: The `id` of the timeless account.
+      responses:
+        200:
+          description: successful operation
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Optimizer'
+        403:
+          description: >-
+            Forbidden. The API token in the request does not have the Admin role, or an optimizer that writes into
+            the timeless account belongs to another account.
+          schema:
+            $ref: '#/definitions/TimelessAccountError'
+
+
   # ::::: SNAPSHOTS
   /v1/snapshotter:
     post:
@@ -13510,6 +14051,382 @@ definitions:
         format: int32
         description: Logz.io sub account ID.
         example: 160343
+
+  # ::::: TIMELESS ACCOUNTS DEFINITIONS
+  TimelessAccountError:
+    type: object
+    properties:
+      code:
+        type: integer
+        description: The HTTP status code
+        example: 403
+      message:
+        type: string
+        example: Insufficient privileges
+      requestId:
+        type: string
+        description: The ID of the request, for Logz.io support
+        example: 0e1f7a3b-2b6c-4a63-9b4e-6d1c2f0a9e11
+  TimelessAccountsList:
+    type: object
+    properties:
+      maxAllowed:
+        type: integer
+        format: int32
+        description: The maximum number of timeless accounts your plan allows
+        example: 3
+      totalVolumeGb:
+        type: number
+        format: float
+        description: The total volume, in GB, your plan allows across all timeless accounts
+        example: 50
+      timelessIndices:
+        type: array
+        description: The timeless accounts of the account
+        items:
+          $ref: '#/definitions/TimelessAccount'
+  TimelessAccount:
+    type: object
+    properties:
+      id:
+        type: integer
+        format: int32
+        description: The ID of the timeless account
+        example: 22222
+      ownerAccountId:
+        type: integer
+        format: int32
+        description: The ID of the account that owns the timeless account
+        example: 11111
+      name:
+        type: string
+        description: The name of the timeless account
+        example: error-logs-archive
+      logType:
+        type: string
+        description: >-
+          The log type of the data in the timeless account. It's always the timeless account's name. Optimizers that
+          write into the account must use it as `output.target.timelessIndex.logType`.
+        example: error-logs-archive
+      volumeGb:
+        type: number
+        format: float
+        description: The volume of the timeless account, in GB
+        example: 10
+      actualUsage:
+        $ref: '#/definitions/TimelessAccountUsage'
+      dailyUsage:
+        type: object
+        description: The data written into the timeless account per day
+        properties:
+          usage:
+            type: array
+            items:
+              type: object
+              properties:
+                date:
+                  type: integer
+                  format: int64
+                  description: The start of the day, in epoch milliseconds
+                  example: 1795392000000
+                bytes:
+                  type: integer
+                  format: int64
+                  description: The bytes written that day
+                  example: 52428800
+      createdAt:
+        type: number
+        description: The time at which the timeless account was created, in epoch seconds
+        example: 1793263548.000000000
+      authorizedAccounts:
+        type: array
+        description: The accounts whose users can search the timeless account
+        items:
+          type: object
+          properties:
+            accountId:
+              type: integer
+              format: int32
+              example: 11111
+            accountName:
+              type: string
+              example: Main account
+      suspended:
+        type: boolean
+        description: Whether writing into the timeless account is suspended because it reached its volume
+        example: false
+  TimelessAccountUsage:
+    type: object
+    description: The data stored in the timeless account
+    properties:
+      bytes:
+        type: integer
+        format: int64
+        example: 2147483648
+      humanReadableSize:
+        type: string
+        example: 2.0 GB
+      percentage:
+        type: string
+        description: The part of the timeless account's volume in use
+        example: 20.0 %
+  UpdateTimelessAccountRequest:
+    type: object
+    required:
+      - name
+      - volumeGb
+      - authorizedAccounts
+    properties:
+      name:
+        type: string
+        description: >-
+          The name of the timeless account. It can't be the name of another account. Renaming also changes the
+          timeless account's `logType`.
+        example: error-logs-archive
+      volumeGb:
+        type: number
+        format: float
+        description: >-
+          The volume of the timeless account, in GB. It must be positive, at least the data already stored, and
+          fit in the total timeless volume of your plan together with your other timeless accounts.
+        example: 10
+      authorizedAccounts:
+        type: array
+        description: >-
+          The IDs of the accounts whose users can search the timeless account. At least one: the account that owns
+          the API token in the request or its sub accounts.
+        items:
+          type: integer
+          format: int32
+        example: [11111]
+  TimelessAccountDataRequest:
+    type: object
+    required:
+      - optimizerIds
+    properties:
+      optimizerIds:
+        type: array
+        description: >-
+          The IDs of the optimizers whose data to match. Send an empty list to match the data of every optimizer.
+        items:
+          type: integer
+          format: int32
+        example: [1001, 1002]
+      timeFrameFrom:
+        type: string
+        format: date-time
+        description: >-
+          The start of the time range, in ISO 8601 format. Send it together with `timeFrameTo`, or leave both out to
+          match any time.
+        example: '2026-01-01T00:00:00Z'
+      timeFrameTo:
+        type: string
+        format: date-time
+        description: >-
+          The end of the time range, in ISO 8601 format. Send it together with `timeFrameFrom`, or leave both out to
+          match any time.
+        example: '2026-07-01T00:00:00Z'
+
+  # ::::: OPTIMIZERS DEFINITIONS
+  OptimizerError:
+    type: object
+    properties:
+      message:
+        type: string
+        description: Why the optimizer is invalid
+        example: trigger output => target => timelessIndex => logType cannot be empty
+  Optimizer:
+    type: object
+    required:
+      - name
+      - search
+      - triggerOn
+      - output
+    properties:
+      id:
+        type: integer
+        format: int32
+        description: >-
+          The ID of the optimizer. Leave it out when you create an optimizer. When you update one, leave it out or
+          set it to the ID in the URL.
+        example: 1001
+      name:
+        type: string
+        description: The name of the optimizer
+        example: Checkout errors
+      description:
+        type: string
+        description: A description of the optimizer
+        example: Keeps checkout service errors for audits
+      enabled:
+        type: boolean
+        description: Whether the optimizer runs. Defaults to true.
+        example: true
+      search:
+        $ref: '#/definitions/OptimizerSearch'
+      triggerOn:
+        $ref: '#/definitions/OptimizerSchedule'
+      output:
+        $ref: '#/definitions/OptimizerOutput'
+      createdOn:
+        type: number
+        description: The time at which the optimizer was created, in epoch seconds
+        readOnly: true
+        example: 1793263548.000000000
+      createdBy:
+        type: string
+        description: Who created the optimizer
+        readOnly: true
+        example: test.user@example.com
+      lastUpdatedOn:
+        type: number
+        description: The time at which the optimizer was last updated, in epoch seconds
+        readOnly: true
+        example: 1793263548.000000000
+      lastUpdateBy:
+        type: string
+        description: Who last updated the optimizer
+        readOnly: true
+        example: test.user@example.com
+  OptimizerSearch:
+    type: object
+    description: >-
+      The search the optimizer runs. Without `groupBy` and `metricsAggregations`, each run copies the matching
+      documents into the timeless account. With them, each run writes the aggregated results instead.
+    required:
+      - queryString
+    properties:
+      queryString:
+        type: string
+        description: The search query, in Lucene syntax. Use `*` to match every document.
+        example: 'type: checkout AND level: ERROR'
+      filter:
+        type: string
+        description: >-
+          Optional extra filters, as a JSON-encoded Elasticsearch query DSL `bool` query.
+        example: '{"bool":{"must":[],"must_not":[{"match_phrase":{"env":{"query":"staging"}}}]}}'
+      groupBy:
+        type: array
+        description: Fields to group the results by
+        items:
+          type: string
+        example: [service]
+      metricsAggregations:
+        type: array
+        description: Aggregations to compute for each group. With `groupBy`, every aggregation needs an `aggregationType` other than NONE.
+        items:
+          $ref: '#/definitions/OptimizerAggregation'
+      periodInMinutes:
+        type: integer
+        format: int32
+        description: >-
+          How far back each run searches, in minutes. Leave it out to search back as far as the schedule's interval,
+          so consecutive runs cover all the data once.
+        example: 10
+      source:
+        $ref: '#/definitions/OptimizerSource'
+  OptimizerSource:
+    type: object
+    description: The accounts the optimizer searches. It must search at least one account.
+    properties:
+      allSubAccounts:
+        type: boolean
+        description: >-
+          Search the account that owns the API token in the request and all the accounts it can search. Defaults
+          to true. To search specific accounts, set it to false and list them in `subAccountsIds`.
+        example: false
+      subAccountsIds:
+        type: array
+        description: The IDs of the accounts to search, when `allSubAccounts` is false
+        items:
+          type: integer
+          format: int32
+        example: [11111]
+      allTimelessIndices:
+        type: boolean
+        description: Also search all your timeless accounts. Defaults to false.
+        example: false
+      timelessIndices:
+        type: array
+        description: The IDs of timeless accounts to search, when `allTimelessIndices` is false
+        items:
+          type: integer
+          format: int32
+        example: []
+  OptimizerAggregation:
+    type: object
+    properties:
+      aggregationType:
+        type: string
+        enum: [SUM, MIN, MAX, AVG, COUNT, UNIQUE_COUNT, PERCENTAGE, PERCENTILE, NONE]
+        example: COUNT
+      fieldToAggregateOn:
+        type: string
+        description: The field to aggregate. Leave it empty only for COUNT.
+        example: ''
+      valueToAggregateOn:
+        type: string
+        description: The value the aggregation needs, for aggregations that take one, such as PERCENTILE
+  OptimizerSchedule:
+    type: object
+    description: When the optimizer runs
+    required:
+      - type
+      - frequency
+    properties:
+      type:
+        type: string
+        description: Always SCHEDULE for an optimizer
+        enum: [SCHEDULE]
+        example: SCHEDULE
+      frequency:
+        type: string
+        description: How often the optimizer runs
+        enum:
+          - EVERY_10_MINUTES
+          - EVERY_30_MINUTES
+          - EVERY_1_HOUR
+          - EVERY_4_HOURS
+          - EVERY_6_HOURS
+          - EVERY_8_HOURS
+          - EVERY_1_DAY
+        example: EVERY_10_MINUTES
+  OptimizerOutput:
+    type: object
+    required:
+      - target
+    properties:
+      target:
+        type: object
+        required:
+          - timelessIndex
+        properties:
+          timelessIndex:
+            type: object
+            description: The timeless account the optimizer writes into
+            required:
+              - id
+              - logType
+            properties:
+              id:
+                type: integer
+                format: int32
+                description: >-
+                  The `id` of the timeless account, from [List the timeless accounts of an
+                  account](https://api-docs.logz.io/docs/logz/list-timeless-accounts)
+                example: 22222
+              logType:
+                type: string
+                description: >-
+                  The log type to write with. Use the timeless account's `logType`: data written with any other log
+                  type can't be removed with [Delete data from a timeless
+                  account](https://api-docs.logz.io/docs/logz/delete-timeless-account-data).
+                example: error-logs-archive
+              name:
+                type: string
+                description: The name of the timeless account
+                readOnly: true
+                example: error-logs-archive
 
   # ::::: SNAPSHOTS DEFINITIONS
   SnapshotCreateResponse:
